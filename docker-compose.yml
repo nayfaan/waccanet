@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  frontend:
+    build:
+      context: client
+    container_name: shareCanadaHome-client-container
+    tty: true
+    volumes:
+      - ./client:/client
+    ports:
+      - 3000:3000
+    environment:
+      - WATCHPACK_POLLING=true
+
+  backend:
+    build:
+      context: server
+    container_name: shareCanadaHome-server-container
+    tty: true
+    volumes:
+      - ./server:/server
+    ports:
+      - 8000:8000
+    command: python ./manage.py runserver 0:8000
+
+
+
+
