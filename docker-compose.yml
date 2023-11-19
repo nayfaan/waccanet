@@ -1,7 +1,6 @@
-version: '3'
+version: "3"
 
 services:
-
   frontend:
     build:
       context: client
@@ -13,6 +12,7 @@ services:
       - 3000:3000
     environment:
       - WATCHPACK_POLLING=true
+    command: npm run dev
 
   backend:
     build:
@@ -24,7 +24,3 @@ services:
     ports:
       - 8000:8000
     command: python ./manage.py runserver 0:8000
-
-
-
-
