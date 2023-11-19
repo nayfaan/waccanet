@@ -1,7 +1,3 @@
 Django == 4.0.6
 djangorestframework == 3.14.0
-<<<<<<< HEAD
 numpy == 1.24.0
-=======
-numpy
->>>>>>> 5016c59510b0b3a57ec4dd079562d817c2517ddd
