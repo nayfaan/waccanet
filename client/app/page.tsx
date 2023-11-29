@@ -1,31 +1,18 @@
-"use client";
-import { useEffect, useState } from "react";
 import ClientOnly from "./ClientOnly";
 import Container from "./Container";
+import PropertiesList from "./components/properties/PropertiesList";
+import { getAllProperties } from "./actions/getAllProperties";
+import { Property } from "./types/types";
 
-export default function Home() {
-  // const [apiData, setApiData] = useState([]);
-
-  // useEffect(() => {
-  //   const getAllData = async () => {
-  //     const res = await fetch(
-  //       "http://localhost:8000/property/propertiesGetAll/"
-  //     );
-  //     const data = await res.json();
-
-  //     setApiData(data);
-  //   };
-
-  //   getAllData();
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(apiData);
-  // }, [apiData]);
-
+export default async function Home() {
+  const properties: Property[] = await getAllProperties();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Hello
-    </main>
+    <ClientOnly>
+      <Container>
+        <main className="relative h-full top-20 ml-0 md:ml-56 overflow-y-auto">
+          <PropertiesList properties={properties} />
+        </main>
+      </Container>
+    </ClientOnly>
   );
 }
