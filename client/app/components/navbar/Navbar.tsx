@@ -5,19 +5,14 @@ import Search from "./Search";
 
 const Navbar = () => {
   return (
-    <div className="fixed w-full bg-white z-10 shadow-sm">
-      <div className="py-4 border-b-[1px]">
-        <Container>
-          <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
-            <div>Logo</div>
-            <div className="flex flex-row items-center gap-3">
-              <Search />
-              <UserMenu />
-            </div>
-          </div>
-        </Container>
-      </div>
-    </div>
+    <nav className="fixed px-1 md:px-8 py-4 border-b-[1px] top-0 right-0 z-40 w-full bg-white">
+      <Container>
+        <div className="flex flex-row items-center justify-end gap-3 md:gap-0">
+          <Search />
+          <UserMenu />
+        </div>
+      </Container>
+    </nav>
   );
 };
 
