@@ -1,5 +1,4 @@
 from email.headerregistry import Address
-# from turtle import title
 from unittest import mock
 from django.db import models
 from numpy import imag
@@ -20,7 +19,7 @@ class Owner(models.Model):
 class Property(models.Model):
     pub_date = models.DateTimeField("date published",null=True)
     name = models.CharField(max_length=50)
-    # imag = 
+    imags = models.ImageField(upload_to='properties/')
     price = models.IntegerField(default=0)
     address = models.CharField(max_length=100,null=True)
     # type
