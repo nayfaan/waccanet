@@ -208,3 +208,8 @@ yarn-error.log*
 next-env.d.ts
 
 # End of https://www.toptal.com/developers/gitignore/api/django,nextjs
+
+#others
+.jpg
+/server/propertyhub/migrations/*
+/server/db.sqlite3
