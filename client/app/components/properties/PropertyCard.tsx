@@ -10,17 +10,21 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+  const newImg = property.imags?.replace("172.30.0.3", "localhost");
+
+  console.log(newImg);
+
   return (
-    <div className="w-full min-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full flex flex-col justify-between max-w-xs m-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#" className="relative">
         <div className="absolute top-0 left-0 bg-white py-1 px-2 rounded-lg ">
           ${property.price}
         </div>
         <Image
           className="rounded-t-lg"
-          width="250"
-          height="200"
           src="/images/defaultImg.png"
+          width="350"
+          height="300"
           alt={`Image of ${property.name}`}
         />
       </a>

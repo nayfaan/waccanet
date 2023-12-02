@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`${inter.className} flex h-full`}>
         <ClientOnly>
           <Navbar />
-          <Sidebar />
+          {/* <Sidebar /> */}
         </ClientOnly>
         <>{children}</>
       </body>
