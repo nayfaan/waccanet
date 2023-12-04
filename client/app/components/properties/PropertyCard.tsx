@@ -9,7 +9,33 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const newImg = property.imags?.replace("172.30.0.3", "localhost");
+  const formattedImg = property.imags?.replace("172.30.0.3", "localhost");
+
+  const dateObject = new Date(property.pub_date);
+  const options = {
+    month: "2-digit" as const,
+    day: "2-digit" as const,
+    year: "numeric" as const,
+    hour: "2-digit" as const,
+    minute: "2-digit" as const,
+    second: "2-digit" as const,
+    hour12: true,
+    timeZone: "America/Vancouver",
+  };
+
+  const vancouverDate = new Intl.DateTimeFormat("en-US", options).format(
+    dateObject
+  );
+
+  const dateParts = vancouverDate.split(/[.,/ :]+/);
+
+  const month = dateParts[0].padStart(2, "0");
+  const day = dateParts[1].padStart(2, "0");
+  let hour = parseInt(dateParts[3]);
+  hour = hour % 12 === 0 ? 12 : hour % 12;
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const minute = dateParts[4].padStart(2, "0");
+  const formattedDate = `${dateParts[2]}/${month}/${day} ${ampm}${hour}:${minute}`;
 
   return (
     <div className="flex flex-col justify-between max-w-[300px] m-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -20,13 +46,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </div>
           <img
             className="rounded-t-lg min-w-ful h-48 object-cover"
-            src={newImg || "/images/defaultImg.png"}
+            src={formattedImg || "/images/defaultImg.png"}
             width="300"
             height="280"
             alt={`Image of ${property.name}`}
           />
         </a>
         <div className="p-3 w-full flex flex-col justify-start">
+          <div className="text-xs font-thin">{formattedDate}</div>
           <h5 className="text-md font-semibold tracking-tight text-gray-900 ">
             {property.name}
           </h5>
