@@ -11,6 +11,7 @@ web_api_url= django_server_ip + '/property/propertiesInfo/'
 jpcanada_home_url = 'http://bbs.jpcanada.com'
 #スタートリンクの設定
 link_url = "http://bbs.jpcanada.com/topics.php?bbs=3&msgid=175656&order=0&cat=&icon=" 
+primary_key = 1
 
 price_list = {
     # 'bbs205.png' : 399,
@@ -23,15 +24,8 @@ price_list = {
     'bbs212.png' : 1200,
     }
 
-def data_insert(pub_date,name,price,img_data_file,img_name,address):
+def data_insert(item_data,files):
 
-    files = {'imags': (img_name, img_data_file, 'image/jpeg')}
-    item_data = {
-        'pub_date': pub_date,
-        'name': name,
-        'price': price,
-        'address': address
-    }
     try:
         response = requests.post(web_api_url, data=item_data,files=files)
     except requests.RequestException as e:
@@ -80,11 +74,24 @@ def jpcanada_html_parser(load_url):
 
         #APIを使用して取得情報をPOST
         print("data inserting")
-        data_insert(pub_date,name,price,img_data_file,img_name,address)  
+        global primary_key
+        item_data = {
+            'id' : primary_key,         
+            'pub_date': pub_date,
+            'name': name,
+            'price': price,
+            'address': address,
+        } 
+        files = {'imags': (img_name, img_data_file, 'image/jpeg')}
+
+        data_insert(item_data,files)  
+        primary_key+=1
+
 
 
 
 if __name__ == "__main__":
+
     
     while True:
         response = requests.get(link_url)
