@@ -2,32 +2,32 @@ from email.headerregistry import Address
 from unittest import mock
 from django.db import models
 from numpy import imag
+from django.core.validators import MinValueValidator 
 
 
 class Owner(models.Model):
     name = models.CharField(max_length=50)
 
-
-# 　記事の投稿時間
-# 　物件タイトル(NNで実装しよう)
-# 　価格
-# 　最寄駅
-# 　エリア
-# 　部屋のタイプ：apartment, condo, etc, 
-# 　テイクオーバー有無
-# 　家具付き、Wi-Fi、喫煙可否、女性のみ、男性のみ、ペット可否、駐車場の有無、契約期間、
+'''
+物件ID (id)
+投稿日(pub_date)
+物件名(タイトル)(Property Name)
+画像(images)
+価格(price)
+住所 (address)できたら
+物件説明 (description)
+参照元(reference)
+'''
 class Property(models.Model):
-    pub_date = models.DateTimeField("date published",null=True)
+    id = models.IntegerField(primary_key=True,validators=[MinValueValidator(1)])
+    pub_date = models.DateTimeField("date published")
     name = models.CharField(max_length=50)
-    imags = models.ImageField(upload_to='properties/')
+    imags = models.ImageField(upload_to='properties/',null=True,blank=True)
     price = models.IntegerField(default=0)
-    address = models.CharField(max_length=100,null=True)
-    # type
-    # area
-    # 施設・設備 (Facilities)
-    # station = models.CharField(max_length=10)
+    address = models.CharField(max_length=100,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    reference = models.CharField(max_length=50,default='jp_canada')
     # owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-

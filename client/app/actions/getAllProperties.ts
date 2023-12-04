@@ -2,7 +2,7 @@ import { Property } from "../types/types";
 
 export const getAllProperties = async (): Promise<Property[]> => {
   try {
-    const res = await fetch("http://172.30.0.3:8000/property/propertiesGetAll");
+    const res = await fetch("http://172.30.0.3:8000/property/propertiesInfo");
 
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);

@@ -5,11 +5,11 @@ docker compose stop
 docker rm shareCanadaHome-server-container
 docker image rm sharecanadahome-backend
 
-# docker rm shareCanadaHome-server-scripts-container
-# docker image rm sharecanadahome-backend_scripts
+docker rm shareCanadaHome-server-scripts-container
+docker image rm sharecanadahome-backend_scripts
 
-# docker rm shareCanadaHome-client-container
-# docker image rm sharecanadahome-frontend
+docker rm shareCanadaHome-client-container
+docker image rm sharecanadahome-frontend
 
 
 if [ -e $'./server/db.sqlite3' ]; then

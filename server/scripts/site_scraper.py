@@ -6,7 +6,7 @@ import re
 
 django_server_ip = "http://172.30.0.3:8000"
 #API
-web_api_url= django_server_ip + '/property/propertiesGetAll/'
+web_api_url= django_server_ip + '/property/propertiesInfo/'
 #jpcanada_home_url
 jpcanada_home_url = 'http://bbs.jpcanada.com'
 #スタートリンクの設定
@@ -76,7 +76,7 @@ def jpcanada_html_parser(load_url):
             print(f"An unexpected error occurred: {e}")
             continue
         #アドレス情報の取得
-        address = 'hogehoge'
+        address = ''
 
         #APIを使用して取得情報をPOST
         print("data inserting")
