@@ -17,7 +17,7 @@ const PropertiesList: React.FC<PropertiesProps> = ({ properties }) => {
       ) : (
         <div className="flex flex-wrap justify-center">
           {properties.map((property) => (
-            <PropertyCard property={property} key={property.name} />
+            <PropertyCard property={property} key={property.pub_date} />
           ))}
         </div>
       )}
