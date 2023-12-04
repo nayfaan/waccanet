@@ -3,3 +3,4 @@ djangorestframework == 3.14.0
 numpy == 1.24.0
 django-cors-headers
 Pillow
+django-filter
