@@ -1,19 +1,20 @@
-import { Property } from "../types/types";
+import axios, { AxiosResponse } from "axios";
+import { AllData } from "../types/types";
 
-export const getAllProperties = async (): Promise<Property[]> => {
+export const getAllProperties = async (): Promise<AllData> => {
   try {
-    const res = await fetch("http://172.30.0.3:8000/property/propertiesInfo");
+    const response: AxiosResponse<AllData> = await axios.get(
+      "http://172.30.0.3:8000/property/propertiesInfo"
+    );
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-
-    const data: Property[] = await res.json();
-
-    return data;
+    return response.data;
   } catch (error: any) {
     console.error("Error in getAllProperties:", error.message);
-
-    return [];
+    return {
+      count: 0,
+      next: "",
+      previous: "",
+      results: [],
+    };
   }
 };
