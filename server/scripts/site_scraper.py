@@ -6,12 +6,11 @@ import re
 
 django_server_ip = "http://172.30.0.3:8000"
 #API
-web_api_url= django_server_ip + '/property/propertiesInfo/'
+web_api_url= django_server_ip + '/property/propertiesInfo/add_property_data/'
 #jpcanada_home_url
 jpcanada_home_url = 'http://bbs.jpcanada.com'
 #スタートリンクの設定
 link_url = "http://bbs.jpcanada.com/topics.php?bbs=3&msgid=175656&order=0&cat=&icon=" 
-primary_key = 1
 
 price_list = {
     # 'bbs205.png' : 399,
@@ -71,21 +70,24 @@ def jpcanada_html_parser(load_url):
             continue
         #アドレス情報の取得
         address = ''
+        #物件詳細情報の取得
+        description = elements.find(class_="topic-content").contents[-6].get_text()     
+        #参照元
+        reference = "jp_canada"
 
         #APIを使用して取得情報をPOST
         print("data inserting")
-        global primary_key
         item_data = {
-            'id' : primary_key,         
             'pub_date': pub_date,
             'name': name,
             'price': price,
             'address': address,
+            'description' :description,
+            'reference' : reference,
         } 
-        files = {'imags': (img_name, img_data_file, 'image/jpeg')}
+        files = {'images': (img_name, img_data_file, 'image/jpeg')}
 
         data_insert(item_data,files)  
-        primary_key+=1
 
 
 
@@ -103,7 +105,7 @@ if __name__ == "__main__":
         
         if '新しい5件を表示' in link.text:  # a要素のテキストに"新しい5件を表示"が含まれているかチェック
             link_url = link['href']  # リンクのURLを取得
-            print(link_url)
+            print("scraping link: {} ".format(link_url))
             jpcanada_html_parser(link_url)
         else:
             break
