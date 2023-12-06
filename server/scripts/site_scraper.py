@@ -59,12 +59,18 @@ def jpcanada_html_parser(load_url):
             price = price_list[price_img_key]
         else:
             continue
-        #物件画像の取得(一枚)
+        #物件画像の取得(複数)
         try:
-            img_url = elements.find_all(class_='imgfit_m')[0].get('src')
-            img_full_url = jpcanada_home_url + img_url
-            img_name = img_url.split('/')[-1]
-            img_data_file = requests.get(img_full_url).content
+
+            files = []
+            img_urls = elements.find_all(class_='imgfit_m')
+            for img_url_src in img_urls:
+                img_url = img_url_src.get('src')
+                img_full_url = jpcanada_home_url + img_url
+                img_name = img_url.split('/')[-1]
+                img_data_file = requests.get(img_full_url).content
+                files.append(('images', (img_name, img_data_file, 'image/jpeg')))
+                
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             continue
@@ -85,8 +91,6 @@ def jpcanada_html_parser(load_url):
             'description' :description,
             'reference' : reference,
         } 
-        files = {'images': (img_name, img_data_file, 'image/jpeg')}
-
         data_insert(item_data,files)  
 
 

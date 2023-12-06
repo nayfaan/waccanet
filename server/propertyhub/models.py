@@ -19,10 +19,9 @@ class Owner(models.Model):
 参照元(reference)
 '''
 class Property(models.Model):
-    id = models.IntegerField(primary_key=True,validators=[MinValueValidator(1)])
+    id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
     pub_date = models.DateTimeField("date published")
     name = models.CharField(max_length=50)
-    imags = models.ImageField(upload_to='properties/',null=True,blank=True)
     price = models.IntegerField(default=0)
     address = models.CharField(max_length=100,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
@@ -31,3 +30,7 @@ class Property(models.Model):
 
     def __str__(self):
         return self.name
+
+class Image(models.Model):
+    property = models.ForeignKey(Property,  on_delete=models.CASCADE,related_name='images')
+    image = models.ImageField(upload_to='properties/',null=True,blank=True)
