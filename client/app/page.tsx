@@ -2,18 +2,17 @@ import ClientOnly from "./ClientOnly";
 import Container from "./Container";
 import PropertiesList from "./components/properties/PropertiesList";
 import { getAllProperties } from "./actions/getAllProperties";
-import { Property } from "./types/types";
+import { AllData } from "./types/types";
 
 export default async function Home() {
-  const properties: Property[] = await getAllProperties();
-  // const properties: Property[] = [];
+  const allData: AllData = await getAllProperties();
+  console.log(allData);
 
   return (
     <ClientOnly>
       <Container>
-        {/* <main className="relative h-full top-20 ml-0 md:ml-56 overflow-y-auto"> */}
         <main className="relative h-full top-20">
-          <PropertiesList properties={properties} />
+          <PropertiesList allData={allData} />
         </main>
       </Container>
     </ClientOnly>

@@ -1,30 +1,24 @@
 "use client";
 
-import { Property } from "@/app/types/types";
+import { AllData } from "@/app/types/types";
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import EmptyState from "../EmptyState";
 
 interface PropertiesProps {
-  properties: Property[];
+  allData: AllData;
 }
 
-const PropertiesList: React.FC<PropertiesProps> = ({ properties }) => {
+const PropertiesList: React.FC<PropertiesProps> = ({ allData }) => {
+  console.log(allData);
   return (
     <div className="p-5">
-      {properties.results.length === 0 ? (
+      {allData.count === 0 ? (
         <EmptyState title="property" />
       ) : (
         <div className="flex flex-wrap justify-center">
-          {/* <<<<<<< Updated upstream
-          {properties.map((property) => (
-            <PropertyCard property={property} key={property.pub_date} />
-=======
-          {properties.results.map((property) => (
-            <PropertyCard property={property} key={property.name} />
->>>>>>> Stashed changes */}
-          {properties.results.map((property) => (
-            <PropertyCard property={property} key={property.pub_date} />
+          {allData.results.map((property) => (
+            <PropertyCard property={property} key={property.id} />
           ))}
         </div>
       )}
