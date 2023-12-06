@@ -1,11 +1,16 @@
 from rest_framework import serializers
-from .models import Property,Owner
+from .models import Property,Owner,Image
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['image']
 
 class PropertySerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True, read_only=True) 
     class Meta:
         model = Property
-        fields = ['id','pub_date', 'name','price','imags','description','reference']
+        fields = ['id','pub_date', 'name','price','images' ,'description','reference']
 
 
 class OwnerSerializer(serializers.ModelSerializer):
