@@ -213,3 +213,4 @@ next-env.d.ts
 .jpg
 /server/propertyhub/migrations/*
 /server/db.sqlite3
+launch.json

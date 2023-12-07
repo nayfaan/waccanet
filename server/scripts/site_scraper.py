@@ -2,15 +2,48 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
+from datetime import date
+import configparser
+import logging
+import sys
+
+#ログの設定
+logger = logging.getLogger("logger")    #logger名loggerを取得
+logger.setLevel(logging.DEBUG)  #loggerとしてはDEBUGで
+
+#handler_command_lineを作成
+handler_command_line = logging.StreamHandler()
+handler_command_line.setFormatter(logging.Formatter("%(levelname)8s %(message)s"))
+
+#handler_docker_containerを作成
+handler_docker_container = logging.FileHandler(filename="/proc/1/fd/1")  #handler2はdocker logが使うPID=1のstdoutファイルへ出力
+handler_docker_container.setFormatter(logging.Formatter("%(levelname)8s %(message)s"))
+
+#loggerに2つのハンドラを設定
+logger.addHandler(handler_command_line)
+logger.addHandler(handler_docker_container)
 
 
-django_server_ip = "http://172.30.0.3:8000"
+config_file = os.environ.get('CONFIG_FILE')
+if config_file is None:
+    logger.error("設定ファイルが指定されていません")
+    sys.exit(1)
+
+# configparserの宣言とiniファイルの読み込み
+config_ini = configparser.ConfigParser()
+config_ini.read(config_file, encoding='utf-8')
+
+#server
+django_server_ip= config_ini['SERVER']['django_server_ip']
 #API
-web_api_url= django_server_ip + '/property/propertiesInfo/add_property_data/'
+web_api_url = django_server_ip + config_ini['SERVER']['web_api_url']
 #jpcanada_home_url
-jpcanada_home_url = 'http://bbs.jpcanada.com'
+jpcanada_home_url = config_ini['JP_CANADA']['jpcanada_home_url']
 #スタートリンクの設定
-link_url = "http://bbs.jpcanada.com/topics.php?bbs=3&msgid=175656&order=0&cat=&icon=" 
+link_url = config_ini['JP_CANADA']['link_url']
+#スクリプトの実行時から何日前までのデータを取得するのかの設定
+# days_prior = int(config_ini['JP_CANADA']['days_prior'])
 
 price_list = {
     # 'bbs205.png' : 399,
@@ -28,7 +61,7 @@ def data_insert(item_data,files):
     try:
         response = requests.post(web_api_url, data=item_data,files=files)
     except requests.RequestException as e:
-        print(f"Request failed: {e}")
+        logger.error(f"Request failed: {e}")
 
 def transfer_date_text2datetime(pub_date_text):
         
@@ -72,17 +105,25 @@ def jpcanada_html_parser(load_url):
                 files.append(('images', (img_name, img_data_file, 'image/jpeg')))
                 
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            logger.warning(f"An unexpected error occurred: {e}")
             continue
         #アドレス情報の取得
         address = ''
-        #物件詳細情報の取得
-        description = elements.find(class_="topic-content").contents[-6].get_text()     
+        #物件詳細情報の取得(電話番号　Or Emailアドレスが記載されているデータを取得)
+        description = elements.find(class_="topic-content").contents[-6].get_text()  
+        email_pattern = r'\b\d{2,4}[-(]?\d{2,4}[-)]?\d{3,4}\b'
+        emails  = re.findall(email_pattern, description)
+
+        phone_pattern = r'\b\d{2,4}[-(]?\d{2,4}[-)]?\d{3,4}\b'
+        phone_numbers = re.findall(phone_pattern, description)
+
+        if not emails or not phone_numbers:
+            continue
         #参照元
-        reference = "jp_canada"
+        reference = "JPCanada"
 
         #APIを使用して取得情報をPOST
-        print("data inserting")
+        logger.info("data inserting")
         item_data = {
             'pub_date': pub_date,
             'name': name,
@@ -98,7 +139,11 @@ def jpcanada_html_parser(load_url):
 
 if __name__ == "__main__":
 
-    
+    current_datetime = datetime.now()
+    logger.info("process start time:{}".format(current_datetime))
+    logger.info("scraping link: {} ".format(link_url))
+    jpcanada_html_parser(link_url)
+
     while True:
         response = requests.get(link_url)
         response.encoding = 'euc-jp' 
@@ -109,7 +154,11 @@ if __name__ == "__main__":
         
         if '新しい5件を表示' in link.text:  # a要素のテキストに"新しい5件を表示"が含まれているかチェック
             link_url = link['href']  # リンクのURLを取得
-            print("scraping link: {} ".format(link_url))
+            logger.info("scraping link: {} ".format(link_url))
             jpcanada_html_parser(link_url)
         else:
+            # config_ini.set('JP_CANADA', 'link_url', link_url)  # セクションとキーを指定し、新しい値を設定
+            # # 設定ファイルへの変更の書き込み
+            # with open(config_file, 'w') as configfile:
+            #     config_ini.write(configfile)
             break
