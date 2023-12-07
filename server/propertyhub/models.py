@@ -21,11 +21,11 @@ class Owner(models.Model):
 class Property(models.Model):
     id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
     pub_date = models.DateTimeField("date published")
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     address = models.CharField(max_length=100,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
-    reference = models.CharField(max_length=50,default='jp_canada')
+    reference = models.CharField(max_length=50,default='JPCanada')
     # owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
     def __str__(self):
