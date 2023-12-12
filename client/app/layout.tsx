@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import ClientOnly from "./ClientOnly";
 import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/footer";
 
 import "./globals.css";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -27,6 +28,7 @@ export default function RootLayout({
           {/* <Sidebar /> */}
         </ClientOnly>
         <>{children}</>
+        <Footer />
       </body>
     </html>
   );
