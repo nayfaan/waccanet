@@ -3,7 +3,9 @@ export interface Property {
   pub_date: string;
   name: string;
   price: number;
-  imags?: string;
+  images: {
+    image: string;
+  }[];
   address: string;
   description: string;
   reference: string;
