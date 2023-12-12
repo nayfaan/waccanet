@@ -10,7 +10,8 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const formattedImg = property.imags?.replace("172.30.0.3", "localhost");
+  const formattedImg_name = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
+  const formattedImg = formattedImg_name.replace("172.30.0.3", "localhost");
 
   const dateObject = new Date(property.pub_date);
   const options = {
@@ -74,7 +75,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         </div>
       </div>
       <a
-        href="#"
+        href={`/${property.id}`}
         className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         詳細
