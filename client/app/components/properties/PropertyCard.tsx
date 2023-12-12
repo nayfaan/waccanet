@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import { Property } from "@/app/types/types";
+import { CiAlarmOn } from "react-icons/ci";
 import { SlLocationPin } from "react-icons/sl";
-import { SlCalender } from "react-icons/sl";
+import { TfiAgenda } from "react-icons/tfi";
 
 interface PropertyCardProps {
   property: Property;
@@ -53,8 +54,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           />
         </a>
         <div className="p-3 w-full flex flex-col justify-start">
-          <div className="text-xs font-thin">{formattedDate}</div>
-          <h5 className="text-md font-semibold tracking-tight text-gray-900 ">
+          <div className="flex items-center gap-1">
+            <CiAlarmOn className="text-blue-600" />
+            <span className="text-xs font-thin">{formattedDate}</span>
+          </div>
+          <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight h-20 ">
             {property.name}
           </h5>
 
@@ -64,8 +68,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </div>
 
           <div className="flex items-center gap-1">
-            <SlCalender className="text-green-600" />
-            <span className="font-light">Available from January 1</span>
+            <TfiAgenda className="text-green-600" />
+            <span className="font-light">{property.reference}</span>
           </div>
         </div>
       </div>
@@ -73,7 +77,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         href="#"
         className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Contact
+        詳細
       </a>
     </div>
   );
