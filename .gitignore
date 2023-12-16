@@ -42,6 +42,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+__init__.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -214,3 +215,4 @@ next-env.d.ts
 /server/propertyhub/migrations/*
 /server/db.sqlite3
 launch.json
+sasl_passwd

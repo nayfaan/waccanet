@@ -38,7 +38,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
             
             return Response('Property and Images created successfully', status=status.HTTP_201_CREATED)
         else:
-          return Response(serializer.errors,
+          return Response(property_serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
 class OwnerList(generics.ListAPIView):
