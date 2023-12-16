@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'propertyhub',
+    'contactus',
 ]
 
 
@@ -141,3 +142,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
     }
+
+# mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail-server'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'admin'
+EMAIL_HOST_PASSWORD = 'adminadmin'
+EMAIL_USE_TLS = False
