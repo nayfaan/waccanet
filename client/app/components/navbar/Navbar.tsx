@@ -1,7 +1,7 @@
 "use client";
 import Container from "@/app/Container";
 import HomeMenu from "./HomeMenu";
-import PosttMenu from "./PosttMenu";
+import PostMenu from "./PostMenu";
 import ContactMenu from "./ContactMenu";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
@@ -15,7 +15,7 @@ const Navbar = () => {
           < HomeMenu />
         </div>
         <div className="flex float-right flex-row  items-center gap-4 md:gap-0">
-          <PosttMenu />
+          <PostMenu />
           <ContactMenu />
           <Search />
           {/* <UserMenu /> */}

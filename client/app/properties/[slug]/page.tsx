@@ -41,50 +41,52 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
     return (
         <>
-            {/* <div className="w-full m-auto overflow-hidden shadow-lg rounded-2xl h-90 "> */}
-            <div class="flex w-full  h-screen">
-                <div class="w-full max-w-md m-auto overflow-hidden shadow-lg rounded-2xl">
-                    <div class="whitespace-pre-line p-10"></div>
+            <div className=" z-50 f-full w-full">
+                <main className=" p-6   bg-slate-50	flex   ">
                     <div>
-                        <a href="#" className="relative">
-                            <div className="absolute top-0 left-0 bg-white py-1 px-2 rounded-lg ">
-                                ${property.price}
-                            </div>
+                        <a href="#" className="">
                             <img
                                 className="rounded-t-lg min-w-ful h-48 object-cover"
                                 src={formattedImg || "/images/defaultImg.png"}
-                                width="300"
-                                height="280"
+                                width="400"
+                                height="380"
                                 alt={`Image of ${property.name}`}
                             />
                         </a>
-                        <div className="p-3 w-full flex flex-col justify-start">
+
+                        <div className="p-3  flex flex-col ">
                             <div className="flex items-center gap-1">
                                 <CiAlarmOn className="text-blue-600" />
                                 <span className="text-xs font-thin">{formattedDate}</span>
                             </div>
-                            <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight h-20 ">
+                            <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight">
                                 {property.name}
                             </h5>
+                            <div className="p-1">
+                                価格：${property.price}
+                            </div>
                             <p>詳細</p>
                             <p class=" whitespace-pre-wrap">{property.description}</p>
-
-
 
                             <div className="flex items-center gap-1">
                                 <TfiAgenda className="text-green-600" />
                                 <span className="font-light">{property.reference}</span>
                             </div>
-                        </div>
-                    </div>
-                    {/* </div> */}
 
-                </div>
+
+                        </div>
+                        <a
+                            href="/"
+                            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            物件一覧へ
+                        </a>
+                    </div>
+
+                </main>
             </div>
 
-
         </>
-
     );
 }
 

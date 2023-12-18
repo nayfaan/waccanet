@@ -6,7 +6,7 @@ const Search = () => {
   return (
     <form>
       <div className="relative w-full">
-        <a href="developing" >
+        <a href="/developing" >
           <input
             type="search"
             id="default-search"
