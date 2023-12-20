@@ -1,23 +1,33 @@
 "use client";
 
-import { AllData } from "@/app/types/types";
+import { AllData, Property } from "@/app/types/types";
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import EmptyState from "../EmptyState";
+import { useEffect, useState } from "react";
 
 interface PropertiesProps {
   allData: AllData;
 }
 
+
 const PropertiesList: React.FC<PropertiesProps> = ({ allData }) => {
+
   console.log(allData);
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  useEffect(() => {
+    setProperties(allData.results);
+  }, [allData]);
+
+
   return (
     <div className="p-5">
-      {allData.count === 0 ? (
+      {properties.length === 0 ? (
         <EmptyState title="property" />
       ) : (
         <div className="flex flex-wrap justify-center">
-          {allData.results.map((property) => (
+          {properties.map((property) => (
             <PropertyCard property={property} key={property.id} />
           ))}
         </div>

@@ -9,12 +9,8 @@ export default async function Home() {
   console.log(allData);
 
   return (
-    <ClientOnly>
-      <Container>
-        <main className="relative h-full top-20">
-          <PropertiesList allData={allData} />
-        </main>
-      </Container>
-    </ClientOnly>
+    <main className="relative h-full top-20">
+      <PropertiesList allData={allData} />
+    </main>
   );
 }
