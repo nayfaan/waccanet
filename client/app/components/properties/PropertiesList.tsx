@@ -7,7 +7,7 @@ import EmptyState from "../EmptyState";
 import { useEffect, useState } from "react";
 
 interface PropertiesProps {
-  allData: AllData;
+  allData: Property[];
 }
 
 
@@ -17,7 +17,7 @@ const PropertiesList: React.FC<PropertiesProps> = ({ allData }) => {
   const [properties, setProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    setProperties(allData.results);
+    setProperties(allData);
   }, [allData]);
 
 

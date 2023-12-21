@@ -1,10 +1,8 @@
 "use client";
-import Container from "@/app/Container";
 import HomeMenu from "./HomeMenu";
 import PostMenu from "./PostMenu";
 import ContactMenu from "./ContactMenu";
 import Search from "./Search";
-import UserMenu from "./UserMenu";
 
 
 const Navbar = () => {

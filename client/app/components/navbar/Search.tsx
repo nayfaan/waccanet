@@ -1,5 +1,5 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { getPropertyListSearch } from "@/app/actions/getPropertyListSearch";
 import { Property } from "@/app/types/types";
 import { BiSearch } from "react-icons/bi";
 
@@ -7,50 +7,26 @@ const Search = () => {
 
   //変数の状態を保持しておく
   const [search, setSearch] = useState("");
-  const [qurey, setQuery] = useState("");
-  const [properties, setProperties] = useState<Property[]>([]);
+  const [search_qurey, setQuery] = useState("");
 
-  const updateSearch = e => {
+  const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
 
   // qureyの値が変更された時に実行される。
   useEffect(() => {
-    const fetchData = async () => {
-
-      try {
-        console.log("データの取得をしている！");
-        // const data = getPropertyListSearchx(qurey);
-        // setProperties(data); // もしくは適切なデータをセットする
-        console.log("ooooo!");
-        const property: Property = await getPropertyListSearch(qurey);
-
-        setProperties(property);
-        console.log(property);
 
 
 
-      } catch (error) {
-        console.log("マジで！");
+    console.log("search_qurey value is:::")
+    console.log(search_qurey);
+  }, [search_qurey])
 
-        console.error("Failed to fetch data:", error);
-      }
-    };
+  const getSearch = (e: React.FormEvent<HTMLFormElement>) => {
 
-    if (qurey) {
-      fetchData();
-    }
-
-
-  }, [qurey])
-
-  const getSearch = e => {
-    //HTMLでデフォルト動きを止めるための呪文
+    //HTMLでデフォルト動きを止めるためのもの
     e.preventDefault();
-
     setQuery(search);
-
-    setSearch('');
   }
 
   return (
@@ -70,7 +46,6 @@ const Search = () => {
           </button>
         </div>
       </form>
-      <p></p>
     </>
   );
 };

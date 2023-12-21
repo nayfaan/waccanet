@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import { AllData } from "../types/types";
 
 export const getAllProperties = async (): Promise<AllData> => {
