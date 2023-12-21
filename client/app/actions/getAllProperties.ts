@@ -1,9 +1,9 @@
-import { AllData } from "../types/types";
+import { PaginationProperties } from "../types/types";
 
-export const getAllProperties = async (): Promise<AllData> => {
+export const getAllProperties = async (): Promise<PaginationProperties> => {
   try {
     const res = await fetch("http://172.30.0.3:8000/property/propertiesInfo", { cache: "no-store" });
-    const data: AllData = await res.json();
+    const data: PaginationProperties = await res.json();
 
     return data;
   } catch (error: any) {

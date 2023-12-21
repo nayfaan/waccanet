@@ -1,14 +1,14 @@
 import PropertiesList from "./components/properties/PropertiesList";
 import { getAllProperties } from "./actions/getAllProperties";
-import { AllData } from "./types/types";
+import { PaginationProperties } from "./types/types";
 
 export default async function Home() {
-  const allData: AllData = await getAllProperties();
-  console.log(allData);
+  const paginationPropertiesData: PaginationProperties = await getAllProperties();
+  console.log(paginationPropertiesData);
 
   return (
     <main className="relative h-full top-20">
-      <PropertiesList allData={allData.results} />
+      <PropertiesList propertiesData={paginationPropertiesData.results} />
     </main>
   );
 }
