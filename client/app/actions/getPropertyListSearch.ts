@@ -1,8 +1,8 @@
 import { Property } from "../types/types";
 
-export const getPropertyDetail = async (slug: string) => {
+export const getPropertyListSearch = async (slug: string) => {
     try {
-        const API_link = "http://172.30.0.3:8000/property/propertiesInfo/";
+        const API_link = "http://localhost:8000/property/propertiesInfo/";
         const apt_link = `${API_link}${slug}`
         const res = await fetch(apt_link, { cache: "no-store" });
         const data: Property = await res.json();

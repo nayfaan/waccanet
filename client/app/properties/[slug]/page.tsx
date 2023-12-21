@@ -1,6 +1,6 @@
 
 "use client";
-import { Property } from "../types/types";
+import { Property } from "@/app/types/types";
 import { getPropertyDetail } from "@/app/actions/getPropertyDetail";
 import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
@@ -66,7 +66,7 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
                                 価格：${property.price}
                             </div>
                             <p>詳細</p>
-                            <p class=" whitespace-pre-wrap">{property.description}</p>
+                            <p className=" whitespace-pre-wrap">{property.description}</p>
 
                             <div className="flex items-center gap-1">
                                 <TfiAgenda className="text-green-600" />
