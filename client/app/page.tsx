@@ -2,14 +2,17 @@
 
 import { Property, PaginationProperties } from "@/app/types/types";
 import PropertiesList from "./components/properties/PropertiesList";
+import Search from "./components/navbar/Search";
 import { getAllProperties } from "./actions/getAllProperties";
 import { getPropertyListPagination } from "./actions/getPropertyListPagination";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { MdOutlineFirstPage, MdOutlineLastPage } from "react-icons/md";
+
+export const SearchQureyContext = createContext('');
 
 export default function Home() {
 
+  const [search_qurey, setQuery] = useState("");
   const [properties, setProperties] = useState<Property[]>([]);
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(20);
@@ -62,6 +65,13 @@ export default function Home() {
 
   return (
     <main className="relative h-full top-20">
+      <SearchQureyContext.Provider value={{ search_qurey, setQuery }}>
+        <Search />
+      </SearchQureyContext.Provider>
+      <div>
+        <h3> 検索する文字列はこれだ！！</h3>
+        <p>{search_qurey}</p>
+      </div>
 
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">

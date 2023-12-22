@@ -14,7 +14,7 @@ const Navbar = () => {
       <div className="flex float-right flex-row  items-center gap-4 md:gap-0">
         <PostMenu />
         <ContactMenu />
-        <Search />
+        {/* <Search /> */}
       </div>
     </nav>
   );
