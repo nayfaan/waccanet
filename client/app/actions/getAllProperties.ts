@@ -2,7 +2,7 @@ import { PaginationProperties } from "../types/types";
 
 export const getAllProperties = async (): Promise<PaginationProperties> => {
   try {
-    const res = await fetch("http://172.30.0.3:8000/property/propertiesInfo", { cache: "no-store" });
+    const res = await fetch("http://localhost:8000/property/propertiesInfo/", { cache: "no-store" });
     const data: PaginationProperties = await res.json();
 
     return data;
