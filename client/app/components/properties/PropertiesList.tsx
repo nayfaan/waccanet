@@ -1,24 +1,24 @@
 "use client";
 
-import { AllData, Property } from "@/app/types/types";
+import { Property } from "@/app/types/types";
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import EmptyState from "../EmptyState";
 import { useEffect, useState } from "react";
 
 interface PropertiesProps {
-  allData: Property[];
+  propertiesData: Property[];
 }
 
 
-const PropertiesList: React.FC<PropertiesProps> = ({ allData }) => {
+const PropertiesList: React.FC<PropertiesProps> = ({ propertiesData }) => {
 
-  console.log(allData);
+  console.log(propertiesData);
   const [properties, setProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    setProperties(allData);
-  }, [allData]);
+    setProperties(propertiesData);
+  }, [propertiesData]);
 
 
   return (

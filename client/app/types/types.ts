@@ -11,7 +11,7 @@ export interface Property {
   reference: string;
 }
 
-export interface AllData {
+export interface PaginationProperties {
   count: number;
   next: string;
   previous: string;
