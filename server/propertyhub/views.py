@@ -1,28 +1,56 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Property,Owner,Image
 from .serializers import PropertySerializer,OwnerSerializer
 from rest_framework import generics
-from  django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
-    queryset = Property.objects.prefetch_related('images').all()
+    queryset = Property.objects.prefetch_related('images').order_by('-id')
     serializer_class = PropertySerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields =['price','reference']
 
     @action(detail=False)
-    def get_all_data(self, request):
-        get_all_data = Property.objects.prefetch_related('images').all()
-        serializer = self.get_serializer(get_all_data, many=True)
-        return Response(serializer.data)
+    def property_search(self, request):
+        # properties_objects = Property.objects.prefetch_related('images').order_by('-id')
+        properties_objects = self.queryset
+        #get query parameter 
+        search_query = request.GET.get('search_query')
+        page = request.GET.get('page','1')
+        properties_per_page=request.GET.get('properties_per_page','20')
+
+        if search_query:
+            try:
+                properties_objects = properties_objects.filter(
+                    Q(description__icontains=search_query) | Q(price__icontains=search_query)
+                ).distinct()
+            except Exception as err:
+                Response(f"Invalid filter Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
+
+        paginator = Paginator(properties_objects, properties_per_page)
+        try:
+            properties_objects = paginator.page(page)
+        except Exception as err:
+            Response(f"Invalid page Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
+            
+        serializer = self.get_serializer(properties_objects, many=True)
+
+        modified_data = {
+            'total': paginator.count,#トータルの物件数
+            'current_page':int(page),#現在のページ番号
+            'properties_per_page':int(properties_per_page),
+            'num_pages': paginator.num_pages, #ページ数
+            'results': serializer.data,
+        }
+
+        return Response(modified_data)
     
+
     @action(detail=False, methods=['post'])
-    def add_property_data(self, request):
+    def property_add(self, request):
 
         property_data = request.data  # プロパティのデータ
         images = request.FILES.getlist('images')  # 送信された複数の画像
@@ -44,9 +72,3 @@ class PropertyViewSet(viewsets.ModelViewSet):
 class OwnerList(generics.ListAPIView):
     queryset=Owner.objects.all()
     serializer_class = OwnerSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields =['name']
-    def get_queryset(self):
-        user=self.request.user
-        print(user)
-        return Owner.objects.filter(name=user)

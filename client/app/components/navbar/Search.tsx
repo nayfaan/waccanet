@@ -1,26 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Property } from "@/app/types/types";
 import { BiSearch } from "react-icons/bi";
-
+import { SearchQureyContext } from "../../page";
 const Search = () => {
 
   //変数の状態を保持しておく
   const [search, setSearch] = useState("");
-  const [search_qurey, setQuery] = useState("");
+  const { search_qurey, setQuery } = useContext(SearchQureyContext);
 
   const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
-
-  // qureyの値が変更された時に実行される。
-  useEffect(() => {
-
-
-
-    console.log("search_qurey value is:::")
-    console.log(search_qurey);
-  }, [search_qurey])
 
   const getSearch = (e: React.FormEvent<HTMLFormElement>) => {
 

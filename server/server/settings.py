@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-w%-2bz$6dk0uz3h0hu&wcvn1#z@--hp6@d%3o!lut8g(s7q@0w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '172.30.0.3','localhost']
+ALLOWED_HOSTS = [ '172.30.0.2','172.30.0.3','localhost']
 
 
 # Application definition
@@ -59,7 +59,7 @@ MIDDLEWARE = [
 
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://172.30.0.2:3000','http://localhost:3000'
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -137,11 +137,10 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20,
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-    }
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     'PAGE_SIZE': 20,
+#     }
 
 # mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
