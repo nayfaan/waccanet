@@ -12,9 +12,10 @@ export interface Property {
 }
 
 export interface PaginationProperties {
-  count: number;
-  next: string;
-  previous: string;
+  total: number;
+  current_page: number;
+  properties_per_page: number;
+  num_pages: number;
   results: Property[];
 }
 
