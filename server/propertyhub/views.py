@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
 from django.core.paginator import Paginator
+from functools import reduce
+from operator import and_
+import re
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
@@ -23,18 +26,27 @@ class PropertyViewSet(viewsets.ModelViewSet):
         properties_per_page=request.GET.get('properties_per_page','20')
 
         if search_query:
+            query_list = []
+            query = re.sub(r'\s+', ' ', search_query)  # 正規表現で任意の空白文字を半角スペースに統一
+        
+            for q_word in query.split(' '):
+                if q_word.strip():  # 空白文字でないことを確認
+                    query_list.append(q_word)            
+
             try:
-                properties_objects = properties_objects.filter(
-                    Q(description__icontains=search_query) | Q(price__icontains=search_query)
-                ).distinct()
+                query = reduce(
+                    and_, [ Q(description__icontains=q) for q in query_list]
+                )
+                properties_objects = properties_objects.filter(query).distinct() # 検索
+
             except Exception as err:
-                Response(f"Invalid filter Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
+                return Response(f"Invalid filter Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
 
         paginator = Paginator(properties_objects, properties_per_page)
         try:
             properties_objects = paginator.page(page)
         except Exception as err:
-            Response(f"Invalid page Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
+            return Response(f"Invalid page Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
             
         serializer = self.get_serializer(properties_objects, many=True)
 
