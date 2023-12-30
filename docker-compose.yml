@@ -4,10 +4,11 @@ services:
   frontend:
     build:
       context: client
-    container_name: shareCanadaHome-client-container
+    container_name: client-container
     tty: true
     volumes:
       - ./client:/client
+      - front_node_modules:/client/node_modules
     ports:
       - 3000:3000
     networks:
@@ -15,12 +16,12 @@ services:
         ipv4_address: 172.30.0.2
     environment:
       - WATCHPACK_POLLING=true
-    command: npm run dev
+    # command: npm install
 
   backend:
     build:
       context: server
-    container_name: shareCanadaHome-server-container
+    container_name: server-container
     tty: true
     volumes:
       - ./server:/server
@@ -35,32 +36,30 @@ services:
               echo \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'adminadmin')\" | python manage.py shell &&
               python ./manage.py runserver 0:8000"
 
-  backend_scripts:
+  backend_job:
     build:
       context: server/scripts
-    container_name: shareCanadaHome-server-scripts-container
+    container_name: job-container
     tty: true
     volumes:
       - ./server/scripts:/scripts
-    # command: > 
-    #   bash -c "ls && pwd && python ./site_scraper.py"
     networks:
       app_net:
         ipv4_address: 172.30.0.4
+
   backend_mail:
     image: catatnight/postfix
-    container_name: mailserver
+    container_name: mail-container
     volumes:
       - ./server/contactus/configs:/configs
     hostname: mail-server
     environment:
       maildomain: example.com
       smtp_user: admin:adminadmin
-    ports:
-      - 25:25
     networks:
       app_net:
         ipv4_address: 172.30.0.5
+
 networks:
   app_net:
     driver: bridge
@@ -68,3 +67,6 @@ networks:
       driver: default
       config:
         - subnet: 172.30.0.0/24
+
+volumes:
+  front_node_modules:
