@@ -1,9 +1,6 @@
-"use client";
 import HomeMenu from "./HomeMenu";
 import PostMenu from "./PostMenu";
 import ContactMenu from "./ContactMenu";
-import Search from "./Search";
-
 
 const Navbar = () => {
   return (
@@ -14,7 +11,6 @@ const Navbar = () => {
       <div className="flex float-right flex-row  items-center gap-4 md:gap-0">
         <PostMenu />
         <ContactMenu />
-        {/* <Search /> */}
       </div>
     </nav>
   );

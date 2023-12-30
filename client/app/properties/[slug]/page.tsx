@@ -1,15 +1,15 @@
-
-"use client";
 import { Property } from "@/app/types/types";
-import { getPropertyDetail } from "@/app/actions/getPropertyDetail";
+import { fetchPropertyDetail } from "../../lib/data";
 import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
+import Link from 'next/link';
 
 
 
 export default async function PropertyDetail({ params }: { params: { slug: string } }) {
 
-    const property: Property = await getPropertyDetail(params.slug);
+    const property: Property = await fetchPropertyDetail(params.slug);
+
     const formattedImg_name = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
     const formattedImg = formattedImg_name.replace("172.30.0.3", "localhost");
     const dateObject = new Date(property.pub_date);
@@ -41,50 +41,45 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
     return (
         <>
-            <div className=" z-50 f-full w-full">
-                <main className=" p-6   bg-slate-50	flex   ">
-                    <div>
-                        <a href="#" className="">
-                            <img
-                                className="rounded-t-lg min-w-ful h-48 object-cover"
-                                src={formattedImg || "/images/defaultImg.png"}
-                                width="400"
-                                height="380"
-                                alt={`Image of ${property.name}`}
-                            />
-                        </a>
+            <main className="h-full p-6 w-full place-items-center bg-white  flex items-center justify-center z-50 ">
+                <div>
+                    <img
+                        className="rounded-t-lg min-w-ful h-48 object-cover"
+                        src={formattedImg || "/images/defaultImg.png"}
+                        width="400"
+                        height="380"
+                        alt={`Image of ${property.name}`}
+                    />
 
-                        <div className="p-3  flex flex-col ">
-                            <div className="flex items-center gap-1">
-                                <CiAlarmOn className="text-blue-600" />
-                                <span className="text-xs font-thin">{formattedDate}</span>
-                            </div>
-                            <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight">
-                                {property.name}
-                            </h5>
-                            <div className="p-1">
-                                価格：${property.price}
-                            </div>
-                            <p>詳細</p>
-                            <p className=" whitespace-pre-wrap">{property.description}</p>
-
-                            <div className="flex items-center gap-1">
-                                <TfiAgenda className="text-green-600" />
-                                <span className="font-light">{property.reference}</span>
-                            </div>
-
-
+                    <div className="p-3  flex flex-col ">
+                        <div className="flex items-center gap-1">
+                            <CiAlarmOn className="text-blue-600" />
+                            <span className="text-xs font-thin">{formattedDate}</span>
                         </div>
-                        <a
-                            href="/"
-                            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                            物件一覧へ
-                        </a>
-                    </div>
+                        <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight">
+                            {property.name}
+                        </h5>
+                        <div className="p-1">
+                            価格：${property.price}
+                        </div>
+                        <p>詳細</p>
+                        <p className=" whitespace-pre-wrap">{property.description}</p>
 
-                </main>
-            </div>
+                        <div className="flex items-center gap-1">
+                            <TfiAgenda className="text-green-600" />
+                            <span className="font-light">{property.reference}</span>
+                        </div>
+
+
+                    </div>
+                    <Link
+                        href="/"
+                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        物件一覧へ
+                    </Link>
+                </div>
+            </main>
 
         </>
     );
