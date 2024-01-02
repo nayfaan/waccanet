@@ -2,7 +2,7 @@ import { Property } from "@/app/types/types";
 import { fetchPropertyDetail } from "../../lib/data";
 import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
-import Link from 'next/link';
+import PreviousButton from "@/app/components/Button";
 
 
 
@@ -72,12 +72,8 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
 
                     </div>
-                    <Link
-                        href="/"
-                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        物件一覧へ
-                    </Link>
+                    <PreviousButton />
+
                 </div>
             </main>
 

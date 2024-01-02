@@ -35,7 +35,7 @@ export default function Pagination({
             setPaginationCurrent_page(paginationCurrent_page + 1)
             const params = new URLSearchParams(searchParams);
             params.set('page', up_current_page.toString());
-            router.replace(`${pathname}?${params.toString()}`)
+            router.push(`${pathname}?${params.toString()}`)
         }
     };
 
@@ -45,7 +45,7 @@ export default function Pagination({
             setPaginationCurrent_page(paginationCurrent_page - 1)
             const params = new URLSearchParams(searchParams);
             params.set('page', down_current_page.toString());
-            router.replace(`${pathname}?${params.toString()}`)
+            router.push(`${pathname}?${params.toString()}`)
         }
     };
 
