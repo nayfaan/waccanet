@@ -6,7 +6,6 @@
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
@@ -200,6 +199,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env_production
 
 # vercel
 .vercel

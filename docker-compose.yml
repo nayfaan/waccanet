@@ -31,10 +31,11 @@ services:
       app_net:
         ipv4_address: 172.30.0.3
     command: >
-      bash -c "python ./manage.py makemigrations propertyhub && 
-              python ./manage.py migrate &&  
-              echo \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'adminadmin')\" | python manage.py shell &&
-              python ./manage.py runserver 0:8000"
+      bash -c  "python ./manage.py makemigrations propertyhub && 
+                python ./manage.py makemigrations contactus && 
+                python ./manage.py migrate &&  
+                python ./manage.py superuser &&
+                python ./manage.py runserver 0:8000"
 
   backend_job:
     build:
@@ -46,19 +47,6 @@ services:
     networks:
       app_net:
         ipv4_address: 172.30.0.4
-
-  backend_mail:
-    image: catatnight/postfix
-    container_name: mail-container
-    volumes:
-      - ./server/contactus/configs:/configs
-    hostname: mail-server
-    environment:
-      maildomain: example.com
-      smtp_user: admin:adminadmin
-    networks:
-      app_net:
-        ipv4_address: 172.30.0.5
 
 networks:
   app_net:

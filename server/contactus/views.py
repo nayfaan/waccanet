@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from .serializers import ContactMessageSerializer
 from rest_framework import status
 from  .models import ContactMessage
+from django.conf import settings
 
 
 def send_mail2administrator(full_name,email_address,contact_type,detail):
@@ -19,7 +20,7 @@ def send_mail2administrator(full_name,email_address,contact_type,detail):
     from_email = ""
     """宛先メールアドレス"""
     recipient_list = [
-        "jun.math.abc.1192@icloud.com"
+        settings.SUPERUSER_EMAIL
     ]
 
     send_mail(subject, message, from_email, recipient_list)
