@@ -11,9 +11,8 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const formattedImg_name = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
-  const formattedImg = formattedImg_name.replace("172.30.0.3", "localhost");
 
+  const formattedImg = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
   const dateObject = new Date(property.pub_date);
   const options = {
     month: "2-digit" as const,
@@ -47,7 +46,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <div className="absolute top-0 left-0 bg-white py-1 px-2 rounded-lg ">
             ${property.price}
           </div>
-          <img
+          <Image
             className="rounded-t-lg min-w-ful h-48 object-cover"
             src={formattedImg || "/images/defaultImg.png"}
             width="300"
