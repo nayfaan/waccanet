@@ -40,11 +40,16 @@ export async function createContact(formData: FormData) {
 
     };
 
-    await fetch(`http://172.30.0.3:8000/contactus/create-inquiry/`, {
+    const api_server_link = process.env.api_server_link
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-Api-Key': process.env.X_Api_Key
+    };
+    const apt_query = `${api_server_link}/contactus/create-inquiry/`
+
+    await fetch(apt_query, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: headers,
         body: JSON.stringify(rawFormData),
     });
     revalidatePath('/contact-us');
