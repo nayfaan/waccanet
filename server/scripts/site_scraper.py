@@ -57,9 +57,10 @@ price_list = {
     }
 
 def data_insert(item_data,files):
-
+    key= config_ini['SERVER']['api_key']
+    headers = {"X-Api-Key" : key}
     try:
-        response = requests.post(web_api_url, data=item_data,files=files)
+        response = requests.post(web_api_url, data=item_data,files=files,headers=headers)
     except requests.RequestException as e:
         logger.error(f"Request failed: {e}")
 

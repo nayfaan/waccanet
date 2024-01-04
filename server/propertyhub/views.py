@@ -10,9 +10,12 @@ from django.core.paginator import Paginator
 from functools import reduce
 from operator import and_
 import re
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated  
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
+    permission_classes = [HasAPIKey | IsAuthenticated]
     queryset = Property.objects.prefetch_related('images').order_by('-id')
     serializer_class = PropertySerializer
 
@@ -82,5 +85,6 @@ class PropertyViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
 class OwnerList(generics.ListAPIView):
+    permission_classes = [HasAPIKey | IsAuthenticated]
     queryset=Owner.objects.all()
     serializer_class = OwnerSerializer

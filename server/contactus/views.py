@@ -1,9 +1,8 @@
-from django.shortcuts import render
-from django.core.mail import BadHeaderError, send_mail
-from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import send_mail
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from .serializers import ContactMessageSerializer
+from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework import status
 from  .models import ContactMessage
 from django.conf import settings
@@ -44,6 +43,7 @@ def send_mail2inquirer(full_name,email_address,contact_type,detail):
     return Response('successfully send mail to inquirer',status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes([HasAPIKey])
 def create_inquiry(request):
 
     contact_message_data = request.data  # プロパティのデータ
@@ -63,6 +63,7 @@ def create_inquiry(request):
         return Response(contact_message_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@permission_classes([HasAPIKey])
 def retrieve_inquiry(request):
 
     contacts = ContactMessage.objects.all()
