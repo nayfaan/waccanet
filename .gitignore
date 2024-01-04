@@ -216,3 +216,4 @@ next-env.d.ts
 /server/db.sqlite3
 launch.json
 sasl_passwd
+server/scripts/settings/config_file.ini

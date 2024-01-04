@@ -29,6 +29,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
+API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 # Set DEBUG based on the environment
 DEBUG = env('DJANGO_DEBUG')
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_api_key',
     'django_filters',
     'account',
     'propertyhub',
