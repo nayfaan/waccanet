@@ -23,11 +23,15 @@ export default async function Home({
   const paginationNum_pages = paginationPropertiesData.num_pages;
 
   return (
-    <main className="relative h-full top-20">
-      <Search placeholder="Search..." />
-      <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
+    <>
+      <div className="fixed top-28 w-full z-50" >
+        <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
+      </div>
+
       {/* Show Properties Data */}
-      <PropertiesList propertiesData={paginationPropertiesData.results} />
-    </main>
+      <main className="pt-40 pb-16">
+        <PropertiesList propertiesData={paginationPropertiesData.results} />
+      </main >
+    </>
   );
 }
