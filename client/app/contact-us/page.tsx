@@ -2,8 +2,9 @@ import Form from './Contact-form';
 
 export default function ContactUs() {
     return (
-        <main className="h-full p-6 w-full place-items-center bg-white  flex justify-center  ">
-            <Form />
-        </main>
+
+        <main className="h-full w-full px-8 p-6  place-items-center bg-white  flex items-center justify-center ">
+            < Form />
+        </main >
     )
 }

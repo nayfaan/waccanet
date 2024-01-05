@@ -24,14 +24,17 @@ export default async function Home({
 
   return (
     <>
-      <div className="fixed top-28 w-full z-50" >
-        <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
-      </div>
+      <main>
+        <div className="fixed z-50 w-full bg-white shadow-md py-2 px-6">
+          <Search placeholder="Search..." />
+          <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
+        </div>
 
-      {/* Show Properties Data */}
-      <main className="pt-40 pb-16">
-        <PropertiesList propertiesData={paginationPropertiesData.results} />
-      </main >
+        {/* Show Properties Data */}
+        <div className="pt-36 pb-12">
+          <PropertiesList propertiesData={paginationPropertiesData.results} />
+        </div >
+      </main>
     </>
   );
 }
