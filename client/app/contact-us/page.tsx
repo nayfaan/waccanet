@@ -3,7 +3,7 @@ import Form from './Contact-form';
 export default function ContactUs() {
     return (
 
-        <main className="h-full w-full px-8 p-6  place-items-center bg-white  flex items-center justify-center ">
+        <main className="h-screen w-full px-10 py-6  place-items-center bg-white  ">
             < Form />
         </main >
     )
