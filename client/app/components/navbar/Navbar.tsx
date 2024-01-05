@@ -4,15 +4,16 @@ import ContactMenu from "./ContactMenu";
 
 const Navbar = () => {
   return (
-    <nav className="fixed clearfix px-1 md:px-8 py-3 border-b-[1px] top-0 right-0 z-40 w-full bg-white">
-      <div className="flex float-left flex-row items-center  gap-1 md:gap-0">
+    <nav className="fixed flex justify-between px-1 md:px-8 py-4 items-center top-0 border-b-[2px] w-full bg-white">
+      <div >
         < HomeMenu />
       </div>
-      <div className="flex float-right flex-row  items-center gap-4 md:gap-0">
+      <div className="flex">
         <PostMenu />
         <ContactMenu />
       </div>
     </nav>
+
   );
 };
 
