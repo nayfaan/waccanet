@@ -43,8 +43,14 @@ export async function createContact(formData: FormData) {
     const api_server_link = process.env.api_server_link
     const headers = {
         'Content-Type': 'application/json',
-        'X-Api-Key': process.env.X_Api_Key
     };
+    const X_Api_Key = process.env.X_Api_Key;
+    if (X_Api_Key) {
+        headers['X-Api-Key'] = X_Api_Key;
+    } else {
+        console.error('X_Api_Key is missing or undefined.'); // X_Api_Keyが存在しない場合のエラー処理
+        throw new Error('X_Api_Key is missing or undefined.');
+    }
     const apt_query = `${api_server_link}/contactus/create-inquiry/`
     try {
         const res = await fetch(apt_query, {
