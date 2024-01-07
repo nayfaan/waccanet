@@ -41,7 +41,7 @@ export async function createContact(formData: FormData) {
     };
 
     const api_server_link = process.env.api_server_link
-    const headers = {
+    const headers: Record<string, string> = {
         'Content-Type': 'application/json',
     };
     const X_Api_Key = process.env.X_Api_Key;

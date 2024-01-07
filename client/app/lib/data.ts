@@ -7,7 +7,7 @@ import {
 export async function fetchPropertyListSearchPagination(search_query: string, page: number) {
     try {
         const api_server_link = process.env.api_server_link
-        const headers = {}
+        const headers: Record<string, string> = {};
         const X_Api_Key = process.env.X_Api_Key;
         if (X_Api_Key) {
             headers['X-Api-Key'] = X_Api_Key;
@@ -33,7 +33,7 @@ export async function fetchPropertyListSearchPagination(search_query: string, pa
 export async function fetchPropertyDetail(slug: string) {
     try {
         const api_server_link = process.env.api_server_link
-        const headers = {}
+        const headers: Record<string, string> = {};
         const X_Api_Key = process.env.X_Api_Key;
         if (X_Api_Key) {
             headers['X-Api-Key'] = X_Api_Key;
