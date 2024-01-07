@@ -29,7 +29,7 @@ export default function Pagination({
     }, [current_page]);
 
 
-    const handleClickNext = (e) => {
+    const handleClickNext = (e: React.ChangeEvent<HTMLInputElement>) => {
         const up_current_page = paginationCurrent_page + 1;
         if (up_current_page <= num_pages) {
             setPaginationCurrent_page(paginationCurrent_page + 1)
@@ -39,7 +39,7 @@ export default function Pagination({
         }
     };
 
-    const handleClickPrevious = (e) => {
+    const handleClickPrevious = (e: React.ChangeEvent<HTMLInputElement>) => {
         const down_current_page = paginationCurrent_page - 1;
         if (down_current_page >= 1) {
             setPaginationCurrent_page(paginationCurrent_page - 1)
