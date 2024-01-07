@@ -6,3 +6,11 @@ Pillow
 django-filter
 django-environ
 djangorestframework-api-key
+
+
+dj-database-url
+dj-static
+python-decouple
+gunicorn
+psycopg2-binary
+whitenoise

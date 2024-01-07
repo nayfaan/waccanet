@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function Developing() {
     return (
         <>
-            <main className="h-screen p-6 w-full place-items-center bg-white  flex items-center justify-center  ">
+            <main className="h-full p-6 w-full place-items-center bg-white  flex items-center justify-center  ">
                 <div className="text-center">
                     <p className="text-base font-semibold text-indigo-600">404</p>
                     <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">No page</h1>

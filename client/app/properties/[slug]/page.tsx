@@ -41,7 +41,7 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
     return (
         <>
-            <main className="h-full p-6 w-full place-items-center bg-white  flex items-center justify-center z-50 ">
+            <main className="h-screen p-6 w-full place-items-center bg-white  flex items-center justify-center  ">
                 <div>
                     <Image
                         className="rounded-t-lg min-w-ful h-48 object-cover"

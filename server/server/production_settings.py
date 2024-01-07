@@ -5,6 +5,8 @@ Django settings for server project at production environment.
 from pathlib import Path
 import environ
 import os
+from decouple import config
+from dj_database_url import parse as dburl
 
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,14 +20,29 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
 
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #render
+]
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
+
 DATABASES = {
-    'default': {
-        'ENGINE': env('ENGINE'),
-        'NAME': BASE_DIR / env('NAME'),
-    }
+    "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
 }
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # mail
 EMAIL_BACKEND = env('EMAIL_BACKEND')

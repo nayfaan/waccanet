@@ -30,7 +30,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
@@ -217,3 +217,6 @@ next-env.d.ts
 launch.json
 sasl_passwd
 server/scripts/settings/config_file.ini
+client/.env.development
+client/.vscode/settings.json
+.vscode/settings.json
