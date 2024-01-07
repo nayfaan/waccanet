@@ -32,11 +32,11 @@ SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 # Set DEBUG based on the environment
-DEBUG = env('DJANGO_DEBUG')
+DEBUG = env.bool('DJANGO_DEBUG', default=False)
 if DEBUG:
     from server.local_settings import *
 else:
-    from production_settings import *
+    from server.production_settings import *
 
 
 # Application definition
