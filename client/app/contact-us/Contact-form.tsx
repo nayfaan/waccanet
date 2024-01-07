@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+
+import { useFormState } from 'react-dom';
 import { createContact } from '../lib/action';
 import PreviousButton from '@/app/components/Button';
 
@@ -18,6 +20,7 @@ export default function Form() {
                             id="first-name"
                             autoComplete="given-name"
                             className="block w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            required
                         />
                     </div>
                 </div>
@@ -33,6 +36,7 @@ export default function Form() {
                             id="last-name"
                             autoComplete="family-name"
                             className="block w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            required
                         />
                     </div>
                 </div>
@@ -48,6 +52,7 @@ export default function Form() {
                             type="email"
                             autoComplete="email"
                             className="block w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            required
                         />
                     </div>
                 </div>
@@ -62,6 +67,7 @@ export default function Form() {
                             name="type"
                             autoComplete="type-name"
                             className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                            required
                         >
                             <option>質問</option>
                             <option>バグ報告</option>
@@ -80,6 +86,7 @@ export default function Form() {
                             rows={5}
                             className="block w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             defaultValue={''}
+                            required
                         />
                     </div>
                 </div>

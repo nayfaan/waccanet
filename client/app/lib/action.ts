@@ -46,13 +46,21 @@ export async function createContact(formData: FormData) {
         'X-Api-Key': process.env.X_Api_Key
     };
     const apt_query = `${api_server_link}/contactus/create-inquiry/`
-
-    await fetch(apt_query, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(rawFormData),
-    });
+    try {
+        const res = await fetch(apt_query, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(rawFormData),
+        });
+        if (!res.ok) {
+            // エラー処理
+            console.error('Request failed with status:', res.status);
+            throw new Error('Request failed with status:');
+        }
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to post contact data.');
+    }
     revalidatePath('/contact-us');
     redirect('/contact-us/confirmation/');
-
 }

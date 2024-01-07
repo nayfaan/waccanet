@@ -51,8 +51,8 @@ def create_inquiry(request):
     email_address = contact_message_data['email_address']
     contact_type = contact_message_data['contact_type']
     detail = contact_message_data['detail']
-    send_mail2administrator(full_name,email_address,contact_type,detail)
-    send_mail2inquirer(full_name,email_address,contact_type,detail)
+    # send_mail2administrator(full_name,email_address,contact_type,detail)
+    # send_mail2inquirer(full_name,email_address,contact_type,detail)
 
     # プロパティデータをシリアライザーで検証・保存
     contact_message_serializer = ContactMessageSerializer(data=contact_message_data)

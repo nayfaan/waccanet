@@ -10,6 +10,11 @@ export async function fetchPropertyListSearchPagination(search_query: string, pa
         const headers = { 'X-Api-Key': process.env.X_Api_Key }
         const apt_query = `${api_server_link}/property/apis/property_search/?search_query=${search_query}&page=${page}`
         const res = await fetch(apt_query, { cache: "no-store", headers: headers });
+        if (!res.ok) {
+            // エラー処理
+            console.error('Request failed with status:', res.status);
+            throw new Error('Request failed with status:');
+        }
         const data: PaginationProperties = await res.json();
         return data
     } catch (error) {
@@ -24,6 +29,11 @@ export async function fetchPropertyDetail(slug: string) {
         const headers = { 'X-Api-Key': process.env.X_Api_Key }
         const apt_query = `${api_server_link}/property/apis/${slug}`
         const res = await fetch(apt_query, { cache: "no-store", headers: headers });
+        if (!res.ok) {
+            // エラー処理
+            console.error('Request failed with status:', res.status);
+            throw new Error('Request failed with status:');
+        }
         const data: Property = await res.json();
         return data
     } catch (error) {
