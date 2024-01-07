@@ -1,24 +1,25 @@
 databases:
-  - name: django_render_db
+  - name: shareCanadaHome_db
     region: singapore
     plan: free
-    databaseName: django_render_db
-    user: django_user
+    databaseName: shareCanadaHome_db
+    user: shareCanadaHome_user
 
 services:
   - type: web
-    name: django_render
+    name: shareCanadaHome
     env: python
     region: singapore
-    buildCommand: './server/build.sh'
+    rootDir: server
+    buildCommand: './build.sh'
     startCommand: 'gunicorn mysite.wsgi:application'
     plan: free
-    branch: main
+    branch: master
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: django_render_db
+          name: shareCanadaHome_db
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
