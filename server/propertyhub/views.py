@@ -88,3 +88,20 @@ class OwnerList(generics.ListAPIView):
     permission_classes = [HasAPIKey | IsAuthenticated]
     queryset=Owner.objects.all()
     serializer_class = OwnerSerializer
+
+from django.http import HttpResponse
+from django.conf import settings
+import os
+ 
+def index(request):
+    Data_path = settings.MEDIA_ROOT
+    file_list = os.listdir(Data_path)
+
+    file_list_str = ' '.join(file_list)
+    output = 'settings.MEDIA_ROOT' + Data_path + '* file list* ' + file_list_str
+
+    for file in file_list:
+        output += ' '.join(os.listdir(Data_path+'/'+file))
+        
+
+    return HttpResponse(output)
