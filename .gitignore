@@ -8,7 +8,6 @@
 __pycache__/
 db.sqlite3
 db.sqlite3-journal
-media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -220,3 +219,5 @@ server/scripts/settings/config_file.ini
 client/.env.development
 client/.vscode/settings.json
 .vscode/settings.json
+server/media/properties/*
+
