@@ -4,6 +4,7 @@ set -o errexit
 
 pip install -r requirements.txt
 
+mkdir -p /media/properties
 python manage.py collectstatic --no-input
 python manage.py makemigrations propertyhub
 python manage.py makemigrations contactus
