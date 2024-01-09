@@ -11,7 +11,8 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
     const property: Property = await fetchPropertyDetail(params.slug);
 
-    const formattedImg = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
+    const formattedImg = property.images.length > 0 ? `data:image/jpeg;base64,${property.images[0].image_data}` : '/images/defaultImg.png';
+
     const dateObject = new Date(property.pub_date);
     const options = {
         month: "2-digit" as const,

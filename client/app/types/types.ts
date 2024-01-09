@@ -4,7 +4,8 @@ export interface Property {
   name: string;
   price: number;
   images: {
-    image: string;
+    file_name: string;
+    image_data: string;
   }[];
   address: string;
   description: string;

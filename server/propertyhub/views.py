@@ -63,7 +63,17 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
         return Response(modified_data)
     
-
+    @action(detail=False)
+    def property_id(self, request):
+        #get query parameter 
+        get_id = int(request.GET.get('id'))
+        properties_objects = Property.objects.prefetch_related('images').get(id=get_id)
+        try:
+            property_serializer = PropertySerializer(properties_objects)
+            return Response(property_serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            return Response(f"Invalid  Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
+        
     @action(detail=False, methods=['post'])
     def property_add(self, request):
 
@@ -77,7 +87,8 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
             # 送信された画像をImageモデルと関連付けて保存
             for image in images:
-                Image.objects.create(property=property_instance, image=image)
+                image_binary_data = image.read()
+                Image.objects.create(property=property_instance,file_name=str(image.name),image_data=image_binary_data)
             
             return Response('Property and Images created successfully', status=status.HTTP_201_CREATED)
         else:

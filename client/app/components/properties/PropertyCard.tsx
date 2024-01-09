@@ -12,7 +12,7 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
 
-  const formattedImg = property.images.length > 0 ? property.images[0].image : '/images/defaultImg.png';
+  const formattedImg = property.images.length > 0 ? `data:image/jpeg;base64,${property.images[0].image_data}` : '/images/defaultImg.png';
   const dateObject = new Date(property.pub_date);
   const options = {
     month: "2-digit" as const,
