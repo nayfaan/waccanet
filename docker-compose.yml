@@ -30,12 +30,12 @@ services:
     networks:
       app_net:
         ipv4_address: 172.30.0.3
-    command: >
-      bash -c  "python ./manage.py makemigrations propertyhub && 
-                python ./manage.py makemigrations contactus && 
-                python ./manage.py migrate &&  
-                python ./manage.py superuser &&
-                python ./manage.py runserver 0:8000"
+    # command: >
+    #   bash -c  "python ./manage.py makemigrations propertyhub && 
+    #             python ./manage.py makemigrations contactus && 
+    #             python ./manage.py migrate &&  
+    #             python ./manage.py superuser &&
+    #             python ./manage.py runserver 0:8000"
 
   backend_job:
     build:

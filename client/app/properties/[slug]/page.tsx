@@ -42,27 +42,27 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
 
     return (
         <>
-            <main className="h-screen p-6 w-full place-items-center bg-white  flex items-center justify-center  ">
-                <div>
-                    <Image
-                        className="rounded-t-lg min-w-ful h-48 object-cover"
-                        src={formattedImg || "/images/defaultImg.png"}
-                        width="400"
-                        height="380"
-                        alt={`Image of ${property.name}`}
-                    />
+            <main className="h-dvh w-full  justify-center  p-6  bg-white  ">
+                <Image
+                    className="rounded-t-lg min-w-ful h-48 object-cover"
+                    src={formattedImg || "/images/defaultImg.png"}
+                    width="400"
+                    height="380"
+                    alt={`Image of ${property.name}`}
+                />
 
-                    <div className="p-3  flex flex-col ">
-                        <div className="flex items-center gap-1">
-                            <CiAlarmOn className="text-blue-600" />
-                            <span className="text-xs font-thin">{formattedDate}</span>
-                        </div>
-                        <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight">
-                            {property.name}
-                        </h5>
-                        <div className="p-1">
-                            価格：${property.price}
-                        </div>
+                <div className="p-3  flex flex-col ">
+                    <div className="flex items-center gap-1">
+                        <CiAlarmOn className="text-blue-600" />
+                        <span className="text-xs font-thin">{formattedDate}</span>
+                    </div>
+                    <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight">
+                        {property.name}
+                    </h5>
+                    <div className="p-1">
+                        価格：${property.price}
+                    </div>
+                    <div className="p-2">
                         <p>詳細</p>
                         <p className=" whitespace-pre-wrap">{property.description}</p>
                         <div className="flex items-center gap-1">
@@ -70,8 +70,8 @@ export default async function PropertyDetail({ params }: { params: { slug: strin
                             <span className="font-light">{property.reference}</span>
                         </div>
                     </div>
-                    <PreviousButton />
                 </div>
+                <PreviousButton />
             </main>
         </>
     );
