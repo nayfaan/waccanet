@@ -109,7 +109,7 @@ def index(request):
     file_list = os.listdir(Data_path)
 
     file_list_str = ' '.join(file_list)
-    output = 'settings.MEDIA_ROOT' + Data_path + '* file list* ' + file_list_str
+    output = 'settings.MEDIA_ROOT' + Data_path + '** file list** ' + file_list_str
 
     for file in file_list:
         output += ' '.join(os.listdir(Data_path+'/'+file))
