@@ -41,7 +41,7 @@ export async function fetchPropertyDetail(slug: string) {
             console.error('X_Api_Key is missing or undefined.'); // X_Api_Keyが存在しない場合のエラー処理
             throw new Error('X_Api_Key is missing or undefined.');
         }
-        const apt_query = `${api_server_link}/property/apis/${slug}`
+        const apt_query = `${api_server_link}/property/apis/property_id/?id=${slug}`
         const res = await fetch(apt_query, { cache: "no-store", headers: headers });
         if (!res.ok) {
             // エラー処理
