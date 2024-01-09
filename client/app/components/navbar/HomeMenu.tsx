@@ -3,7 +3,7 @@ import { FaHome } from "react-icons/fa";
 
 const HomeMenu = () => {
     return (
-        <Link href="/home" >
+        <Link href="/" >
             <div className="py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
                 <FaHome size={25} />
             </div>

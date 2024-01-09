@@ -1,6 +1,7 @@
 import HomeMenu from "./HomeMenu";
 import PostMenu from "./PostMenu";
 import ContactMenu from "./ContactMenu";
+import AboutOurSiteMenu from "./AboutOurSiteMenu"
 import Pagination from "@/app/components/properties/Pagination";
 import Search from "@/app/components/properties/Search";
 
@@ -14,6 +15,7 @@ const Navbar = () => {
           </div>
           <div className="flex">
             <PostMenu />
+            <AboutOurSiteMenu />
             <ContactMenu />
           </div>
         </div>
