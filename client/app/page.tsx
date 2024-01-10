@@ -2,6 +2,7 @@ import { Property, PaginationProperties } from "@/app/types/types";
 import PropertiesList from "./components/properties/PropertiesList";
 import Search from "./components/properties/Search";
 import Pagination from "./components/properties/Pagination"
+import PaginationTop from "./components/properties/PaginationTop";
 import { fetchPropertyListSearchPagination } from "./lib/data";
 
 export default async function Home({
@@ -25,15 +26,19 @@ export default async function Home({
   return (
     <>
       <main>
+
         <div className="fixed z-50 w-full bg-white shadow-md py-2 px-6">
           <Search placeholder="Search..." />
-          <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
+          <PaginationTop total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
         </div>
 
         {/* Show Properties Data */}
         <div className="pt-36 pb-12">
           <PropertiesList propertiesData={paginationPropertiesData.results} />
         </div >
+
+        <Pagination total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
+
       </main>
     </>
   );
