@@ -27,10 +27,6 @@ const Navbar = () => {
         {({ open }) => (
           <>
             <div className=" flex justify-between  items-center  ">
-              {/* <div >
-                < HomeMenu />
-              </div> */}
-
               <a
                 href="/"
                 className='p-2 
@@ -40,14 +36,13 @@ const Navbar = () => {
                 aria-current='page'
               >
                 <FaHome size={25} />
-
               </a>
 
               <div className="hidden md:block">
-
                 <div className="ml-10 flex items-baseline space-x-4">
                   {navigation.map((item) => (
                     <a
+                      key={item.name}
                       href={item.href}
                       className={classNames(
                         item.current
@@ -79,6 +74,7 @@ const Navbar = () => {
               <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                 {navigation.map((item) => (
                   <Disclosure.Button
+                    key={item.name}
                     as="a"
                     href={item.href}
                     className={classNames(
