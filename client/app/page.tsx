@@ -27,13 +27,13 @@ export default async function Home({
     <>
       <main>
 
-        <div className="fixed z-50 w-full bg-white shadow-md py-2 px-6">
+        <div className="fixed z-50 w-full bg-white shadow-md py-2 px-2 sm:px-6">
           <Search placeholder="Search..." />
           <PaginationTop total={paginationTotal} current_page={paginationCurrent_page} properties_per_page={paginationProperties_per_page} num_pages={paginationNum_pages} />
         </div>
 
         {/* Show Properties Data */}
-        <div className="pt-36 pb-12">
+        <div className="pt-[100px] sm:pt-20">
           <PropertiesList propertiesData={paginationPropertiesData.results} />
         </div >
 

@@ -23,7 +23,7 @@ export default function PaginationTop({
 
 
     return (
-        <div className="flex items-center justify-end border-gray-200 bg-white px-4 py-2 sm:px-6">
+        <div className="flex items-center justify-end border-gray-200 bg-white px-2 py-2 sm:px-6">
             <div>
                 <p className="text-sm text-gray-700">
                     <span className="font-medium">{properties_per_page * (paginationCurrent_page - 1) + 1}件</span>から<span className="font-medium">{properties_per_page * (paginationCurrent_page - 1) + properties_per_page}件</span>の物件表示 (合計<span className="font-medium">{total}</span>件)
