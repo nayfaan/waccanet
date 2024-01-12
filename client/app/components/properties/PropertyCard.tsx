@@ -40,7 +40,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const formattedDate = `${dateParts[2]}/${month}/${day} ${ampm}${hour}:${minute}`;
 
   return (
-    <div className="flex flex-col justify-between max-w-[300px] m-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col justify-between max-w-[300px] m-1 bg-white border border-gray-200 rounded-lg shadow">
       <div>
         <Link href="#" className="relative">
           <div className="absolute top-0 left-0 bg-white py-1 px-2 rounded-lg ">
@@ -76,8 +76,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       </div>
       <Link
         href={`properties/${property.id}`}
-        className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
+        className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center">
         詳細
       </Link>
     </div>

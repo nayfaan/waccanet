@@ -16,7 +16,7 @@ export async function fetchPropertyListSearchPagination(search_query: string, pa
             throw new Error('X_Api_Key is missing or undefined.');
         }
         const apt_query = `${api_server_link}/property/apis/property_search/?search_query=${search_query}&page=${page}`
-        const res = await fetch(apt_query, { cache: "no-store", headers: headers });
+        const res = await fetch(apt_query, { headers: headers });
         if (!res.ok) {
             // エラー処理
             console.error('Request failed with status:', res.status);
@@ -42,7 +42,7 @@ export async function fetchPropertyDetail(slug: string) {
             throw new Error('X_Api_Key is missing or undefined.');
         }
         const apt_query = `${api_server_link}/property/apis/property_id/?id=${slug}`
-        const res = await fetch(apt_query, { cache: "no-store", headers: headers });
+        const res = await fetch(apt_query, {  headers: headers });
         if (!res.ok) {
             // エラー処理
             console.error('Request failed with status:', res.status);
