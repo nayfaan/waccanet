@@ -2,7 +2,7 @@ import PropertiesHome from "@/app/components/properties/PropertiesHome";
 import Loading from "./loading";
 import { Suspense } from "react";
 
-export default function ({
+export default function page({
   searchParams,
 }: {
   searchParams?: {
