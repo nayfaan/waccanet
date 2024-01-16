@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { BiSearch } from "react-icons/bi";
 
@@ -18,13 +17,14 @@ export default function Search({ placeholder }: { placeholder: string }) {
     const form = new FormData(e.currentTarget);
     const search_query = form.get("search-query");
     const params = new URLSearchParams(searchParams);
-    params.set('page', '1');
     if (search_query) {
       params.set('search_query', search_query.toString());
     } else {
       params.delete('search_query');
     }
-    router.replace(`${pathname}?${params.toString()}`)
+    params.set('page', '1');
+
+    router.push(`${pathname}?${params.toString()}`)
   }
 
   return (
