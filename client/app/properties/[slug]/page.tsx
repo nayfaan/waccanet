@@ -42,9 +42,7 @@ export default async function PropertyDetail({
     <main className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto bg-white">
       <div className="max-w-2xl">
         <div className="space-y-3">
-          <h2 className="text-2xl font-bold md:text-3xl dark:text-white">
-            {property.name}
-          </h2>
+          <h2 className="text-2xl font-bold md:text-3xl ">{property.name}</h2>
         </div>
         <div className="flex items-center gap-1">
           <CiAlarmOn className="text-blue-600" />
@@ -57,7 +55,7 @@ export default async function PropertyDetail({
 
         <div className="p-2">
           <p>詳細</p>
-          <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-gray-700">
+          <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 ">
             <p className=" whitespace-pre-wrap ">{property.description}</p>
           </div>
         </div>

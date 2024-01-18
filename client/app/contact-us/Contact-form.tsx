@@ -8,7 +8,7 @@ export default function Form() {
     <div className="mt-5 max-w-lg mx-auto">
       {/* <!-- Card --> */}
 
-      <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-gray-700">
+      <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8">
         <form action={createContact}>
           <div className="grid gap-4 lg:gap-6">
             {/* <!-- Grid --> */}
