@@ -1,7 +1,7 @@
 import PropertiesHome from "@/app/components/properties/PropertiesHome";
 import Loading from "./loading";
 import { Suspense } from "react";
-import FirstTimeModalComponent from "@/app/components/FirstTimeModalComponent";
+// import FirstTimeModalComponent from "@/app/components/FirstTimeModalComponent";
 
 export default function page({
   searchParams,
