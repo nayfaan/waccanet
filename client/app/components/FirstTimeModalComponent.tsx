@@ -59,7 +59,7 @@ const FirstTimeModalComponent = () => {
               <div className="max-w-sm mx-auto">
                 <p className="mt-2 text-sm text-gray-600 ">
                   このサイトは有志のプログラマーたちによって開発が進められています。まだ途中段階であり、ユーザーのフィードバックを元に開発を進行しています。皆様のコメントなどをお待ちしております。
-                  <br></br>"少しでもお役に立てることを心より願っております。"
+                  <br></br>少しでもお役に立てることを心より願っております。
                 </p>
               </div>
             </div>
