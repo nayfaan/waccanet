@@ -87,7 +87,7 @@ export default function Form() {
                   <option>質問</option>
                   <option>バグ報告</option>
                   <option>案件依頼</option>
-                  <option>機能追加</option>
+                  <option>追加機能の提案</option>
                 </select>
               </div>
 
