@@ -10,11 +10,11 @@ from django.conf import settings
 
 def send_mail2administrator(full_name,email_address,contact_type,detail):
     """題名"""
-    subject = f'{full_name}から 問い合わせタイプ{contact_type}があります。'
+    subject = f'{full_name} から 問い合わせタイプ：{contact_type}'
 
     """本文"""
     "送信元："
-    message = f"メール：{email_address} から {contact_type} \n詳細\n{detail}"
+    message = f"送信元メールアドレス：{email_address} \n詳細\n{detail}"
     """送信元メールアドレス"""
     from_email = ""
     """宛先メールアドレス"""

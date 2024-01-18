@@ -1,6 +1,7 @@
 import PropertiesHome from "@/app/components/properties/PropertiesHome";
 import Loading from "./loading";
 import { Suspense } from "react";
+import FirstTimeModalComponent from "@/app/components/FirstTimeModalComponent";
 
 export default function page({
   searchParams,
@@ -10,14 +11,19 @@ export default function page({
     page?: string;
   };
 }) {
-
-
   const currentPage = Number(searchParams?.page) || 1;
-  const query = searchParams?.search_query || '';
+  const query = searchParams?.search_query || "";
 
   return (
-    <Suspense key={`${searchParams?.search_query}-${searchParams?.page}`} fallback={<Loading />}>
+    <>
+      {/* <FirstTimeModalComponent /> */}
+
+      <Suspense
+        key={`${searchParams?.search_query}-${searchParams?.page}`}
+        fallback={<Loading />}
+      >
         <PropertiesHome page={currentPage} search_query={query} />
-    </Suspense>
+      </Suspense>
+    </>
   );
 }
