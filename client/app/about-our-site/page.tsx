@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function AboutOurSite() {
   return (
     <>
-      <main className="h-full w-full p-6  place-items-center bg-white  flex items-center justify-center  ">
+      <main className="h-screen w-full p-6  place-items-center bg-white  flex items-center justify-center  ">
         <div className="text-center">
           <div className="bg-white border border-gray-200 rounded-xl shadow-sm pointer-events-auto ">
             <div className="p-4 sm:p-7">

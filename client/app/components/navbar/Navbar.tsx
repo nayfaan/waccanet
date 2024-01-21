@@ -1,34 +1,48 @@
-'use client';
+"use client";
 
-import { Disclosure } from '@headlessui/react'
+import { Disclosure } from "@headlessui/react";
+import { IoMdFunnel } from "react-icons/io";
 import { FaHome } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const navigation = [
-  { name: '物件新規登録', href: '/developing', current: false },
-  { name: 'サイト概要', href: '/about-our-site', current: false },
-  { name: 'お問い合わせ', href: '/contact-us', current: false },
-]
-
+  { name: "物件新規登録", href: "/developing", current: false },
+  { name: "サイト概要", href: "/about-our-site", current: false },
+  { name: "お問い合わせ", href: "/contact-us", current: false },
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
   return (
     <>
-      <Disclosure as="nav" className="w-full sm:px-3 sm:py-1 md:px-8 md:py-2  border-b-[2px] bg-white">
+      <Disclosure
+        as="nav"
+        className="sm:px-3 sm:py-1 md:px-8 md:py-2  border-b-[2px] bg-white"
+      >
         {({ open }) => (
           <>
             <div className=" flex justify-between  items-center  ">
+              {/* Mobile menu button */}
+
+              <div className="p-2 flex md:hidden">
+                {/* Mobile menu button */}
+                <IoMdFunnel
+                  className="p-2
+                    text-black hover:bg-gray-700 hover:text-white
+                      rounded-md "
+                  size={35}
+                />
+              </div>
+
               <a
                 href="/"
-                className='p-2 
+                className="p-2 
                       text-black hover:bg-gray-700 hover:text-white
-                        rounded-md '
-
-                aria-current='page'
+                        rounded-md "
+                aria-current="page"
               >
                 <FaHome size={25} />
               </a>
@@ -41,11 +55,11 @@ const Navbar = () => {
                       href={item.href}
                       className={classNames(
                         item.current
-                          ? 'bg-white '
-                          : 'text-black hover:bg-gray-700 hover:text-white',
-                        'rounded-md px-3 py-2 text-sm font-semibold '
+                          ? "bg-white "
+                          : "text-black hover:bg-gray-700 hover:text-white",
+                        "rounded-md px-3 py-2 text-sm font-semibold "
                       )}
-                      aria-current={item.current ? 'page' : undefined}
+                      aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
                     </a>
@@ -55,7 +69,7 @@ const Navbar = () => {
 
               <div className="p-2 flex md:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800  text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <Disclosure.Button className="rounded-md bg-gray-800  text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   {open ? (
                     <FiX className="block h-6 w-6" aria-hidden="true" />
                   ) : (
@@ -73,17 +87,18 @@ const Navbar = () => {
                     as="a"
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium'
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "block rounded-md px-3 py-2 text-base font-medium"
                     )}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                   </Disclosure.Button>
                 ))}
               </div>
             </Disclosure.Panel>
-
           </>
         )}
       </Disclosure>
