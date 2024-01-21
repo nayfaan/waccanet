@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
+    "@vercel/analytics": "^1.1.2",
     "create-next-app": "^14.0.4",
     "next": "^14.0.4",
     "preline": "^2.0.3",
