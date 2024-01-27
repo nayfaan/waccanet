@@ -2,8 +2,9 @@
 
 import { Disclosure } from "@headlessui/react";
 import { IoMdFunnel } from "react-icons/io";
-import { FaHome } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
+import Logo from "../../../public/images/wacca_logo.png";
+import Image from "next/image";
 
 const navigation = [
   { name: "物件新規登録", href: "/developing", current: false },
@@ -20,11 +21,11 @@ const Navbar = () => {
     <>
       <Disclosure
         as="nav"
-        className="sm:px-3 sm:py-1 md:px-8 md:py-2  border-b-[2px] bg-white"
+        className="sm:px-3 sm:py-1 md:px-8 border-b-[2px] bg-white h-16"
       >
         {({ open }) => (
           <>
-            <div className=" flex justify-between  items-center  ">
+            <div className="flex justify-between items-center h-full">
               {/* Mobile menu button */}
 
               <div className="p-2 flex md:hidden">
@@ -40,11 +41,11 @@ const Navbar = () => {
               <a
                 href="/"
                 className="p-2 
-                      text-black hover:bg-gray-700 hover:text-white
+                      text-black
                         rounded-md "
                 aria-current="page"
               >
-                <FaHome size={25} />
+                <Image src={Logo} alt="logo" width={180} height={100} />
               </a>
 
               <div className="hidden md:block">
