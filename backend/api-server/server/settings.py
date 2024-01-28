@@ -29,15 +29,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
+API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 # Set DEBUG based on the environment
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
-AWS_ENV = env.bool('AWS_ENV', default=False)
 
 if DEBUG:
     from server.local_settings import *
-elif AWS_ENV:
-    from server.production_aws_settings import *
 else:
     from server.production_settings import *
 
