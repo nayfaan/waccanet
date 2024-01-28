@@ -3,16 +3,20 @@ import { Property } from "@/app/types/types";
 import { CiAlarmOn } from "react-icons/ci";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiAgenda } from "react-icons/tfi";
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-
-  const formattedImg = property.images.length > 0 ? `data:image/jpeg;base64,${property.images[0].image_data}` : '/images/defaultImg.png';
+  const formattedImg =
+    property.images.length > 0
+      ? property.images[0].image_path
+      : "/images/defaultImg.png";
+  console.log("image fsdfsdfsdfsd");
+  if (property.images.length > 0) console.log(property.images[0].image_path);
   const dateObject = new Date(property.pub_date);
   const options = {
     month: "2-digit" as const,
@@ -76,7 +80,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       </div>
       <Link
         href={`properties/${property.id}`}
-        className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center">
+        className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center"
+      >
         詳細
       </Link>
     </div>

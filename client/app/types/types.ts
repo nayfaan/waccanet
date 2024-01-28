@@ -5,7 +5,7 @@ export interface Property {
   price: number;
   images: {
     file_name: string;
-    image_data: string;
+    image_path: string;
   }[];
   address: string;
   description: string;

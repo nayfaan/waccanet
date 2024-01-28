@@ -221,3 +221,4 @@ client/.vscode/settings.json
 .vscode/settings.json
 server/media/properties/*
 
+backend/scripts/settings/config_file.ini

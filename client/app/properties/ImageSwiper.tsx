@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 
 interface images {
   file_name: string;
-  image_data: string;
+  image_path: string;
 }
 
 interface SwipeImages {
@@ -18,6 +18,10 @@ interface SwipeImages {
 }
 
 const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
+  const api_server_link = process.env.api_server_link;
+  console.log("image nemsi");
+  if (imagesSwipe.length > 0) console.log(imagesSwipe[0].image_path);
+
   return (
     <Swiper
       navigation
@@ -31,10 +35,7 @@ const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
             <div className="flex  justify-center ">
               <Image
                 className="min-w-ful h-48 object-fill rounded-xl"
-                src={
-                  `data:image/jpeg;base64,${imageswipe.image_data}` ||
-                  "/images/defaultImg.png"
-                }
+                src={`${imageswipe.image_path}` || "/images/defaultImg.png"}
                 width="400"
                 height="380"
                 alt={`Image of ${imageswipe.file_name}`}
