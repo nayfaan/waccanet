@@ -28,7 +28,7 @@ export default function RootLayout({
       </Head>
       <body className={`${inter.className}`}>
         <Header />
-        <div className="flex h-screen overflow-hidden bg-white pt-16">
+        <div className="flex h-screen overflow-hidden bg-white pt-14">
           <Sidebar />
           <div className="w-full bg-gray-50 relative overflow-y-auto md:ml-64">
             <main>
