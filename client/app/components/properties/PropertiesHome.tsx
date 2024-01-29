@@ -1,6 +1,5 @@
-import { Property, PaginationProperties } from "@/app/types/types";
+import { PaginationProperties } from "@/app/types/types";
 import PropertiesList from "./PropertiesList";
-import Search from "./Search";
 import Pagination from "./Pagination";
 import PaginationTop from "./PaginationTop";
 import { fetchPropertyListSearchPagination } from "../../lib/data";
@@ -23,8 +22,7 @@ export default async function Home({ search_query, page }: Props) {
   return (
     <>
       <main>
-        <div className="bg-white p-1 sm:px-6">
-          <Search placeholder="Search..." />
+        <div className="p-1 sm:px-6">
           <PaginationTop
             total={paginationTotal}
             current_page={paginationCurrent_page}
