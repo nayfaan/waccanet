@@ -19,7 +19,7 @@ function classNames(...classes: string[]) {
 const Navbar = () => {
   return (
     <>
-      <Disclosure as="nav" className="md:px-5 border-b-[2px] bg-white h-14">
+      <Disclosure as="nav" className="md:px-5 border-b-[1px] bg-white h-14">
         {({ open }) => (
           <>
             <div className="flex justify-between items-center h-full">
@@ -27,12 +27,12 @@ const Navbar = () => {
 
               <div className="p-2 flex md:hidden">
                 {/* Mobile menu button */}
-                {/* <IoMdFunnel
+                <IoMdFunnel
                   className="p-2
                     text-black hover:bg-gray-700 hover:text-white
                       rounded-md "
                   size={35}
-                /> */}
+                />
               </div>
 
               <a
