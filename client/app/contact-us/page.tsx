@@ -1,4 +1,4 @@
-import Form from "./Contact-form";
+import Form from "./ContactForm";
 
 export default function ContactUs() {
   return (
@@ -6,10 +6,9 @@ export default function ContactUs() {
       <div className="max-w-xl mx-auto">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl">
-            Contact Us
+            お問い合わせ
           </h1>
         </div>
-
         <Form />
       </div>
     </main>

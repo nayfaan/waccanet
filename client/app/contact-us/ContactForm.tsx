@@ -1,9 +1,11 @@
 "use client";
 
+import Button from "@/app/components/Button";
 import { createContact } from "../lib/action";
-import PreviousButton from "@/app/components/Button";
+import { useRouter } from "next/navigation";
 
-export default function Form() {
+const ContactForm = () => {
+  const router = useRouter();
   return (
     <div className="mt-5 max-w-lg mx-auto">
       {/* <!-- Card --> */}
@@ -115,7 +117,7 @@ export default function Form() {
           </div>
 
           <div className="mt-6 flex items-stretch justify-end gap-x-6">
-            <PreviousButton />
+            <Button label="戻る" onClick={() => router.back()} />
             <button
               type="submit"
               className="rounded-md bg-indigo-600 p-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -129,4 +131,6 @@ export default function Form() {
       {/* <!-- End Card --> */}
     </div>
   );
-}
+};
+
+export default ContactForm;
