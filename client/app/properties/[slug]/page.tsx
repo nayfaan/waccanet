@@ -2,14 +2,16 @@ import { Property } from "@/app/types/types";
 import { fetchPropertyDetail } from "../../lib/data";
 import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
-import PreviousButton from "@/app/components/Button";
 import ImageSwiper from "../ImageSwiper";
+import Button from "@/app/components/Button";
+import { useRouter } from "next/navigation";
 
 export default async function PropertyDetail({
   params,
 }: {
   params: { slug: string };
 }) {
+  const router = useRouter();
   const property: Property = await fetchPropertyDetail(params.slug);
 
   const dateObject = new Date(property.pub_date);
@@ -66,7 +68,7 @@ export default async function PropertyDetail({
         </div>
 
         <blockquote className="text-center p-4 sm:px-7">
-          <PreviousButton />
+          <Button label="戻る" onClick={() => router.back()} />
         </blockquote>
       </div>
     </main>
