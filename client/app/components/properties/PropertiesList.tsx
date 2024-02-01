@@ -8,9 +8,8 @@ interface PropertiesProps {
 }
 
 const PropertiesList: React.FC<PropertiesProps> = ({ propertiesData }) => {
-
   return (
-    <div className="p-1 sm:p-5">
+    <div>
       {propertiesData.length === 0 ? (
         <EmptyState title="property" />
       ) : (

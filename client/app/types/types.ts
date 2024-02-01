@@ -1,3 +1,5 @@
+import { IconType } from "react-icons";
+
 export interface Property {
   id: number;
   pub_date: string;
@@ -23,4 +25,10 @@ export interface PaginationProperties {
 export interface Condition {
   name: string;
   isSelected: boolean;
+}
+
+export interface Filter {
+  id: string;
+  label: string;
+  icon: IconType;
 }
