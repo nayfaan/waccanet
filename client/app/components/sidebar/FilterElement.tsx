@@ -8,6 +8,7 @@ interface FilterElementProps {
   icon: IconType;
   openElements: string[];
   body: any;
+  color?: string;
 }
 
 const FilterElement: React.FC<FilterElementProps> = ({
@@ -16,6 +17,7 @@ const FilterElement: React.FC<FilterElementProps> = ({
   icon: Icon,
   openElements,
   body,
+  color,
 }) => {
   const [isElementOpen, setIsElementOpen] = useState(openElements.includes(id));
 
@@ -24,14 +26,14 @@ const FilterElement: React.FC<FilterElementProps> = ({
   };
 
   return (
-    <li className="py-1 border-t-[1px]">
+    <div className="py-1 border-t-[1px] w-full">
       <button
         type="button"
         className="flex items-center justify-between w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group  dark:text-white dark:hover:bg-gray-700"
         onClick={handleToggleDropdown}
       >
         <div className="flex items-center">
-          <Icon size={20} />
+          <Icon size={20} color={color} />
           <span className="ms-3">{label}</span>
         </div>
 
@@ -51,17 +53,17 @@ const FilterElement: React.FC<FilterElementProps> = ({
           />
         </svg>
       </button>
-      <ul
+      <div
         id={`dropdown-${id}`}
         className={`py-2 space-y-2 ${isElementOpen ? "" : "hidden"}`}
       >
         {body && (
-          <div className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-9 group  dark:text-white dark:hover:bg-gray-700">
+          <ul className="flex flex-col items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-9 group  dark:text-white dark:hover:bg-gray-700">
             {body}
-          </div>
+          </ul>
         )}
-      </ul>
-    </li>
+      </div>
+    </div>
   );
 };
 

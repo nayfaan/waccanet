@@ -12,12 +12,15 @@ import { SlCalender } from "react-icons/sl";
 import { CiMap } from "react-icons/ci";
 import { CgSandClock } from "react-icons/cg";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { FaCircle } from "react-icons/fa";
 
 import Search from "../Search";
 import FilterElement from "./FilterElement";
 import PriceBody from "./filter_body/PriceBody";
 import SelectBody from "./filter_body/SelectBody";
+import Calendar from "../inputs/Calendar";
 import Button from "../Button";
+import { IconBaseProps } from "react-icons";
 
 const Sidebar = () => {
   const [openElements, setOpenElements] = useState<string[]>([]);
@@ -34,8 +37,6 @@ const Sidebar = () => {
   const [isTakeoverNeeded, setIsTakeoverNeeded] = useState(null);
   const [moveInDate, setMoveInDate] = useState(null);
   const [nimimumStay, setMinimumStay] = useState(1);
-
-  const example = <div>coming soon...</div>;
 
   const filterElements = [
     {
@@ -67,62 +68,118 @@ const Sidebar = () => {
       id: "stations",
       label: "最寄駅",
       icon: PiTrainSimple,
-      body: (
-        <SelectBody
-          labels={[
-            "Waterfront",
-            "Burrard",
-            "Cranville",
-            "Studium-Chinatown",
-            "Science World",
-            "Joice",
-            "Metrotown",
-          ]}
-          small
-        />
-      ),
+      body: [
+        <FilterElement
+          id="expo-line"
+          label="Expo Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="3333FF"
+          body={
+            <SelectBody
+              labels={[
+                "Waterfront",
+                "Burrard",
+                "Granville",
+                "Studium-Chinatown",
+                "Science World",
+                "Joice",
+                "Metrotown",
+              ]}
+              small
+            />
+          }
+        />,
+        <FilterElement
+          id="canada-line"
+          label="Canada Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="lightBlue"
+          body={
+            <SelectBody
+              labels={[
+                "Waterfront",
+                "Burrard",
+                "Granville",
+                "Studium-Chinatown",
+                "Science World",
+                "Joice",
+                "Metrotown",
+              ]}
+              small
+            />
+          }
+        />,
+        <FilterElement
+          id="millennium-line"
+          label="Millennium Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="orange"
+          body={
+            <SelectBody
+              labels={[
+                "Waterfront",
+                "Burrard",
+                "Granville",
+                "Studium-Chinatown",
+                "Science World",
+                "Joice",
+                "Metrotown",
+              ]}
+              small
+            />
+          }
+        />,
+      ],
     },
     {
       id: "utilities",
       label: "光熱費",
       icon: PiPlugCharging,
-      body: <SelectBody labels={["含む", "含まない", "N/A"]} />,
+      body: <SelectBody labels={["含む", "含まない"]} />,
     },
     {
       id: "wifi",
       label: "Wi-Fi",
       icon: FaWifi,
-      body: <SelectBody labels={["含む", "含まない", "N/A"]} />,
+      body: <SelectBody labels={["含む", "含まない"]} />,
     },
     {
       id: "furnished",
       label: "家具",
       icon: IoBedOutline,
-      body: <SelectBody labels={["あり", "なし", "N/A"]} />,
+      body: <SelectBody labels={["あり", "なし"]} />,
     },
     {
       id: "takeover",
       label: "テイクオーバー",
       icon: LiaMoneyCheckAltSolid,
-      body: <SelectBody labels={["必要", "不要", "N/A"]} />,
+      body: <SelectBody labels={["必要", "不要"]} />,
     },
     {
       id: "moveInDate",
       label: "入居可能日",
       icon: SlCalender,
-      body: example,
+      body: <Calendar />,
     },
     {
       id: "minimumStay",
       label: "ミニマムステイ",
       icon: CgSandClock,
-      body: example,
+      body: (
+        <SelectBody
+          labels={["1ヶ月", "2〜3ヶ月", "4〜5ヶ月", "6ヶ月〜11ヶ月", "1年以上"]}
+          small
+        />
+      ),
     },
     {
       id: "reference",
       label: "物件情報参照元",
       icon: TfiAgenda,
-      body: example,
+      body: <SelectBody labels={["Waccanet", "JPCanada"]} small />,
     },
   ];
 
@@ -146,7 +203,7 @@ const Sidebar = () => {
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
         <Search placeholder="キーワード検索" />
         <div className="p-2">フィルター</div>
-        <ul className="font-medium">
+        <div className="font-medium">
           {filterElements.map((element) => (
             <div
               key={element.id}
@@ -161,7 +218,7 @@ const Sidebar = () => {
               />
             </div>
           ))}
-        </ul>
+        </div>
         <Button label="絞り込み" onClick={() => {}} />
       </div>
     </aside>
