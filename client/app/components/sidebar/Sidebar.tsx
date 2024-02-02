@@ -18,9 +18,7 @@ import Search from "../Search";
 import FilterElement from "./FilterElement";
 import PriceBody from "./filter_body/PriceBody";
 import SelectBody from "./filter_body/SelectBody";
-import Calendar from "../inputs/Calendar";
 import Button from "../Button";
-import { IconBaseProps } from "react-icons";
 
 const Sidebar = () => {
   const [openElements, setOpenElements] = useState<string[]>([]);
@@ -70,6 +68,7 @@ const Sidebar = () => {
       icon: PiTrainSimple,
       body: [
         <FilterElement
+          key="expo-line"
           id="expo-line"
           label="Expo Line"
           icon={FaCircle}
@@ -91,6 +90,7 @@ const Sidebar = () => {
           }
         />,
         <FilterElement
+          key="canada-line"
           id="canada-line"
           label="Canada Line"
           icon={FaCircle}
@@ -112,6 +112,7 @@ const Sidebar = () => {
           }
         />,
         <FilterElement
+          key="millennium-line"
           id="millennium-line"
           label="Millennium Line"
           icon={FaCircle}
@@ -162,7 +163,7 @@ const Sidebar = () => {
       id: "moveInDate",
       label: "入居可能日",
       icon: SlCalender,
-      body: <Calendar />,
+      body: <div>calendar</div>,
     },
     {
       id: "minimumStay",

@@ -11,11 +11,11 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ label, onClick, back }) => {
   const router = useRouter();
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     if (back) {
       router.back();
     } else if (onClick) {
-      onClick(e);
+      onClick;
     }
   };
 
