@@ -1,6 +1,6 @@
-import Link from "next/link";
+import LinkButton from "../components/Link";
 
-export default function AboutOurSite() {
+const AboutOurSite = () => {
   return (
     <>
       <main className="h-screen w-full p-6  place-items-center bg-white  flex items-center justify-center  ">
@@ -32,9 +32,9 @@ export default function AboutOurSite() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     <circle cx="12" cy="12" r="10" />
                     <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
@@ -55,15 +55,12 @@ export default function AboutOurSite() {
             </div>
           </div>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Link
-              href="/"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              物件一覧へ
-            </Link>
+            <LinkButton label="物件一覧へ" href="/" />
           </div>
         </div>
       </main>
     </>
   );
-}
+};
+
+export default AboutOurSite;

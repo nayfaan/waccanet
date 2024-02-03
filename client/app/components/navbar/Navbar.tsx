@@ -19,10 +19,7 @@ function classNames(...classes: string[]) {
 const Navbar = () => {
   return (
     <>
-      <Disclosure
-        as="nav"
-        className="sm:px-3 sm:py-1 md:px-8 border-b-[2px] bg-white h-16"
-      >
+      <Disclosure as="nav" className="md:px-5 border-b-[1px] bg-white h-14">
         {({ open }) => (
           <>
             <div className="flex justify-between items-center h-full">
@@ -45,7 +42,7 @@ const Navbar = () => {
                         rounded-md "
                 aria-current="page"
               >
-                <Image src={Logo} alt="logo" width={180} height={100} />
+                <Image src={Logo} alt="logo" width={80} height={25} />
               </a>
 
               <div className="hidden md:block">
@@ -81,7 +78,7 @@ const Navbar = () => {
             </div>
 
             <Disclosure.Panel className="md:hidden">
-              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-white  border-b-[2px]">
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
@@ -90,7 +87,7 @@ const Navbar = () => {
                     className={classNames(
                       item.current
                         ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        : "text-gray-900 hover:bg-gray-700 hover:text-white",
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}
