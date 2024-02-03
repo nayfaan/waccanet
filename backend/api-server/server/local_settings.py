@@ -9,14 +9,10 @@ import os
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-
+environ.Env.read_env(os.path.join(BASE_DIR, '.env_local'))
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

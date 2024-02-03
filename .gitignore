@@ -222,3 +222,5 @@ client/.vscode/settings.json
 server/media/properties/*
 
 backend/scripts/settings/config_file.ini
+backend/api-server/.env_local
+backend/api-server/.env_product

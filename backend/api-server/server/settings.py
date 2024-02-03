@@ -25,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY')
 
 SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
@@ -32,9 +34,9 @@ SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 # Set DEBUG based on the environment
-DEBUG = env.bool('DJANGO_DEBUG', default=False)
-
-if DEBUG:
+DJANGO_LOCAL = env.bool('DJANGO_LOCAL', default=False)
+DEBUG = env.bool('DEBUG', default=False)
+if DJANGO_LOCAL:
     from server.local_settings import *
 else:
     from server.production_settings import *
@@ -117,9 +119,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+STATIC_URL = '/static/'
+STATIC_ROOT='/app/share/static/'
 MEDIA_URL = '/media/'
+MEDIA_ROOT = '/app/share/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

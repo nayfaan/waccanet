@@ -2,10 +2,9 @@ FROM python:3.9.11
 
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /server
-WORKDIR /server
-ADD requirements.txt /server/
-
+WORKDIR /src/api-server
+# 参照元:コンテナ
+ADD requirements.txt ./
 
 RUN pip install --upgrade pip\
     && pip install --upgrade setuptools\

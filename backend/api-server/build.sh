@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
-# exit on error
-set -o errexit
-
-pip install -r requirements.txt
-
-python manage.py collectstatic --no-input
 python manage.py makemigrations propertyhub
 python manage.py makemigrations contactus
 python manage.py migrate
 python manage.py superuser
+python manage.py collectstatic --noinput
+gunicorn --bind :8000 server.wsgi:application
