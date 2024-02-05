@@ -15,8 +15,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
     property.images.length > 0
       ? property.images[0].image_path
       : "/images/defaultImg.png";
-  console.log("image fsdfsdfsdfsd");
-  if (property.images.length > 0) console.log(property.images[0].image_path);
   const dateObject = new Date(property.pub_date);
   const options = {
     month: "2-digit" as const,

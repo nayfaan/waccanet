@@ -18,10 +18,6 @@ interface SwipeImages {
 }
 
 const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
-  const api_server_link = process.env.api_server_link;
-  console.log("image nemsi");
-  if (imagesSwipe.length > 0) console.log(imagesSwipe[0].image_path);
-
   return (
     <Swiper
       navigation
