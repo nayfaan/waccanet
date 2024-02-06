@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
 import { PiTrainSimple } from "react-icons/pi";
@@ -202,7 +202,9 @@ const Sidebar = () => {
       aria-label="Sidebar"
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
-        <Search placeholder="キーワード検索" />
+        <Suspense>
+          <Search placeholder="キーワード検索" />
+        </Suspense>
         <div className="p-2">フィルター</div>
         <div className="font-medium">
           {filterElements.map((element) => (
