@@ -19,6 +19,7 @@ import FilterElement from "./FilterElement";
 import PriceBody from "./filter_body/PriceBody";
 import SelectBody from "./filter_body/SelectBody";
 import Button from "../Button";
+import Calendar from "../inputs/Calendar";
 
 const Sidebar = () => {
   const [openElements, setOpenElements] = useState<string[]>([]);
@@ -163,7 +164,7 @@ const Sidebar = () => {
       id: "moveInDate",
       label: "入居可能日",
       icon: SlCalender,
-      body: <div>calendar</div>,
+      body: <Calendar />,
     },
     {
       id: "minimumStay",
@@ -171,7 +172,13 @@ const Sidebar = () => {
       icon: CgSandClock,
       body: (
         <SelectBody
-          labels={["1ヶ月", "2〜3ヶ月", "4〜5ヶ月", "6ヶ月〜11ヶ月", "1年以上"]}
+          labels={[
+            "1ヶ月",
+            "2〜3ヶ月",
+            "4ヶ月〜半年未満",
+            "半年〜1年未満",
+            "1年以上",
+          ]}
           small
         />
       ),
