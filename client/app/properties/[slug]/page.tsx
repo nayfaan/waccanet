@@ -6,12 +6,14 @@ import ImageSwiper from "../ImageSwiper";
 //import Button from "@/app/components/Button";
 // import { useRouter } from "next/navigation";
 
+
 export default async function PropertyDetail({
   params,
 }: {
   params: { slug: string };
 }) {
   // const router = useRouter();
+  
   const property: Property = await fetchPropertyDetail(params.slug);
 
   const dateObject = new Date(property.pub_date);
@@ -68,8 +70,13 @@ export default async function PropertyDetail({
         </div>
         {/* 
         <blockquote className="text-center p-4 sm:px-7">
+<<<<<<< HEAD
           <Button label="戻る" onClick={() => router.back()} />
         </blockquote> */}
+=======
+          <Button label="戻る" back />
+        </blockquote>
+>>>>>>> 4fa34cd18f7ecd25a59daa1256e68188cbae8317
       </div>
     </main>
   );

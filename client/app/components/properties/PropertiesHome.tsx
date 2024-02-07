@@ -3,6 +3,7 @@ import PropertiesList from "./PropertiesList";
 import Pagination from "./Pagination";
 import PaginationTop from "./PaginationTop";
 import { fetchPropertyListSearchPagination } from "../../lib/data";
+import { Suspense } from "react";
 
 type Props = {
   search_query: string;
@@ -34,12 +35,14 @@ export default async function Home({ search_query, page }: Props) {
         {/* Show Properties Data */}
         <PropertiesList propertiesData={paginationPropertiesData.results} />
 
-        <Pagination
-          total={paginationTotal}
-          current_page={paginationCurrent_page}
-          properties_per_page={paginationProperties_per_page}
-          num_pages={paginationNum_pages}
-        />
+        <Suspense>
+          <Pagination
+            total={paginationTotal}
+            current_page={paginationCurrent_page}
+            properties_per_page={paginationProperties_per_page}
+            num_pages={paginationNum_pages}
+          />
+        </Suspense>
       </main>
     </>
   );
