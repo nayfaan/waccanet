@@ -9,3 +9,4 @@ djangorestframework-api-key
 gunicorn==20.0.4
 psycopg2-binary==2.8.5
 mysqlclient==2.0.2
+django-mysql
