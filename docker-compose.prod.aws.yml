@@ -13,7 +13,7 @@ services:
       aws_network:
         ipv4_address: 172.30.1.2
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - backend-web-api
 
