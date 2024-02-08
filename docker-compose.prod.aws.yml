@@ -44,7 +44,7 @@ services:
     networks:
       aws_network:
         ipv4_address: 172.30.1.4
-
+networks:
   aws_network:
     driver: bridge
     ipam:
