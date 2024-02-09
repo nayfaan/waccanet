@@ -55,10 +55,10 @@ const FilterElement: React.FC<FilterElementProps> = ({
       </button>
       <div
         id={`dropdown-${id}`}
-        className={`py-2 space-y-2 ${isElementOpen ? "" : "hidden"}`}
+        className={`space-y-2 ${isElementOpen ? "" : "hidden"}`}
       >
         {body && (
-          <ul className="flex flex-col items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-9 group  dark:text-white dark:hover:bg-gray-700">
+          <ul className="flex flex-col w-full p-1 text-gray-900 transition duration-75 rounded-lg pl-7 pr-3 group  dark:text-white dark:hover:bg-gray-700">
             {body}
           </ul>
         )}
