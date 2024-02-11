@@ -1,6 +1,9 @@
 sudo yum update -y
+sudo dnf install mariadb105
+
 sudo yum install -y docker
 sudo service docker start
+
 
 ssh-keygen -t rsa
 sudo yum install git
