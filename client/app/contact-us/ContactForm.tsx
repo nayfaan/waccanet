@@ -115,7 +115,7 @@ const ContactForm = () => {
           </div>
 
           <div className="mt-6 flex items-stretch justify-end gap-x-6">
-            <Button label="戻る" back />
+            <Button label="戻る" actionType="back" />
             <button
               type="submit"
               className="rounded-md bg-indigo-600 p-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
