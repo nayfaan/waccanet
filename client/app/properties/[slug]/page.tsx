@@ -4,6 +4,7 @@ import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
 import ImageSwiper from "../ImageSwiper";
 import Button from "@/app/components/Button";
+import Sidebar from "@/app/components/sidebar/Sidebar";
 
 export default async function PropertyDetail({
   params,
@@ -40,6 +41,7 @@ export default async function PropertyDetail({
 
   return (
     <main className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto bg-white">
+      <Sidebar />
       <div className="max-w-2xl">
         <div className="space-y-3">
           <h2 className="text-2xl font-bold md:text-3xl ">{property.name}</h2>
@@ -66,7 +68,7 @@ export default async function PropertyDetail({
         </div>
 
         <blockquote className="text-center p-4 sm:px-7">
-          <Button label="戻る" back />
+          <Button label="戻る" actionType="back" />
         </blockquote>
       </div>
     </main>

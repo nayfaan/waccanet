@@ -135,7 +135,7 @@ const Sidebar = () => {
           label="Expo Line"
           icon={FaCircle}
           openElements={openElements}
-          color="3333FF"
+          color="#185B9F"
           body={
             <SelectBody
               id="stations"
@@ -177,7 +177,7 @@ const Sidebar = () => {
           label="Canada Line"
           icon={FaCircle}
           openElements={openElements}
-          color="lightBlue"
+          color="#1694BF"
           body={
             <SelectBody
               id="stations"
@@ -210,7 +210,7 @@ const Sidebar = () => {
           label="Millennium Line"
           icon={FaCircle}
           openElements={openElements}
-          color="orange"
+          color="#FED007"
           body={
             <SelectBody
               id="stations"

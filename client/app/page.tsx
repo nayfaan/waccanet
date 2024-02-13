@@ -17,7 +17,6 @@ export default function page({
   return (
     <>
       {/* <FirstTimeModalComponent /> */}
-
       <Suspense
         key={`${searchParams?.search_query}-${searchParams?.page}`}
         fallback={<Loading />}
