@@ -3,7 +3,7 @@
 import { Disclosure } from "@headlessui/react";
 import { IoMdFunnel } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";
-import Logo from "../../../public/images/wacca_logo.png";
+import Logo from "../../../public/images/waccanet.png";
 import Image from "next/image";
 
 const navigation = [
@@ -42,7 +42,7 @@ const Navbar = () => {
                         rounded-md "
                 aria-current="page"
               >
-                <Image src={Logo} alt="logo" width={80} height={25} />
+                <Image src={Logo} alt="logo" width={150} height={30} />
               </a>
 
               <div className="hidden md:block">

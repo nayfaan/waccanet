@@ -4,6 +4,7 @@ import Pagination from "./Pagination";
 import PaginationTop from "./PaginationTop";
 import { fetchPropertyListSearchPagination } from "../../lib/data";
 import { Suspense } from "react";
+import Sidebar from "../sidebar/Sidebar";
 
 type Props = {
   search_query: string;
@@ -21,29 +22,28 @@ export default async function Home({ search_query, page }: Props) {
   const paginationNum_pages = paginationPropertiesData.num_pages;
 
   return (
-    <>
-      <main>
-        <div className="p-1 sm:px-6">
-          <PaginationTop
-            total={paginationTotal}
-            current_page={paginationCurrent_page}
-            properties_per_page={paginationProperties_per_page}
-            num_pages={paginationNum_pages}
-          />
-        </div>
+    <main className="bg-gray-50 relative overflow-y-auto md:ml-72">
+      <Sidebar />
+      <div className="p-1 sm:px-6">
+        <PaginationTop
+          total={paginationTotal}
+          current_page={paginationCurrent_page}
+          properties_per_page={paginationProperties_per_page}
+          num_pages={paginationNum_pages}
+        />
+      </div>
 
-        {/* Show Properties Data */}
-        <PropertiesList propertiesData={paginationPropertiesData.results} />
+      {/* Show Properties Data */}
+      <PropertiesList propertiesData={paginationPropertiesData.results} />
 
-        <Suspense>
-          <Pagination
-            total={paginationTotal}
-            current_page={paginationCurrent_page}
-            properties_per_page={paginationProperties_per_page}
-            num_pages={paginationNum_pages}
-          />
-        </Suspense>
-      </main>
-    </>
+      <Suspense>
+        <Pagination
+          total={paginationTotal}
+          current_page={paginationCurrent_page}
+          properties_per_page={paginationProperties_per_page}
+          num_pages={paginationNum_pages}
+        />
+      </Suspense>
+    </main>
   );
 }

@@ -1,20 +1,37 @@
 import React from "react";
 import SelectButton from "./SelectButton";
+import { FieldValues } from "react-hook-form";
 
 interface SelectBodyProps {
+  id: string;
   labels: string[];
-  small?: boolean;
+  multipleChoice?: boolean;
+  getValues: () => FieldValues;
+  setValue: (name: string, value: any, options?: Record<string, any>) => void;
 }
 
-const SelectBody: React.FC<SelectBodyProps> = ({ labels, small }) => {
+const SelectBody: React.FC<SelectBodyProps> = ({
+  labels,
+  multipleChoice,
+  getValues,
+  setValue,
+  id,
+}) => {
   return (
     <div
       className={`flex gap-1 ${
-        small ? "flex-wrap" : "flex-col justify-end w-full"
+        multipleChoice ? "flex-wrap justify-start" : "flex-col w-full"
       }`}
     >
       {labels.map((label) => (
-        <SelectButton key={label} label={label} small={small} />
+        <SelectButton
+          id={id}
+          key={label}
+          label={label}
+          multipleChoice={multipleChoice}
+          getValues={getValues}
+          setValue={setValue}
+        />
       ))}
     </div>
   );

@@ -1,13 +1,23 @@
 import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
+import { UseFormRegister, FieldValues } from "react-hook-form";
 
-const Calendar = () => {
+interface CalendarProps {
+  id: string;
+  register: UseFormRegister<FieldValues>;
+  required?: boolean;
+}
+
+const Calendar: React.FC<CalendarProps> = ({ id, register, required }) => {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <ReactDatePicker
-      className="w-full p-2"
+      className="py-1.5 pl-2 border-2 rounded-md w-full"
       selected={startDate}
-      onChange={(date: Date) => setStartDate(date)}
+      onChange={(date: Date) => {
+        setStartDate(date);
+        register(id, { value: date, required });
+      }}
     />
   );
 };

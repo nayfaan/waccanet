@@ -5,14 +5,13 @@ import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
-import Sidebar from "./components/sidebar/Sidebar";
 
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "カナダ在住、日本人のためのポータル Wacca",
+  title: " カナダに住む日本人のための情報サイト Waccanet",
   description: "Find your home in Canada",
 };
 
@@ -26,17 +25,14 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
       </Head>
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} w-screen`}>
         <Header />
-        <div className="flex h-screen overflow-hidden bg-white pt-14">
-          <Sidebar />
-          <div className="w-full bg-gray-50 relative overflow-y-auto md:ml-64">
-            <main>
-              <>{children}</>
-            </main>
-            <Footer />
-          </div>
+        <div className="pt-14">
+          <main>
+            <>{children}</>
+          </main>
         </div>
+        <Footer />
         <Analytics />
       </body>
     </html>

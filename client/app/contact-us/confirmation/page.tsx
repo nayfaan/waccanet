@@ -1,4 +1,4 @@
-import LinkButton from "@/app/components/Link";
+import Button from "@/app/components/Button";
 
 export default function Confirmation() {
   return (
@@ -11,7 +11,7 @@ export default function Confirmation() {
           内容を確認次第メールにて返信いたしますので、2,3日お待ちください。
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <LinkButton label="物件一覧へ" href="/" />
+          <Button label="物件一覧へ" actionType="link" href="/" />
         </div>
       </div>
     </main>

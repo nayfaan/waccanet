@@ -1,21 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import React from "react";
 
 interface ButtonProps {
   label: string;
+  actionType?: string;
+  href?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  back?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, back }) => {
+const Button: React.FC<ButtonProps> = ({
+  label,
+  actionType,
+  href,
+  onClick,
+}) => {
   const router = useRouter();
 
-  const handleClick = () => {
-    if (back) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (actionType === "back") {
       router.back();
+    } else if (actionType === "link" && href) {
+      router.push(href);
     } else if (onClick) {
-      onClick;
+      onClick(e);
     }
   };
 
