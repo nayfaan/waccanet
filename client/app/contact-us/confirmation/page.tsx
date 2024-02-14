@@ -11,7 +11,7 @@ export default function Confirmation() {
           内容を確認次第メールにて返信いたしますので、2,3日お待ちください。
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button label="物件一覧へ" actionType="link" href="/" />
+          <Button label="物件一覧へ" small actionType="link" href="/" />
         </div>
       </div>
     </main>
