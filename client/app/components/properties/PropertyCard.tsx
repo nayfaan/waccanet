@@ -4,71 +4,77 @@ import { CiAlarmOn } from "react-icons/ci";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiAgenda } from "react-icons/tfi";
 import Image from "next/image";
+import DefaultImage from "../../../public/images/defaultImg.png";
 import Link from "next/link";
+import Button from "../Button";
+import {
+  getFormattedDate,
+  getFormattedImages,
+  getPriceColor,
+} from "@/app/format/formattedData";
+import ImageSlider from "./ImageSlider";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const formattedImg =
-    property.images.length > 0
-      ? property.images[0].image_path
-      : "/images/defaultImg.png";
-  const dateObject = new Date(property.pub_date);
-  const options = {
-    month: "2-digit" as const,
-    day: "2-digit" as const,
-    year: "numeric" as const,
-    hour: "2-digit" as const,
-    minute: "2-digit" as const,
-    second: "2-digit" as const,
-    hour12: true,
-    timeZone: "America/Vancouver",
-  };
+  // const formattedImg =
+  //   property.images.length > 0
+  //     ? `data:image/jpeg;base64,${property.images[0].image_data}`
+  //     : "/images/defaultImg.png";
 
-  const vancouverDate = new Intl.DateTimeFormat("en-US", options).format(
-    dateObject
-  );
-
-  const dateParts = vancouverDate.split(/[.,/ :]+/);
-
-  const month = dateParts[0].padStart(2, "0");
-  const day = dateParts[1].padStart(2, "0");
-  let hour = parseInt(dateParts[3]);
-  hour = hour % 12 === 0 ? 12 : hour % 12;
-  const ampm = hour >= 12 ? "PM" : "AM";
-  const minute = dateParts[4].padStart(2, "0");
-  const formattedDate = `${dateParts[2]}/${month}/${day} ${ampm}${hour}:${minute}`;
+  const formattedDate = getFormattedDate(property.pub_date);
+  const priceColor = getPriceColor(property.price);
+  const formattedImgs = getFormattedImages(property.images);
 
   return (
-    <div className="flex flex-col justify-between max-w-[300px] m-1 bg-white border border-gray-200 rounded-lg shadow">
+    <div className="flex flex-col justify-between max-w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
       <div>
-        <Link href="#" className="relative">
-          <div className="absolute top-0 left-0 bg-white py-1 px-2 rounded-lg ">
+        <div className="relative">
+          <div
+            className={`absolute z-50 top-0 left-0 border-2 ${priceColor} py-1 px-2 rounded-lg ${
+              property.price <= 1000 && property.price >= 400
+                ? "text-white border-white"
+                : "text-gray-900 border-gray-900"
+            }`}
+          >
             ${property.price}
           </div>
-          <Image
+          {property.images.length > 0 ? (
+            <ImageSlider images={formattedImgs} name={property.name} />
+          ) : (
+            <Image
+              src={DefaultImage}
+              alt="Default Image"
+              className="rounded-t-lg min-w-ful h-48 object-cover"
+              width="300"
+              height="280"
+            />
+          )}
+          {/* <Image
             className="rounded-t-lg min-w-ful h-48 object-cover"
             src={formattedImg || "/images/defaultImg.png"}
             width="300"
             height="280"
             alt={`Image of ${property.name}`}
-          />
-        </Link>
-        <div className="p-3 w-full flex flex-col justify-start">
+          /> */}
+        </div>
+        <div className="p-2 w-full flex flex-col justify-start">
           <div className="flex items-center gap-1">
             <CiAlarmOn className="text-blue-600" />
-            <span className="text-xs font-thin">{formattedDate}</span>
+            <span className="text-xs font-light">{formattedDate}</span>
           </div>
           <h5 className="text-md font-semibold tracking-tight text-gray-900 leading-tight h-20 ">
             {property.name}
           </h5>
 
-          <div className="flex items-center gap-1">
-            <SlLocationPin className="text-red-600" />
-            <span className="font-light">{property.address}</span>
-          </div>
+          {property.address && (
+            <div className="flex items-center gap-1">
+              <SlLocationPin className="text-red-600" />
+              <span className="font-light">{property.address}</span>
+            </div>
+          )}
 
           <div className="flex items-center gap-1">
             <TfiAgenda className="text-green-600" />
@@ -76,12 +82,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </div>
         </div>
       </div>
-      <Link
-        href={`properties/${property.id}`}
-        className="m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-sm rounded-lg text-sm mt-2 px-5 py-2 text-center"
-      >
-        詳細
-      </Link>
+
+      <div className="mx-2 mb-2 z-50">
+        <Button
+          label="物件詳細"
+          actionType="link"
+          href={`properties/${property.id}`}
+        />
+      </div>
     </div>
   );
 };
