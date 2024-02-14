@@ -14,6 +14,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env_product'))
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
