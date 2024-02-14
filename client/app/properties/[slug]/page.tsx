@@ -5,6 +5,7 @@ import { TfiAgenda } from "react-icons/tfi";
 import ImageSwiper from "../ImageSwiper";
 import Button from "@/app/components/Button";
 import Sidebar from "@/app/components/sidebar/Sidebar";
+import { getFormattedDate } from "@/app/format/formattedData";
 
 export default async function PropertyDetail({
   params,
@@ -12,43 +13,19 @@ export default async function PropertyDetail({
   params: { slug: string };
 }) {
   const property: Property = await fetchPropertyDetail(params.slug);
-
-  const dateObject = new Date(property.pub_date);
-  const options = {
-    month: "2-digit" as const,
-    day: "2-digit" as const,
-    year: "numeric" as const,
-    hour: "2-digit" as const,
-    minute: "2-digit" as const,
-    second: "2-digit" as const,
-    hour12: true,
-    timeZone: "America/Vancouver",
-  };
-
-  const vancouverDate = new Intl.DateTimeFormat("en-US", options).format(
-    dateObject
-  );
-
-  const dateParts = vancouverDate.split(/[.,/ :]+/);
-
-  const month = dateParts[0].padStart(2, "0");
-  const day = dateParts[1].padStart(2, "0");
-  let hour = parseInt(dateParts[3]);
-  hour = hour % 12 === 0 ? 12 : hour % 12;
-  const ampm = hour >= 12 ? "PM" : "AM";
-  const minute = dateParts[4].padStart(2, "0");
-  const formattedDate = `${dateParts[2]}/${month}/${day} ${ampm}${hour}:${minute}`;
+  const formattedDate = getFormattedDate(property.pub_date);
 
   return (
-    <main className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto bg-white">
+    <main className="py-3 md:py-5 px-3 md:px-5  bg-white md:ml-72">
       <Sidebar />
-      <div className="max-w-2xl">
-        <div className="space-y-3">
-          <h2 className="text-2xl font-bold md:text-3xl ">{property.name}</h2>
-        </div>
-        <div className="flex items-center gap-1">
+      <div>
+        <h2 className="text-2xl font-bold md:text-3xl text-center">
+          {property.name}
+        </h2>
+
+        <div className="w-full flex items-center gap-1">
           <CiAlarmOn className="text-blue-600" />
-          <span className="text-xs font-thin">{formattedDate}</span>
+          <span className="text-normal">{formattedDate}</span>
         </div>
 
         <ImageSwiper imagesSwipe={property.images} />
@@ -68,7 +45,7 @@ export default async function PropertyDetail({
         </div>
 
         <blockquote className="text-center p-4 sm:px-7">
-          <Button label="戻る" actionType="back" />
+          <Button label="戻る" small actionType="back" />
         </blockquote>
       </div>
     </main>

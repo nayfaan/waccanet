@@ -28,7 +28,12 @@ const ErrorState: React.FC<ErrorStateProps> = ({
       <p className="mt-6 text-base leading-7 text-gray-600">{message_ja}</p>
       <p className="mt-1 text-base leading-7 text-gray-600">{message_en}</p>
       <div className="mt-10 flex items-center justify-center gap-x-6">
-        <Button label={buttonLabel} onClick={onClick} actionType={actionType} />
+        <Button
+          label={buttonLabel}
+          small
+          onClick={onClick}
+          actionType={actionType}
+        />
       </div>
     </main>
   );
