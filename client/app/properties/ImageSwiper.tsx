@@ -31,7 +31,11 @@ const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
             <div className="flex  justify-center ">
               <Image
                 className="min-w-ful h-48 object-fill rounded-xl"
-                src={`${imageswipe.image_path}` || "/images/defaultImg.png"}
+                src={
+                  `data:image/jpeg;base64,${imageswipe.image_path}` ||
+                  "/images/defaultImg.png"
+                }
+
                 width="400"
                 height="380"
                 alt={`Image of ${imageswipe.file_name}`}

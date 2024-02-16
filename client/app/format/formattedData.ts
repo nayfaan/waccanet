@@ -62,7 +62,7 @@ export const getPriceColor = (price: number) => {
 export const getFormattedImages = (
   images: {
     file_name: string;
-    image_data: string;
+    image_path: string;
   }[]
 ) => {
   // すべての画像データをbase64形式に変換して格納するための配列
@@ -70,9 +70,16 @@ export const getFormattedImages = (
 
   // 画像データをbase64形式に変換し、formattedImagesに格納する
   images.forEach((image) => {
-    const formattedImage = `data:image/jpeg;base64,${image.image_data}`;
+    const formattedImage = `data:image/jpeg;base64,${image.image_path}`;
     formattedImages.push(formattedImage);
   });
 
   return formattedImages;
+};
+
+export const getTruncatedText = (text: string, maxLength: number) => {
+  const truncatedText =
+    text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+  return truncatedText;
 };
