@@ -78,7 +78,7 @@ const Navbar = () => {
             </div>
 
             <Disclosure.Panel className="md:hidden">
-              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-white  border-b-[2px]">
+              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-white  border-b-[1px]">
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}

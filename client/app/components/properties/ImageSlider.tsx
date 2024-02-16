@@ -5,17 +5,22 @@ interface ImageProps {
   src: string;
   alt: string;
   active: boolean;
+  small?: boolean;
 }
 
-const Image: React.FC<ImageProps> = ({ src, alt, active }) => {
+const Image: React.FC<ImageProps> = ({ src, alt, active, small }) => {
   return (
     <div
-      className={`duration-700 ease-in-out ${active ? "block" : "hidden"}`}
+      className="duration-700 ease-in-out transition-opacity"
       data-carousel-item
     >
       <img
         src={src}
-        className="absolute h-96 z-20 block w-full -translate-x-1/2 -translate-y-1/2 left-1/2 object-cover"
+        className={`absolute z-20 w-full h-full object-cover ${
+          active ? "opacity-100 block" : "opacity-0 hidden"
+        }
+        ${small ? "h-48" : "w-full h-full"}
+        `}
         alt={alt}
       />
     </div>
@@ -25,9 +30,10 @@ const Image: React.FC<ImageProps> = ({ src, alt, active }) => {
 interface ImageSliderProps {
   images: string[];
   name: string;
+  small?: boolean;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images, name }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -43,17 +49,24 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name }) => {
   return (
     <div
       id="default-carousel"
-      className="rounded-t-lg min-w-full h-48 object-cover"
+      className={`object-cover ${
+        small ? "w-full rounded-t-lg max-h-48" : "rounded-lg w-full h-full"
+      }`}
       data-carousel="slide"
     >
       {/* Carousel wrapper */}
-      <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+      <div
+        className={`relative overflow-hidden ${
+          small ? "h-48 rounded-t-lg" : " w-full h-full rounded-lg"
+        }`}
+      >
         {images.map((image, index) => (
           <Image
             key={index}
             src={image}
             alt={name}
             active={index === currentIndex}
+            small={small ? true : false}
           />
         ))}
       </div>
@@ -81,9 +94,9 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name }) => {
         data-carousel-prev
         onClick={prevSlide}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30  group-hover:bg-white/50 ">
           <svg
-            className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            className="w-4 h-4 text-white rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -108,9 +121,9 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name }) => {
         data-carousel-next
         onClick={nextSlide}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 ">
           <svg
-            className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            className="w-4 h-4 text-white rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

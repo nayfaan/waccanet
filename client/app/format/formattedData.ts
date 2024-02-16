@@ -76,3 +76,10 @@ export const getFormattedImages = (
 
   return formattedImages;
 };
+
+export const getTruncatedText = (text: string, maxLength: number) => {
+  const truncatedText =
+    text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+  return truncatedText;
+};
