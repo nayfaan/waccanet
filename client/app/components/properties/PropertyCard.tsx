@@ -21,9 +21,8 @@ interface PropertyCardProps {
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const formattedDate = getFormattedDate(property.pub_date);
   const priceColor = getPriceColor(property.price);
-  const formattedImgs = getFormattedImages(property.images);
+  const formattedImgs = property.images;
   const truncatedDescription = getTruncatedText(property.description, 50);
-
 
   return (
     <div className="flex flex-col w-[290px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">

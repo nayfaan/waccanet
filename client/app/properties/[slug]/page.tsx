@@ -21,7 +21,7 @@ export default async function PropertyDetail({
 
   const property: Property = await fetchPropertyDetail(params.slug);
   const formattedDate = getFormattedDate(property.pub_date);
-  const formattedImgs = getFormattedImages(property.images);
+  const formattedImgs = property.images;
 
   return (
     <main className="p-3 md:p-5 px-1 bg-white md:ml-72">
