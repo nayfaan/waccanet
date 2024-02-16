@@ -26,7 +26,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
 
   const formattedDate = getFormattedDate(property.pub_date);
   const priceColor = getPriceColor(property.price);
-  const formattedImgs = getFormattedImages(property.images);
+  const formattedImgs = property.images;
 
   return (
     <div className="flex flex-col justify-between max-w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
@@ -82,6 +82,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </div>
         </div>
       </div>
+
       <div className="mx-2 mb-2 z-50">
         <Button
           label="物件詳細"

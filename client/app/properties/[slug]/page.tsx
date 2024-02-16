@@ -12,6 +12,8 @@ export default async function PropertyDetail({
 }: {
   params: { slug: string };
 }) {
+  // const router = useRouter();
+
   const property: Property = await fetchPropertyDetail(params.slug);
   const formattedDate = getFormattedDate(property.pub_date);
 
@@ -43,7 +45,6 @@ export default async function PropertyDetail({
           <TfiAgenda className="text-green-600" />
           <span className="font-light">{property.reference}</span>
         </div>
-
         <blockquote className="text-center p-4 sm:px-7">
           <Button label="戻る" small actionType="back" />
         </blockquote>

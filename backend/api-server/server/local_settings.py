@@ -1,24 +1,18 @@
 """
-Django settings for server project at production environment.
+Django settings for server project at developing environment.
 """
 
 from pathlib import Path
 import environ
 import os
-from decouple import config
-from dj_database_url import parse as dburl
 
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-
+environ.Env.read_env(os.path.join(BASE_DIR, '.env_local'))
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -29,20 +23,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #render
 ]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
-
 DATABASES = {
-    "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
+    'default': {
+        'ENGINE': env('ENGINE'),
+        'NAME': BASE_DIR / env('NAME'),
+    }
 }
-STATIC_ROOT = str(BASE_DIR / "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # mail
 EMAIL_BACKEND = env('EMAIL_BACKEND')

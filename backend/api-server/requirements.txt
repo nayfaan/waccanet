@@ -6,9 +6,6 @@ Pillow
 django-filter
 django-environ
 djangorestframework-api-key
-dj-database-url
-dj-static
-python-decouple
-gunicorn
-psycopg2-binary
-whitenoise
+gunicorn==20.0.4
+psycopg2-binary==2.8.5
+mysqlclient==2.0.2

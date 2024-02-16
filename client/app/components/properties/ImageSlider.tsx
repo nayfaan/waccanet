@@ -2,9 +2,14 @@
 import { useState } from "react";
 
 interface ImageProps {
-  src: string;
+  src: images;
   alt: string;
   active: boolean;
+}
+
+interface images {
+  file_name: string;
+  image_path: string;
 }
 
 const Image: React.FC<ImageProps> = ({ src, alt, active }) => {
@@ -14,7 +19,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, active }) => {
       data-carousel-item
     >
       <img
-        src={src}
+        src={src.image_path}
         className="absolute h-96 z-20 block w-full -translate-x-1/2 -translate-y-1/2 left-1/2 object-cover"
         alt={alt}
       />
@@ -23,7 +28,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, active }) => {
 };
 
 interface ImageSliderProps {
-  images: string[];
+  images: images[];
   name: string;
 }
 
