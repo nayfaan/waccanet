@@ -1,2 +1,3 @@
-# shareCanadaHome
-留学生向けの不動産情報紹介サイト
+# Waccanet
+
+カナダ在住、日本人のためのポータル Web サービス

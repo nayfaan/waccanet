@@ -23,7 +23,7 @@ urlpatterns = [
     path('property/', include('propertyhub.urls')),
     path('contactus/', include('contactus.urls')),
     path('', admin.site.urls),
-] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
-# DEBUG=FalseでもMEDIA_ROOTを見える様にする
-urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
+if bool(settings.DEBUG):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

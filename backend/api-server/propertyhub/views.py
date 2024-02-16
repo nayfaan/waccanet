@@ -87,8 +87,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
             # 送信された画像をImageモデルと関連付けて保存
             for image in images:
-                image_binary_data = image.read()
-                Image.objects.create(property=property_instance,file_name=str(image.name),image_data=image_binary_data)
+                Image.objects.create(property=property_instance,file_name=str(image.name),image_path=image)
             
             return Response('Property and Images created successfully', status=status.HTTP_201_CREATED)
         else:

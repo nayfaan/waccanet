@@ -4,7 +4,7 @@ from .models import Property,Owner,Image
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ['file_name','image_data']
+        fields = ['file_name','image_path']
 
 class PropertySerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True) 

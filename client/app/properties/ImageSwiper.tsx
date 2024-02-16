@@ -35,6 +35,7 @@ const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
                   `data:image/jpeg;base64,${imageswipe.image_path}` ||
                   "/images/defaultImg.png"
                 }
+
                 width="400"
                 height="380"
                 alt={`Image of ${imageswipe.file_name}`}

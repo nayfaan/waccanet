@@ -31,7 +31,7 @@ class Property(models.Model):
 class Image(models.Model):
     property = models.ForeignKey(Property,  on_delete=models.CASCADE,related_name='images')
     file_name = models.CharField(max_length=50,null=True)
-    image_data = models.BinaryField(null=True, blank=True)
+    image_path = models.ImageField(upload_to='properties/',null=True,blank=True)
 
     def __str__(self):
         return str(self.file_name)

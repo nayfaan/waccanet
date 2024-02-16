@@ -24,6 +24,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const formattedImgs = getFormattedImages(property.images);
   const truncatedDescription = getTruncatedText(property.description, 50);
 
+
   return (
     <div className="flex flex-col w-[290px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
       <div className="relative">
@@ -68,6 +69,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <TfiAgenda className="text-green-600" />
           <span className="font-light">{property.reference}</span>
         </div>
+
         <Button
           label="物件詳細"
           actionType="link"
