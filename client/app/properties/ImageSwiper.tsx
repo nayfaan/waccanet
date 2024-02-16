@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 
 interface images {
   file_name: string;
-  image_data: string;
+  image_path: string;
 }
 
 interface SwipeImages {
@@ -32,7 +32,7 @@ const ImageSwiper: React.FC<SwipeImages> = ({ imagesSwipe }) => {
               <Image
                 className="min-w-ful h-48 object-fill rounded-xl"
                 src={
-                  `data:image/jpeg;base64,${imageswipe.image_data}` ||
+                  `data:image/jpeg;base64,${imageswipe.image_path}` ||
                   "/images/defaultImg.png"
                 }
                 width="400"
