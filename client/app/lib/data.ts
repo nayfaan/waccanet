@@ -4,7 +4,7 @@ import {
     PaginationProperties,
 } from "../types/types";
 
-export async function fetchPropertyListSearchPagination(search_query: string, page: number) {
+export async function fetchPropertyListPagination(search_query: string,filter_query: string, page: number) {
     try {
         const api_server_link = process.env.api_server_link
         const headers: Record<string, string> = {};
@@ -58,4 +58,10 @@ export async function fetchPropertyDetail(slug: string) {
     }
 }
 
+export async function fetchPropertyWatch() {
+    return  0
+}
 
+export async function fetchPropertyBad() {
+    return  0
+}
