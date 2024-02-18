@@ -25,12 +25,15 @@ class PropertyViewSet(viewsets.ModelViewSet):
         properties_objects = self.queryset
         #get query parameter 
         search_query = request.GET.get('search_query')
+        filter_price_from_query = request.GET.get('price_from','0')
+        filter_price_to_query = request.GET.get('price_to','99999')
         filter_areas_query = request.GET.get('areas')
         filter_reference_query = request.GET.get('reference')
         page = request.GET.get('page','1')
         properties_per_page=request.GET.get('properties_per_page','20')
         try:
             properties_objects=self.property_search(properties_objects,search_query)
+            properties_objects=self.property_filter_price(properties_objects,int(filter_price_from_query),int(filter_price_to_query))
             properties_objects=self.property_filter_areas(properties_objects,filter_areas_query)
             properties_objects=self.property_filter_reference(properties_objects,filter_reference_query)
             paginator = Paginator(properties_objects, properties_per_page) # type: ignore
@@ -63,6 +66,13 @@ class PropertyViewSet(viewsets.ModelViewSet):
                 and_, [ Q(description__icontains=q) for q in query_list]
             )
             properties_objects = properties_objects.filter(query).distinct() # 検索
+
+        return properties_objects 
+    
+    def property_filter_price(self,properties_objects,price_from,price_to):
+  
+        query = Q(price__gte=price_from) & Q(price__lte=price_to)         
+        properties_objects = properties_objects.filter(query)
 
         return properties_objects 
     
