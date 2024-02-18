@@ -1,30 +1,25 @@
 "use client";
 import { useState } from "react";
 
-interface ImageProps {
-  src: images;
+interface ImgProps {
+  src: string;
   alt: string;
   active: boolean;
   small?: boolean;
 }
 
-interface images {
-  file_name: string;
-  image_path: string;
-}
-
-const Image: React.FC<ImageProps> = ({ src, alt, active, small }) => {
+const Img: React.FC<ImgProps> = ({ src, alt, active, small }) => {
   return (
     <div
       className="duration-700 ease-in-out transition-opacity"
       data-carousel-item
     >
       <img
-        src={src.image_path}
-        className={`absolute z-20 w-full h-full object-cover ${
+        src={src}
+        className={`absolute z-20 w-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
         }
-        ${small ? "w-full h-64" : "w-full h-full"}
+        ${small ? "h-48" : "h-full"}
         `}
         alt={alt}
       />
@@ -33,7 +28,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, active, small }) => {
 };
 
 interface ImageSliderProps {
-  images: images[];
+  images: string[];
   name: string;
   small?: boolean;
 }
@@ -66,7 +61,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
         }`}
       >
         {images.map((image, index) => (
-          <Image
+          <Img
             key={index}
             src={image}
             alt={name}

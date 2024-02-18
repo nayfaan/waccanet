@@ -15,7 +15,7 @@ export default async function Home({
   page,
 }: Props) {
   return (
-    <main className="bg-gray-50 relative overflow-y-auto md:ml-72">
+    <main className="bg-gray-50 relative overflow-y-auto md:ml-72 min-h-screen flex flex-col justify-between">
       <Sidebar />
 
       <Suspense

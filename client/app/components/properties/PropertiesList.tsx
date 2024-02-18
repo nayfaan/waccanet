@@ -24,7 +24,7 @@ async function PropertiesList({ search_query, filter_query, page }: Props) {
 
   return (
     <>
-      <div className="p-1 sm:px-6">
+      <div className="p-1 sm:px-6 min-w-screen">
         <PaginationTop
           total={paginationTotal}
           current_page={paginationCurrent_page}
@@ -39,7 +39,7 @@ async function PropertiesList({ search_query, filter_query, page }: Props) {
             message="再度条件を設定するか、下のボタンでホームへ戻ってください。"
           />
         ) : (
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center mx-1">
             {paginationPropertiesData.results.map((property) => (
               <PropertyCard property={property} key={property.id} />
             ))}
