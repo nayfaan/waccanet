@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useState } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { FaCheckCircle } from "react-icons/fa";
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
@@ -21,6 +24,10 @@ const SelectButton: React.FC<SelectButtonProps> = ({
   const selectedValues = getValues()[id] || [];
   const isLabelIncluded = selectedValues.includes(label);
 
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+
   const handleRegister = () => {
     setIsChecked(!isChecked);
 
@@ -30,11 +37,15 @@ const SelectButton: React.FC<SelectButtonProps> = ({
       : [...selectedValues, label]; // id が含まれていない場合は追加
     setValue(id, updatedValues); // 更新された値をフォームに反映
 
+    // 現在のURLにフィルタのパラメータを追加
     console.log(`URL/?${id}=${updatedValues}`);
-    // url/${id}=${updatedValues}};
+    const joinedFilterElements = updatedValues.join("_");
 
-    // } else {
-    // }
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.set(id, joinedFilterElements);
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
