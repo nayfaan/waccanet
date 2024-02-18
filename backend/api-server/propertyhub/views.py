@@ -8,7 +8,7 @@ from rest_framework import status
 from django.db.models import Q
 from django.core.paginator import Paginator
 from functools import reduce
-from operator import and_
+from operator import and_,or_
 import re
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticated  
@@ -20,33 +20,20 @@ class PropertyViewSet(viewsets.ModelViewSet):
     serializer_class = PropertySerializer
 
     @action(detail=False)
-    def property_search(self, request):
+    def properties_info_get(self, request):
         # properties_objects = Property.objects.prefetch_related('images').order_by('-id')
         properties_objects = self.queryset
         #get query parameter 
         search_query = request.GET.get('search_query')
+        filter_areas_query = request.GET.get('areas')
+        filter_reference_query = request.GET.get('reference')
         page = request.GET.get('page','1')
         properties_per_page=request.GET.get('properties_per_page','20')
-
-        if search_query:
-            query_list = []
-            query = re.sub(r'\s+', ' ', search_query)  # 正規表現で任意の空白文字を半角スペースに統一
-        
-            for q_word in query.split(' '):
-                if q_word.strip():  # 空白文字でないことを確認
-                    query_list.append(q_word)            
-
-            try:
-                query = reduce(
-                    and_, [ Q(description__icontains=q) for q in query_list]
-                )
-                properties_objects = properties_objects.filter(query).distinct() # 検索
-
-            except Exception as err:
-                return Response(f"Invalid filter Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
-
-        paginator = Paginator(properties_objects, properties_per_page)
         try:
+            properties_objects=self.property_search(properties_objects,search_query)
+            properties_objects=self.property_filter_areas(properties_objects,filter_areas_query)
+            properties_objects=self.property_filter_reference(properties_objects,filter_reference_query)
+            paginator = Paginator(properties_objects, properties_per_page) # type: ignore
             properties_objects = paginator.page(page)
         except Exception as err:
             return Response(f"Invalid page Unexpected {err}, {type(err)}",status=status.HTTP_400_BAD_REQUEST)
@@ -62,6 +49,47 @@ class PropertyViewSet(viewsets.ModelViewSet):
         }
 
         return Response(modified_data)
+    
+    def property_search(self, properties_objects,search_query):
+       
+        if search_query:
+            query_list = []
+            query = re.sub(r'\s+', ' ', search_query)  # 正規表現で任意の空白文字を半角スペースに統一        
+            for q_word in query.split(' '):
+                if q_word.strip():  # 空白文字でないことを確認
+                    query_list.append(q_word)            
+
+            query = reduce(
+                and_, [ Q(description__icontains=q) for q in query_list]
+            )
+            properties_objects = properties_objects.filter(query).distinct() # 検索
+
+        return properties_objects 
+    
+    def property_filter_areas(self, properties_objects,filter_areas_query):
+  
+        if filter_areas_query:
+            query = reduce(
+                or_, [ Q(description__icontains=q) for q in filter_areas_query.split('_')]
+            )
+            properties_objects = properties_objects.filter(query).distinct()
+
+        return properties_objects 
+    
+    def property_filter_reference(self, properties_objects,filter_reference_query):
+        for _ in range(10):
+            print(filter_reference_query)
+            print(filter_reference_query.split('_'))
+            print(filter_reference_query.split('_')[0])
+
+  
+        if filter_reference_query:
+            query = reduce(
+                or_, [ Q(reference__icontains=q) for q in filter_reference_query.split('_')]
+            )
+            properties_objects = properties_objects.filter(query)
+
+        return properties_objects 
     
     @action(detail=False)
     def property_id(self, request):

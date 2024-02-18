@@ -22,7 +22,7 @@ class Property(models.Model):
     price = models.IntegerField(default=0)
     address = models.CharField(max_length=100,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
-    reference = models.CharField(max_length=50,default='JPCanada')
+    reference = models.CharField(max_length=50,default='Waccanet')
     # owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
     def __str__(self):

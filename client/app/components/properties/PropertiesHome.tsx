@@ -5,13 +5,15 @@ import Sidebar from "../sidebar/Sidebar";
 
 type Props = {
   search_query: string;
-  filter_query: string;
+  areas: string;
+  reference: string;
   page: number;
 };
 
 export default async function Home({
   search_query,
-  filter_query,
+  areas,
+  reference,
   page,
 }: Props) {
   return (
@@ -19,12 +21,13 @@ export default async function Home({
       <Sidebar />
 
       <Suspense
-        key={`${search_query}-${filter_query}-${page}`}
+        key={`${search_query}-${areas}-${reference}-${page}`}
         fallback={<Loading />}
       >
         <PropertiesList
           search_query={search_query}
-          filter_query={filter_query}
+          areas={areas}
+          reference={reference}
           page={page}
         />
       </Suspense>
