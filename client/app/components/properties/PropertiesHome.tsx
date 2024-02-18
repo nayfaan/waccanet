@@ -22,19 +22,21 @@ export default async function Home({ search_query, page }: Props) {
   const paginationNum_pages = paginationPropertiesData.num_pages;
 
   return (
-    <main className="bg-gray-50 relative overflow-y-auto md:ml-72">
+    <main className="bg-gray-50 relative overflow-y-auto md:ml-72 min-h-screen flex flex-col justify-between">
       <Sidebar />
-      <div className="p-1 sm:px-6">
-        <PaginationTop
-          total={paginationTotal}
-          current_page={paginationCurrent_page}
-          properties_per_page={paginationProperties_per_page}
-          num_pages={paginationNum_pages}
-        />
-      </div>
+      <div>
+        <div className="p-1 sm:px-6 min-w-screen">
+          <PaginationTop
+            total={paginationTotal}
+            current_page={paginationCurrent_page}
+            properties_per_page={paginationProperties_per_page}
+            num_pages={paginationNum_pages}
+          />
+        </div>
 
-      {/* Show Properties Data */}
-      <PropertiesList propertiesData={paginationPropertiesData.results} />
+        {/* Show Properties Data */}
+        <PropertiesList propertiesData={paginationPropertiesData.results} />
+      </div>
 
       <Suspense>
         <Pagination

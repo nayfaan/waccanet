@@ -29,7 +29,10 @@ const SelectButton: React.FC<SelectButtonProps> = ({
       ? selectedValues.filter((value: string) => value !== label) // id が含まれている場合は削除
       : [...selectedValues, label]; // id が含まれていない場合は追加
     setValue(id, updatedValues); // 更新された値をフォームに反映
-    console.log(updatedValues);
+
+    console.log(`URL/?${id}=${updatedValues}`);
+    // url/${id}=${updatedValues}};
+
     // } else {
     // }
   };

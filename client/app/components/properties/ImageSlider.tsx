@@ -24,7 +24,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, active, small }) => {
         className={`absolute z-20 w-full h-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
         }
-        ${small ? "h-48" : "w-full h-full"}
+        ${small ? "w-full h-64" : "w-full h-full"}
         `}
         alt={alt}
       />
