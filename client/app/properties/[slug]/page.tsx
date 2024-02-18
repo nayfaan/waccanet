@@ -24,10 +24,12 @@ export default async function PropertyDetail({
   const formattedImgs = property.images;
 
   return (
-    <main className="p-3 md:p-5 px-1 bg-white md:ml-72">
-      <Sidebar />
+    <main className="p-3 md:p-5 px-1 bg-white">
+      {/* <Sidebar /> */}
       <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-bold md:text-3xl">{property.name}</h2>
+        <h2 className="text-2xl font-bold md:text-3xl text-center">
+          {property.name}
+        </h2>
 
         <div className="w-full flex items-center justify-center gap-1 p-2">
           <CiAlarmOn className="text-blue-600" />

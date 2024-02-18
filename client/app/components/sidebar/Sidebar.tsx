@@ -16,6 +16,8 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { FaCircle } from "react-icons/fa";
 import { PiHouseLine } from "react-icons/pi";
 import { LiaUserFriendsSolid } from "react-icons/lia";
+import { BsPersonVideo } from "react-icons/bs";
+import { MdOutlineLocalLaundryService } from "react-icons/md";
 
 import Search from "../Search";
 import FilterElement from "./FilterElement";
@@ -23,6 +25,7 @@ import PriceBody from "./filter_body/PriceBody";
 import SelectBody from "./filter_body/SelectBody";
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
+import DevelopingBody from "./filter_body/DevelopingBody";
 
 const Sidebar = () => {
   const [openElements, setOpenElements] = useState<string[]>([]);
@@ -68,21 +71,24 @@ const Sidebar = () => {
       label: "部屋タイプ",
       icon: PiHouseLine,
       body: (
-        <SelectBody
-          id="roomTypes"
-          labels={[
-            "プライベートルーム",
-            "シェアルーム",
-            "デン",
-            "リビングルーム",
-            "ソラリウム",
-            "バスルーム付きの部屋",
-            "完全プライベートスイート",
-          ]}
-          multipleChoice
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="roomTypes"
+        //     labels={[
+        //       "プライベートルーム",
+        //       "シェアルーム",
+        //       "デン",
+        //       "リビングルーム",
+        //       "ソラリウム",
+        //       "バスルーム付きの部屋",
+        //       "完全プライベートスイート",
+        //     ]}
+        //     multipleChoice
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
       ),
     },
     {
@@ -90,16 +96,16 @@ const Sidebar = () => {
       label: "ルームメイト",
       icon: LiaUserFriendsSolid,
       body: (
-        <SelectBody
-          id="roommates"
-          labels={["なし", "1〜3人", "3〜5人", "6人以上"]}
-          multipleChoice
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // <SelectBody
+        //   id="roommates"
+        //   labels={["なし", "1〜3人", "3〜5人", "6人以上"]}
+        //   multipleChoice
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
+        <DevelopingBody />
       ),
     },
-
     {
       id: "areas",
       label: "エリア",
@@ -128,130 +134,137 @@ const Sidebar = () => {
       id: "stations",
       label: "最寄駅",
       icon: PiTrainSimple,
-      body: [
-        <FilterElement
-          key="expo-line"
-          id="expo-line"
-          label="Expo Line"
-          icon={FaCircle}
-          openElements={openElements}
-          color="#185B9F"
-          body={
-            <SelectBody
-              id="stations"
-              labels={[
-                "Waterfront",
-                "Burrard",
-                "Granville",
-                "Stadium-Chinatown",
-                "Main Street-Science World",
-                "Commercial-Broadway",
-                "Nanaimo",
-                "29th Avenue",
-                "Joyce-Collingwood",
-                "Patterson",
-                "Metrotown",
-                "Royal Oak",
-                "Edmonds",
-                "22nd Street",
-                "New Westminster",
-                "Columbia",
-                "Scott Road",
-                "Gateway",
-                "Surrey Central",
-                "King George",
-                "Sapperton",
-                "Braid",
-                "Lougheed",
-                "Production Way",
-              ]}
-              multipleChoice
-              getValues={getValues}
-              setValue={setValue}
-            />
-          }
-        />,
-        <FilterElement
-          key="canada-line"
-          id="canada-line"
-          label="Canada Line"
-          icon={FaCircle}
-          openElements={openElements}
-          color="#1694BF"
-          body={
-            <SelectBody
-              id="stations"
-              labels={[
-                "Vancouver City Centre",
-                "Yaletown-Roundhouse",
-                "Olympic Village",
-                "Broadway-City Hall",
-                "King Edward",
-                "Oakridge-41st Ave",
-                "Langara-49th Ave",
-                "Marine Drive",
-                "Bridgeport",
-                "Aberdeen",
-                "Lansdowne",
-                "Richmond-Brighouse",
-                "Templeton",
-                "Sea Island Centre",
-                "YVR Airport",
-              ]}
-              multipleChoice
-              getValues={getValues}
-              setValue={setValue}
-            />
-          }
-        />,
-        <FilterElement
-          key="millennium-line"
-          id="millennium-line"
-          label="Millennium Line"
-          icon={FaCircle}
-          openElements={openElements}
-          color="#FED007"
-          body={
-            <SelectBody
-              id="stations"
-              labels={[
-                "VCC-Clark",
-                "Renfrew",
-                "Rupert",
-                "Gilmore",
-                "Brentwood",
-                "Holdom",
-                "Metrotown",
-                "Sperling-Burnaby Lake",
-                "Lake City",
-                "Production Way-University",
-                "Lougheed Town Centre",
-                "Burquitlam",
-                "Moody Centre",
-                "Inlet Centre",
-                "Coquitlam Central",
-                "Lincoln",
-                "Lafarge Lake-Douglas",
-              ]}
-              multipleChoice
-              getValues={getValues}
-              setValue={setValue}
-            />
-          }
-        />,
-      ],
+      body: (
+        // [
+        //   <FilterElement
+        //     key="expo-line"
+        //     id="expo-line"
+        //     label="Expo Line"
+        //     icon={FaCircle}
+        //     openElements={openElements}
+        //     color="#185B9F"
+        //     body={
+        //       <SelectBody
+        //         id="stations"
+        //         labels={[
+        //           "Waterfront",
+        //           "Burrard",
+        //           "Granville",
+        //           "Stadium-Chinatown",
+        //           "Main Street-Science World",
+        //           "Commercial-Broadway",
+        //           "Nanaimo",
+        //           "29th Avenue",
+        //           "Joyce-Collingwood",
+        //           "Patterson",
+        //           "Metrotown",
+        //           "Royal Oak",
+        //           "Edmonds",
+        //           "22nd Street",
+        //           "New Westminster",
+        //           "Columbia",
+        //           "Scott Road",
+        //           "Gateway",
+        //           "Surrey Central",
+        //           "King George",
+        //           "Sapperton",
+        //           "Braid",
+        //           "Lougheed",
+        //           "Production Way",
+        //         ]}
+        //         multipleChoice
+        //         getValues={getValues}
+        //         setValue={setValue}
+        //       />
+        //     }
+        //   />,
+        //   <FilterElement
+        //     key="canada-line"
+        //     id="canada-line"
+        //     label="Canada Line"
+        //     icon={FaCircle}
+        //     openElements={openElements}
+        //     color="#1694BF"
+        //     body={
+        //       <SelectBody
+        //         id="stations"
+        //         labels={[
+        //           "Vancouver City Centre",
+        //           "Yaletown-Roundhouse",
+        //           "Olympic Village",
+        //           "Broadway-City Hall",
+        //           "King Edward",
+        //           "Oakridge-41st Ave",
+        //           "Langara-49th Ave",
+        //           "Marine Drive",
+        //           "Bridgeport",
+        //           "Aberdeen",
+        //           "Lansdowne",
+        //           "Richmond-Brighouse",
+        //           "Templeton",
+        //           "Sea Island Centre",
+        //           "YVR Airport",
+        //         ]}
+        //         multipleChoice
+        //         getValues={getValues}
+        //         setValue={setValue}
+        //       />
+        //     }
+        //   />,
+        //   <FilterElement
+        //     key="millennium-line"
+        //     id="millennium-line"
+        //     label="Millennium Line"
+        //     icon={FaCircle}
+        //     openElements={openElements}
+        //     color="#FED007"
+        //     body={
+        //       <SelectBody
+        //         id="stations"
+        //         labels={[
+        //           "VCC-Clark",
+        //           "Renfrew",
+        //           "Rupert",
+        //           "Gilmore",
+        //           "Brentwood",
+        //           "Holdom",
+        //           "Metrotown",
+        //           "Sperling-Burnaby Lake",
+        //           "Lake City",
+        //           "Production Way-University",
+        //           "Lougheed Town Centre",
+        //           "Burquitlam",
+        //           "Moody Centre",
+        //           "Inlet Centre",
+        //           "Coquitlam Central",
+        //           "Lincoln",
+        //           "Lafarge Lake-Douglas",
+        // ]
+
+        // }
+        //   multipleChoice
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
+        //   }
+        // />,
+        <DevelopingBody />
+      ),
     },
     {
       id: "utilities",
       label: "光熱費",
       icon: PiPlugCharging,
       body: (
-        <SelectBody
-          id="utilities"
-          labels={["含む", "含まない"]}
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="utilities"
+        //     labels={["含む", "含まない"]}
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
       ),
     },
     {
@@ -259,12 +272,15 @@ const Sidebar = () => {
       label: "Wi-Fi",
       icon: FaWifi,
       body: (
-        <SelectBody
-          id="wifi"
-          labels={["含む", "含まない"]}
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="wifi"
+        //     labels={["含む"]}
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
       ),
     },
     {
@@ -272,12 +288,29 @@ const Sidebar = () => {
       label: "家具",
       icon: IoBedOutline,
       body: (
-        <SelectBody
-          id="furnished"
-          labels={["あり", "なし"]}
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="furnished"
+        //     labels={["あり", "なし"]}
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
+      ),
+    },
+    {
+      id: "laundry",
+      label: "洗濯機",
+      icon: MdOutlineLocalLaundryService,
+      body: (
+        // <SelectBody
+        //   id="laundry"
+        //   labels={["無料"]}
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
+        <DevelopingBody />
       ),
     },
     {
@@ -285,38 +318,61 @@ const Sidebar = () => {
       label: "テイクオーバー",
       icon: LiaMoneyCheckAltSolid,
       body: (
-        <SelectBody
-          id="takeover"
-          labels={["必要", "不要"]}
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="takeover"
+        //     labels={["不要"]}
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
       ),
     },
     {
       id: "moveInDate",
       label: "入居可能日",
       icon: SlCalender,
-      body: <Calendar id="moveInDate" register={register} required />,
+      body: (
+        //  <Calendar id="moveInDate" register={register} required />,
+        <DevelopingBody />
+      ),
+    },
+    {
+      id: "onlineViewing",
+      label: "オンライン内見",
+      icon: BsPersonVideo,
+      body: (
+        // <SelectBody
+        //   id="onlineViewing"
+        //   labels={["対応"]}
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
+        <DevelopingBody />
+      ),
     },
     {
       id: "minimumStay",
       label: "ミニマムステイ",
       icon: CgSandClock,
       body: (
-        <SelectBody
-          id="minimumStay"
-          labels={[
-            "1ヶ月",
-            "2〜3ヶ月",
-            "4ヶ月〜半年未満",
-            "半年〜1年未満",
-            "1年以上",
-          ]}
-          multipleChoice
-          getValues={getValues}
-          setValue={setValue}
-        />
+        // (
+        //   <SelectBody
+        //     id="minimumStay"
+        //     labels={[
+        //       "1ヶ月",
+        //       "2〜3ヶ月",
+        //       "4ヶ月〜半年未満",
+        //       "半年〜1年未満",
+        //       "1年以上",
+        //     ]}
+        //     multipleChoice
+        //     getValues={getValues}
+        //     setValue={setValue}
+        //   />
+        // ),
+        <DevelopingBody />
       ),
     },
     {

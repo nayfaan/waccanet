@@ -16,7 +16,7 @@ const PropertiesList: React.FC<PropertiesProps> = ({ propertiesData }) => {
           message="再度条件を設定するか、下のボタンでホームへ戻ってください。"
         />
       ) : (
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center mx-1">
           {propertiesData.map((property) => (
             <PropertyCard property={property} key={property.id} />
           ))}

@@ -25,7 +25,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const truncatedDescription = getTruncatedText(property.description, 50);
 
   return (
-    <div className="flex flex-col w-[290px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
+    <div className="flex flex-col w-full max-w-[500px] sm:w-[290px] md:w-[500px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
       <div className="relative">
         <div
           className={`absolute z-40 top-0 left-0 border-2 ${priceColor} py-1 px-2 rounded-lg ${
@@ -43,8 +43,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             src={DefaultImage}
             alt="Default Image"
             className="rounded-t-lg min-w-ful h-48 object-cover"
-            width="300"
-            height="280"
           />
         )}
       </div>

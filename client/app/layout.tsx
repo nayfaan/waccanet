@@ -27,7 +27,7 @@ export default function RootLayout({
       </Head>
       <body className={`${inter.className} w-screen`}>
         <Header />
-        <div className="pt-14">
+        <div className="pt-14 min-h-screen">
           <main>
             <>{children}</>
           </main>
