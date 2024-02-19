@@ -48,7 +48,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
 
   return (
     <div
-      id="default-carousel"
       className={`object-cover ${
         small ? "w-full rounded-t-lg max-h-48" : "rounded-lg w-full h-full"
       }`}

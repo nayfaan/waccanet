@@ -25,9 +25,9 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
       </Head>
-      <body className={`${inter.className} w-screen`}>
+      <body className={`${inter.className} w-screen min-h-screen`}>
         <Header />
-        <div className="pt-14 min-h-screen">
+        <div className="pt-14 bg-white">
           <main>
             <>{children}</>
           </main>
