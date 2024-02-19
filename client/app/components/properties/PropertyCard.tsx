@@ -60,7 +60,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </div>
         )}
 
-        <div className="text-sm text-gray-600">{truncatedDescription}</div>
+        <div className="text-sm text-gray-500 font-light">
+          {truncatedDescription}
+        </div>
 
         <div className="flex items-center gap-1  text-sm">
           <TfiAgenda className="text-green-600" />
