@@ -16,11 +16,11 @@ const PriceBody = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("onSubmit called", data);
+  // const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  //   console.log("onSubmit called", data);
 
-    // call api
-  };
+  //   // call api
+  // };
 
   return (
     <div className="flex flex-col gap-2">
@@ -29,7 +29,7 @@ const PriceBody = () => {
         <Input id="maxPrice" label="上限" register={register} />
       </div>
 
-      <Button label="検索" onClick={handleSubmit(onSubmit)} />
+      {/* <Button label="検索" onClick={handleSubmit(onSubmit)} /> */}
     </div>
   );
 };

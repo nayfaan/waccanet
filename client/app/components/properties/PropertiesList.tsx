@@ -8,14 +8,30 @@ import Pagination from "./Pagination";
 
 type Props = {
   search_query: string;
+  price_from: string;
+  price_to: string;
   areas: string;
   reference: string;
   page: number;
 };
 
-async function PropertiesList({ search_query, areas, reference, page }: Props) {
+async function PropertiesList({
+  search_query,
+  price_from,
+  price_to,
+  areas,
+  reference,
+  page,
+}: Props) {
   const paginationPropertiesData: PaginationProperties =
-    await fetchPropertyListPagination(search_query, areas, reference, page);
+    await fetchPropertyListPagination(
+      search_query,
+      price_from,
+      price_to,
+      areas,
+      reference,
+      page
+    );
 
   const paginationTotal = paginationPropertiesData.total;
   const paginationCurrent_page = paginationPropertiesData.current_page;
