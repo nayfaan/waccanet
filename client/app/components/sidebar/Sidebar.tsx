@@ -408,11 +408,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
   };
 
   return (
-    <aside
+    <div
       className={`fixed top-0 left-0 z-30 w-64 md:w-72 h-screen pt-14 transition-transform transform -translate-x-full bg-white border-r border-gray-200 ${
         isSidebarOpen ? "translate-x-0" : "md:translate-x-0"
       }`}
-      aria-label="Sidebar"
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
         <Suspense>
@@ -439,7 +438,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
           <Button label="絞り込み" onClick={handleSubmit(onSubmit)} />
         </div> */}
       </div>
-    </aside>
+    </div>
   );
 };
 
