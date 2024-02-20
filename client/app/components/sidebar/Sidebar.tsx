@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: "price",
       label: "家賃",
       icon: RiMoneyDollarCircleLine,
-      body: <PriceBody register={register} />,
+      body: <PriceBody />,
     },
     {
       id: "roomTypes",
