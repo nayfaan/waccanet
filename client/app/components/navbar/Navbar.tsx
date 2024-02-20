@@ -1,11 +1,11 @@
 "use client";
 
-import { IoMdFunnel } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";
+import { PiSidebar } from "react-icons/pi";
 import Image from "next/image";
 import WaccanetLogo from "../../../public/favicon.ico";
 import Sidebar from "../sidebar/Sidebar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navigations = [
   { name: "物件新規登録", href: "/developing", current: false },
@@ -21,12 +21,39 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
+  const navbarRef = useRef<HTMLDivElement | null>(null);
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target as Node)
+      ) {
+        // ターゲットが HTMLElementでない場合があるため、Nodeにキャスト
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <>
-      <nav className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14">
+      <nav
+        ref={navbarRef}
+        className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14"
+      >
         <div className="w-full flex items-center justify-between">
           {/* ----- Sidebar Open Button ----- */}
-          <IoMdFunnel
+          <PiSidebar
             className="text-gray-600 m-2 md:hidden"
             size={24}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -64,10 +91,14 @@ const Navbar = () => {
           <div className="md:hidden flex flex-col items-center top-14">
             <div className="m-2" onClick={() => setIsNavbarOpen(!isNavbarOpen)}>
               {isNavbarOpen ? (
-                <FiX className="block h-6 w-6" aria-hidden="true" size={24} />
+                <FiX
+                  className="block h-6 w-6 text-gray-600 "
+                  aria-hidden="true"
+                  size={24}
+                />
               ) : (
                 <FiMenu
-                  className="block h-6 w-6"
+                  className="block h-6 w-6 text-gray-600 "
                   aria-hidden="true"
                   size={24}
                 />
@@ -77,7 +108,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Navbar Dropdown */}
+      {/* Navbar for Mobile */}
       {isNavbarOpen && (
         <div className="absolute z-50 text-base bg-white border-[0.5px] border-gray-100 rounded shadow top-12 right-1">
           <ul className="list-none flex flex-col" role="none">
@@ -85,7 +116,7 @@ const Navbar = () => {
               <li key={nav.name}>
                 <a
                   href={nav.href}
-                  className="block px-5 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                  className="block px-5 py-2 text-gray-600 hover:bg-gray-100"
                   role="menuitem"
                 >
                   {nav.name}
@@ -96,7 +127,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar for Mobile */}
       {isSidebarOpen && <Sidebar isSidebarOpen={isSidebarOpen} />}
     </>
   );
