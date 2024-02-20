@@ -4,7 +4,7 @@ import {
     PaginationProperties,
 } from "../types/types";
 
-export async function fetchPropertyListPagination(search_query: string,areas: string,reference: string, page: number) {
+export async function fetchPropertyListPagination(search_query: string,price_from: string,price_to: string,areas: string,reference: string, page: number) {
     try {
         const api_server_link = process.env.api_server_link
         const headers: Record<string, string> = {};
@@ -15,7 +15,7 @@ export async function fetchPropertyListPagination(search_query: string,areas: st
             console.error('X_Api_Key is missing or undefined.'); // X_Api_Keyが存在しない場合のエラー処理
             throw new Error('X_Api_Key is missing or undefined.');
         }
-        const apt_query = `${api_server_link}/property/apis/properties_info_get/?search_query=${search_query}&areas=${areas}&reference=${reference}&page=${page}`
+        const apt_query = `${api_server_link}/property/apis/properties_info_get/?search_query=${search_query}&price_from=${price_from}&price_to=${price_to}&areas=${areas}&reference=${reference}&page=${page}`
         const res = await fetch(apt_query, { headers: headers });
         if (!res.ok) {
             // エラー処理

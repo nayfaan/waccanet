@@ -5,6 +5,8 @@ import Sidebar from "../sidebar/Sidebar";
 
 type Props = {
   search_query: string;
+  price_from: string;
+  price_to: string;
   areas: string;
   reference: string;
   page: number;
@@ -12,6 +14,8 @@ type Props = {
 
 export default async function Home({
   search_query,
+  price_from,
+  price_to,
   areas,
   reference,
   page,
@@ -21,11 +25,13 @@ export default async function Home({
       <Sidebar />
 
       <Suspense
-        key={`${search_query}-${areas}-${reference}-${page}`}
+        key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
         fallback={<Loading />}
       >
         <PropertiesList
           search_query={search_query}
+          price_from={price_from}
+          price_to={price_to}
           areas={areas}
           reference={reference}
           page={page}
