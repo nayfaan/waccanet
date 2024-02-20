@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
@@ -27,7 +27,15 @@ import Button from "../Button";
 import Calendar from "../inputs/Calendar";
 import DevelopingBody from "./filter_body/DevelopingBody";
 
-const Sidebar = () => {
+interface SidebarProps {
+  isSidebarOpen?: boolean;
+  setIsSidebarOpen?: (value: boolean) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+}) => {
   const [openElements, setOpenElements] = useState<string[]>([]);
 
   const {
@@ -64,7 +72,7 @@ const Sidebar = () => {
       id: "price",
       label: "家賃",
       icon: RiMoneyDollarCircleLine,
-      body: <PriceBody register={register} />,
+      body: <PriceBody />,
     },
     {
       id: "roomTypes",
@@ -403,10 +411,36 @@ const Sidebar = () => {
     });
   };
 
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        isSidebarOpen && //サイドバーが開いている場合かつ
+        sidebarRef.current && //サイドバーが存在している場合かつ
+        event.target instanceof Node && // クリックされたエレメントが Node (DOM element)の場合かつ
+        !sidebarRef.current.contains(event.target) && // クリックされた要素がサイドバーではない場合かつ
+        !(event.target as Element).closest("nav") // クリックされた要素がナブバーではない場合
+      ) {
+        setIsSidebarOpen?.(false); //サイドバーを閉じる
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick); // イベントリスナーを追加
+
+    return () => {
+      // コンポーネントがアンマウントされたときにイベントリスナーを削除
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isSidebarOpen, sidebarRef, setIsSidebarOpen]);
+
   return (
-    <aside
-      className="fixed top-0 left-0 z-40 w-72 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 "
-      aria-label="Sidebar"
+    <div
+      className={`fixed top-0 left-0 z-30 w-64 md:w-72 h-screen pt-14 transition-transform transform -translate-x-full bg-white border-r border-gray-200 ${
+        isSidebarOpen ? "translate-x-0" : "md:translate-x-0"
+      }`}
+      ref={sidebarRef}
+      onClick={(e) => e.stopPropagation()}
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
         <Suspense>
@@ -429,11 +463,11 @@ const Sidebar = () => {
             </div>
           ))}
         </div>
-        <div className="p-2">
+        {/* <div className="p-2">
           <Button label="絞り込み" onClick={handleSubmit(onSubmit)} />
-        </div>
+        </div> */}
       </div>
-    </aside>
+    </div>
   );
 };
 

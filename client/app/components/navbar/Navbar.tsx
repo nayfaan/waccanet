@@ -1,12 +1,13 @@
 "use client";
 
-import { Disclosure } from "@headlessui/react";
-import { IoMdFunnel } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";
-import Logo from "../../../public/images/waccanet.png";
+import { PiSidebar } from "react-icons/pi";
 import Image from "next/image";
+import WaccanetLogo from "../../../public/favicon.ico";
+import Sidebar from "../sidebar/Sidebar";
+import { useEffect, useRef, useState } from "react";
 
-const navigation = [
+const navigations = [
   { name: "物件新規登録", href: "/developing", current: false },
   { name: "サイト概要", href: "/about-our-site", current: false },
   { name: "お問い合わせ", href: "/contact-us", current: false },
@@ -17,89 +18,95 @@ function classNames(...classes: string[]) {
 }
 
 const Navbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+
   return (
     <>
-      <Disclosure as="nav" className="md:px-5 border-b-[1px] bg-white h-14">
-        {({ open }) => (
-          <>
-            <div className="flex justify-between items-center h-full">
-              {/* Mobile menu button */}
+      <nav className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14">
+        <div className="w-full flex items-center justify-between">
+          {/* ----- Sidebar Open Button ----- */}
+          <PiSidebar
+            className="text-gray-600 m-2 md:hidden"
+            size={24}
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          />
 
-              <div className="p-2 flex md:hidden">
-                {/* Mobile menu button */}
-                <IoMdFunnel
-                  className="p-2
-                    text-black hover:bg-gray-700 hover:text-white
-                      rounded-md "
-                  size={35}
-                />
-              </div>
+          {/* ----- Logo ----- */}
+          <a href="/" className="flex items-center justify-center">
+            <Image src={WaccanetLogo} width={35} alt="Waccanet Logo" />
+            <span className="ml-2 font-semibold text-xl tracking-widest">
+              Waccanet
+            </span>
+          </a>
 
-              <a
-                href="/"
-                className="p-2 
-                      text-black
-                        rounded-md "
-                aria-current="page"
-              >
-                <Image src={Logo} alt="logo" width={150} height={30} />
-              </a>
-
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-white "
-                          : "text-black hover:bg-gray-700 hover:text-white",
-                        "rounded-md px-3 py-2 text-sm font-semibold "
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-2 flex md:hidden">
-                {/* Mobile menu button */}
-                <Disclosure.Button className="rounded-md bg-gray-800  text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  {open ? (
-                    <FiX className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <FiMenu className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-            </div>
-
-            <Disclosure.Panel className="md:hidden">
-              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-white  border-b-[1px]">
-                {navigation.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
+          <div className="hidden md:block">
+            <ul className="ml-10 flex items-baseline space-x-4">
+              {navigations.map((nav) => (
+                <li key={nav.name}>
+                  <a
+                    href={nav.href}
                     className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-900 hover:bg-gray-700 hover:text-white",
-                      "block rounded-md px-3 py-2 text-base font-medium"
+                      nav.current
+                        ? "bg-white "
+                        : "text-black hover:bg-gray-700 hover:text-white",
+                      "rounded-md px-3 py-2 text-sm font-semibold "
                     )}
-                    aria-current={item.current ? "page" : undefined}
+                    aria-current={nav.current ? "page" : undefined}
                   >
-                    {item.name}
-                  </Disclosure.Button>
-                ))}
-              </div>
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
+                    {nav.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="md:hidden flex flex-col items-center top-14">
+            <div className="m-2" onClick={() => setIsNavbarOpen(!isNavbarOpen)}>
+              {isNavbarOpen ? (
+                <FiX
+                  className="block h-6 w-6 text-gray-600 "
+                  aria-hidden="true"
+                  size={24}
+                />
+              ) : (
+                <FiMenu
+                  className="block h-6 w-6 text-gray-600 "
+                  aria-hidden="true"
+                  size={24}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Navbar for Mobile */}
+      {isNavbarOpen && (
+        <div className="absolute z-50 text-base bg-white border-[0.5px] border-gray-100 rounded shadow top-12 right-1">
+          <ul className="list-none flex flex-col" role="none">
+            {navigations.map((nav) => (
+              <li key={nav.name}>
+                <a
+                  href={nav.href}
+                  className="block px-5 py-2 text-gray-600 hover:bg-gray-100"
+                  role="menuitem"
+                >
+                  {nav.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Sidebar for Mobile */}
+      {isSidebarOpen && (
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+      )}
     </>
   );
 };

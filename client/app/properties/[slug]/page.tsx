@@ -24,9 +24,8 @@ export default async function PropertyDetail({
   const formattedImgs = property.images;
 
   return (
-    <main className="p-3 md:p-5 px-1 bg-white">
-      {/* <Sidebar /> */}
-      <div className="flex flex-col items-center">
+    <main className="p-3 md:p-5 px-1 md:py-3 bg-white min-h-screen">
+      <div className="h-full flex flex-col items-center">
         <h2 className="text-2xl font-bold md:text-3xl text-center">
           {property.name}
         </h2>
@@ -36,25 +35,25 @@ export default async function PropertyDetail({
           <span className="text-normal">{formattedDate}</span>
         </div>
 
-        <div className="relative w-[300px] h-[200px]  sm:w-[450px] sm:h-[300px] lg:w-[650px] lg:h-[420px]">
-          {property.images.length > 0 ? (
+        {property.images.length > 0 ? (
+          <div className="relative w-full h-[350px]  sm:w-[640px] sm:h-[400px] ">
             <ImageSlider images={formattedImgs} name={property.name} />
-          ) : (
-            <Image
-              src={DefaultImage}
-              alt="Default Image"
-              className="rounded-t-lg min-w-ful h-48 object-cover"
-              width="300"
-              height="280"
-            />
-          )}
-        </div>
+          </div>
+        ) : (
+          <Image
+            src={DefaultImage}
+            alt="Default Image"
+            className="rounded-lg min-w-full m-h-full object-cover"
+            width="300"
+            height="280"
+          />
+        )}
 
         <div className="p-2 font-semibold text-lg">家賃：${property.price}</div>
 
-        <div className="px-1 md:px-3 lg:px-16">
-          <div className="flex flex-col border rounded-xl p-2 sm:p-6 lg:p-8 ">
-            <p className=" whitespace-pre-wrap ">{property.description}</p>
+        <div className="md:px-3 lg:px-16">
+          <div className="flex flex-col border rounded-xl p-2 sm:p-6 lg:p-8">
+            <p className="text-gray-600">{property.description}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 pt-2">
