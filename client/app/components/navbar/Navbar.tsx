@@ -21,36 +21,9 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
-  const navbarRef = useRef<HTMLDivElement | null>(null);
-
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        navbarRef.current &&
-        !navbarRef.current.contains(event.target as Node)
-      ) {
-        // ターゲットが HTMLElementでない場合があるため、Nodeにキャスト
-        closeSidebar();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
   return (
     <>
-      <nav
-        ref={navbarRef}
-        className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14"
-      >
+      <nav className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14">
         <div className="w-full flex items-center justify-between">
           {/* ----- Sidebar Open Button ----- */}
           <PiSidebar
@@ -128,7 +101,12 @@ const Navbar = () => {
       )}
 
       {/* Sidebar for Mobile */}
-      {isSidebarOpen && <Sidebar isSidebarOpen={isSidebarOpen} />}
+      {isSidebarOpen && (
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+      )}
     </>
   );
 };
