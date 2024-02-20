@@ -25,7 +25,6 @@ export default async function PropertyDetail({
 
   return (
     <main className="p-3 md:p-5 px-1 md:py-3 bg-white min-h-screen">
-      {/* <Sidebar /> */}
       <div className="h-full flex flex-col items-center">
         <h2 className="text-2xl font-bold md:text-3xl text-center">
           {property.name}
