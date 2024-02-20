@@ -35,19 +35,19 @@ export default async function PropertyDetail({
           <span className="text-normal">{formattedDate}</span>
         </div>
 
-        {property.images.length > 0 ? (
+        {/* {property.images.length > 0 ? (
           <div className="relative w-full h-[350px]  sm:w-[640px] sm:h-[400px] ">
             <ImageSlider images={formattedImgs} name={property.name} />
           </div>
-        ) : (
-          <Image
-            src={DefaultImage}
-            alt="Default Image"
-            className="rounded-lg min-w-full m-h-full object-cover"
-            width="300"
-            height="280"
-          />
-        )}
+        ) : ( */}
+        <Image
+          src={DefaultImage}
+          alt="Default Image"
+          className="rounded-lg min-w-full m-h-full object-cover"
+          width="300"
+          height="280"
+        />
+        {/* )} */}
 
         <div className="p-2 font-semibold text-lg">家賃：${property.price}</div>
 
