@@ -114,14 +114,14 @@ const ContactForm = () => {
             {/* <!-- End Grid --> */}
           </div>
 
-          <div className="mt-6 flex items-stretch justify-end gap-x-6">
-            <Button label="戻る" small actionType="back" />
+          <div className="mt-6 flex flex-col justify-center gap-1">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 p-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-blue-500 hover:bg-blue-600 px-5 py-2 text-sm font-medium text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
             >
               送信
             </button>
+            <Button label="戻る" small actionType="back" color="gray" />
           </div>
           {/* <!-- End Grid --> */}
         </form>
