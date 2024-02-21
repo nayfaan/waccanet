@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
 import Head from "next/head";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
+// import Header from "./components/header/Header";
 
 import "./globals.css";
+import Header from "./components/header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -3,7 +3,6 @@ import { fetchPropertyDetail } from "../../lib/data";
 import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
 import Button from "@/app/components/Button";
-import Sidebar from "@/app/components/sidebar/Sidebar";
 import {
   getFormattedDate,
   getFormattedImages,
@@ -11,21 +10,20 @@ import {
 import ImageSlider from "@/app/components/properties/ImageSlider";
 import Image from "next/image";
 import DefaultImage from "../../../public/images/defaultImg.png";
+import Footer from "@/app/components/footer/Footer";
 
 export default async function PropertyDetail({
   params,
 }: {
   params: { slug: string };
 }) {
-  // const router = useRouter();
-
   const property: Property = await fetchPropertyDetail(params.slug);
   const formattedDate = getFormattedDate(property.pub_date);
   const formattedImgs = property.images;
 
   return (
-    <main className="p-3 md:p-5 px-1 md:py-3 bg-white min-h-screen">
-      <div className="h-full flex flex-col items-center">
+    <main className="bg-white min-h-screen flex flex-col justify-between ">
+      <div className="mt-14 h-full flex flex-col items-center p-3 md:p-5 px-1 md:py-3">
         <h2 className="text-2xl font-bold md:text-3xl text-center">
           {property.name}
         </h2>
@@ -43,9 +41,7 @@ export default async function PropertyDetail({
           <Image
             src={DefaultImage}
             alt="Default Image"
-            className="rounded-lg min-w-full m-h-full object-cover"
-            width="300"
-            height="280"
+            className="rounded-lg w-full h-[350px] sm:w-[640px] sm:h-[400px] object-cover"
           />
         )}
 
@@ -64,6 +60,7 @@ export default async function PropertyDetail({
           <Button label="戻る" small actionType="back" />
         </blockquote>
       </div>
+      <Footer />
     </main>
   );
 }
