@@ -18,6 +18,7 @@ import { PiHouseLine } from "react-icons/pi";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { BsPersonVideo } from "react-icons/bs";
 import { MdOutlineLocalLaundryService } from "react-icons/md";
+import { BiMaleFemale } from "react-icons/bi";
 
 import Search from "../Search";
 import FilterElement from "./FilterElement";
@@ -107,6 +108,21 @@ const Sidebar: React.FC<SidebarProps> = ({
         // <SelectBody
         //   id="roommates"
         //   labels={["なし", "1〜3人", "3〜5人", "6人以上"]}
+        //   multipleChoice
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
+        <DevelopingBody />
+      ),
+    },
+    {
+      id: "gender",
+      label: "性別",
+      icon: BiMaleFemale,
+      body: (
+        // <SelectBody
+        //   id="gender"
+        //   labels={["女性専用", "男性専用", "性別制限なし"]}
         //   multipleChoice
         //   getValues={getValues}
         //   setValue={setValue}

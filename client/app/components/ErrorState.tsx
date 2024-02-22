@@ -1,4 +1,5 @@
 import Button from "./Button";
+import Footer from "./footer/Footer";
 
 interface ErrorStateProps {
   errorNumber?: number;
@@ -20,21 +21,24 @@ const ErrorState: React.FC<ErrorStateProps> = ({
   actionType,
 }) => {
   return (
-    <main className="h-screen p-6 w-full place-items-center bg-white flex flex-col items-center justify-center  ">
-      <p className="text-base font-semibold text-indigo-600">{errorNumber}</p>
-      <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-        {title}
-      </h1>
-      <p className="mt-6 text-base leading-7 text-gray-600">{message_ja}</p>
-      <p className="mt-1 text-base leading-7 text-gray-600">{message_en}</p>
-      <div className="mt-10 flex items-center justify-center gap-x-6">
-        <Button
-          label={buttonLabel}
-          small
-          onClick={onClick}
-          actionType={actionType}
-        />
+    <main className="h-screen w-full bg-white flex flex-col items-center justify-between">
+      <div className="h-full flex flex-col items-center justify-center">
+        <p className="text-base font-semibold text-indigo-600">{errorNumber}</p>
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          {title}
+        </h1>
+        <p className="mt-6 text-base leading-7 text-gray-600">{message_ja}</p>
+        <p className="mt-1 text-base leading-7 text-gray-600">{message_en}</p>
+        <div className="mt-10 flex items-center justify-center gap-x-6">
+          <Button
+            label={buttonLabel}
+            small
+            onClick={onClick}
+            actionType={actionType}
+          />
+        </div>
       </div>
+      <Footer />
     </main>
   );
 };

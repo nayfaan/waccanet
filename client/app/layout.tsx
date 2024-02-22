@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
 import Head from "next/head";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
+// import Header from "./components/header/Header";
 
 import "./globals.css";
+import Header from "./components/header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,12 +27,11 @@ export default function RootLayout({
       </Head>
       <body className={`${inter.className} w-screen min-h-screen`}>
         <Header />
-        <div className="pt-14 bg-white">
+        <div className="bg-white">
           <main>
             <>{children}</>
           </main>
         </div>
-        <Footer />
         <Analytics />
       </body>
     </html>

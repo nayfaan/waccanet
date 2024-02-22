@@ -6,6 +6,7 @@ import Image from "next/image";
 import WaccanetLogo from "../../../public/favicon.ico";
 import Sidebar from "../sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navigations = [
   { name: "物件新規登録", href: "/developing", current: false },
@@ -20,14 +21,27 @@ function classNames(...classes: string[]) {
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isPropertiesHome, setIsPropertiesHome] = useState(true);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsPropertiesHome(pathname === "/");
+  }, [pathname]);
+
+  useEffect(() => {
+    console.log(isPropertiesHome);
+  }, [isPropertiesHome]);
 
   return (
     <>
+      {/* <header className="fixed top-0 left-0 right-0 z-50 w-full "> */}
       <nav className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14">
         <div className="w-full flex items-center justify-between">
           {/* ----- Sidebar Open Button ----- */}
           <PiSidebar
-            className="text-gray-600 m-2 md:hidden"
+            className={`text-gray-600 m-2 md:hidden ${
+              isPropertiesHome ? "opacity-100" : "opacity-0"
+            }`}
             size={24}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           />
@@ -80,7 +94,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
       {/* Navbar for Mobile */}
       {isNavbarOpen && (
         <div className="absolute z-50 text-base bg-white border-[0.5px] border-gray-100 rounded shadow top-12 right-1">
@@ -99,7 +112,6 @@ const Navbar = () => {
           </ul>
         </div>
       )}
-
       {/* Sidebar for Mobile */}
       {isSidebarOpen && (
         <Sidebar
@@ -107,6 +119,7 @@ const Navbar = () => {
           setIsSidebarOpen={setIsSidebarOpen}
         />
       )}
+      {/* </header> */}
     </>
   );
 };
