@@ -29,7 +29,7 @@ const FilterElement: React.FC<FilterElementProps> = ({
     <div className="py-1 border-t-[1px] w-full">
       <button
         type="button"
-        className="flex items-center justify-between w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group  dark:text-white dark:hover:bg-gray-700"
+        className="flex items-center justify-between w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group"
         onClick={handleToggleDropdown}
       >
         <div className="flex items-center">
@@ -58,7 +58,7 @@ const FilterElement: React.FC<FilterElementProps> = ({
         className={`space-y-2 ${isElementOpen ? "" : "hidden"}`}
       >
         {body && (
-          <ul className="flex flex-col w-full p-1 text-gray-900 transition duration-75 rounded-lg pl-7 pr-3 group  dark:text-white dark:hover:bg-gray-700">
+          <ul className="flex flex-col w-full p-1 text-gray-900 transition duration-75 rounded-lg pl-7 pr-3 group">
             {body}
           </ul>
         )}

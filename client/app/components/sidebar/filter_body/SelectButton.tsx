@@ -38,13 +38,15 @@ const SelectButton: React.FC<SelectButtonProps> = ({
     setValue(id, updatedValues); // 更新された値をフォームに反映
 
     // 現在のURLにフィルタのパラメータを追加
-    console.log(`URL/?${id}=${updatedValues}`);
-    const joinedFilterElements = updatedValues.join("_");
-
     const params = new URLSearchParams(searchParams);
-    params.set("page", "1");
-    params.set(id, joinedFilterElements);
 
+    if (updatedValues.length == 0) {
+      params.delete(id);
+    } else {
+      const joinedFilterElements = updatedValues.join("_");
+      params.set(id, joinedFilterElements);
+    }
+    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`);
   };
 
