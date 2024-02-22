@@ -1,8 +1,4 @@
-"use client";
-
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { UseFormRegister, FieldValues } from "react-hook-form";
-import { useDebouncedCallback } from "use-debounce";
 
 interface InputProps {
   id: string;
@@ -23,24 +19,6 @@ const Input: React.FC<InputProps> = ({
   register,
   required,
 }) => {
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
-
-  const handlePrice = useDebouncedCallback(
-    (priceFromTo: string, price: string) => {
-      const params = new URLSearchParams(searchParams);
-      if (priceFromTo == "minPrice") {
-        params.set("price_from", price);
-      }
-      if (priceFromTo == "maxPrice") {
-        params.set("price_to", price);
-      }
-      replace(`${pathname}?${params.toString()}`);
-    },
-    450
-  );
-
   return (
     <div className="w-full relative ">
       <input
@@ -49,9 +27,6 @@ const Input: React.FC<InputProps> = ({
         placeholder=""
         type={type}
         {...register(id, { required })}
-        onChange={(e) => {
-          handlePrice(id, e.target.value);
-        }}
         className={`peer w-full p-1 pt-5 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}
     `}
