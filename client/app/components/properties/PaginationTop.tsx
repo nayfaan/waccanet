@@ -16,9 +16,14 @@ export default function PaginationTop({
   num_pages,
 }: Props) {
   const [paginationCurrent_page, setPaginationCurrent_page] = useState(0);
+
   useEffect(() => {
     setPaginationCurrent_page(current_page);
   }, [current_page]);
+
+  useEffect(() => {
+    console.log(paginationCurrent_page);
+  }, [paginationCurrent_page]);
 
   return (
     <div className="flex items-center justify-end border-gray-200  px-2 py-1 sm:px-6">

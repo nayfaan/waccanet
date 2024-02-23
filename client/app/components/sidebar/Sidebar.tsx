@@ -19,6 +19,7 @@ import { LiaUserFriendsSolid } from "react-icons/lia";
 import { BsPersonVideo } from "react-icons/bs";
 import { MdOutlineLocalLaundryService } from "react-icons/md";
 import { BiMaleFemale } from "react-icons/bi";
+import { RiBankCardLine } from "react-icons/ri";
 
 import Search from "../Search";
 import FilterElement from "./FilterElement";
@@ -359,6 +360,21 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: SlCalender,
       body: (
         //  <Calendar id="moveInDate" register={register} required />,
+        <DevelopingBody />
+      ),
+    },
+    {
+      id: "payment-method",
+      label: "支払方法",
+      icon: RiBankCardLine,
+      body: (
+        // <SelectBody
+        //   id="payment-method"
+        //   labels={["現金", "E-Transfer", "小切手", "要相談"]}
+        //   multipleChoice
+        //   getValues={getValues}
+        //   setValue={setValue}
+        // />
         <DevelopingBody />
       ),
     },
