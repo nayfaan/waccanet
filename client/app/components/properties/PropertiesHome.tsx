@@ -38,10 +38,10 @@ const PropertiesHome: React.FC<PropertiesHomeProps> = async ({
     );
 
   return (
-    <main className="bg-gray-50 relative overflow-y-auto md:ml-72 flex flex-col justify-between pt-14">
+    <main className="bg-gray-50 relative overflow-y-auto md:ml-72 min-h-screen flex flex-col justify-between pt-14">
       <Sidebar />
-
-      <div className="flex flex-col justify-between h-full">
+      {paginationPropertiesData.results.length > 0 && (
+        // 物件データがない時は表示しない
         <div className="p-1 sm:px-6 min-w-screen">
           <PaginationTop
             total={paginationPropertiesData.total}
@@ -50,19 +50,24 @@ const PropertiesHome: React.FC<PropertiesHomeProps> = async ({
             num_pages={paginationPropertiesData.num_pages}
           />
         </div>
-        <Suspense
-          key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
-          fallback={<Loading />}
-        >
-          <PropertiesList properties={paginationPropertiesData.results} />
-        </Suspense>
+      )}
+      {/* <div className="flex flex-col justify-between h-full"> */}
+      <Suspense
+        key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
+        fallback={<Loading />}
+      >
+        <PropertiesList properties={paginationPropertiesData.results} />
+      </Suspense>
+      {/* </div> */}
+      {paginationPropertiesData.results.length > 0 && (
+        // 物件データがない時は表示しない
         <Pagination
           total={paginationPropertiesData.total}
           current_page={paginationPropertiesData.current_page}
           properties_per_page={paginationPropertiesData.properties_per_page}
           num_pages={paginationPropertiesData.num_pages}
         />
-      </div>
+      )}
       <Footer />
     </main>
   );

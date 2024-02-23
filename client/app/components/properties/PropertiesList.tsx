@@ -8,7 +8,7 @@ interface PropertiesListProps {
 
 const PropertiesList: React.FC<PropertiesListProps> = ({ properties }) => {
   return (
-    <div>
+    <>
       {properties.length === 0 ? (
         <EmptyState
           title="物件"
@@ -21,7 +21,7 @@ const PropertiesList: React.FC<PropertiesListProps> = ({ properties }) => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

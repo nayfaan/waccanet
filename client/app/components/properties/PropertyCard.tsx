@@ -22,7 +22,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const formattedDate = getFormattedDate(property.pub_date);
   const priceColor = getPriceColor(property.price);
   const formattedImgs = property.images;
-  const truncatedDescription = getTruncatedText(property.description, 50);
+  const truncatedDescription = getTruncatedText(property.description, 100);
 
   return (
     <div className="flex flex-col w-full max-w-[500px] sm:w-[290px] md:w-[225px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
@@ -47,9 +47,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         )}
       </div>
       <div className="p-2 w-full h-full flex flex-col gap-1 justify-between">
-        <div className="flex items-center gap-1 text-xs font-light">
+        <div className="flex items-center gap-1">
           <CiAlarmOn className="text-blue-600" />
-          <span>{formattedDate}</span>
+          <span className="text-xs font-light">{formattedDate}</span>
         </div>
 
         <h5 className="text-md font-semibold text-gray-900">{property.name}</h5>
@@ -70,11 +70,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <span>{property.reference}</span>
         </div> */}
 
-        <Button
-          label="物件詳細"
-          actionType="link"
-          href={`properties/${property.id}`}
-        />
+        <div className="pt-2">
+          <Button
+            label="物件詳細"
+            actionType="link"
+            href={`properties/${property.id}`}
+          />
+        </div>
       </div>
     </div>
   );
