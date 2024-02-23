@@ -1,77 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { FieldValues, UseFormRegister, useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
-
-interface InputProps {
-  id: string;
-  label: string;
-  type?: string;
-  disabled?: boolean;
-  formatPrice?: boolean;
-  register: UseFormRegister<FieldValues>;
-  required?: boolean;
-}
-
-const Input: React.FC<InputProps> = ({
-  id,
-  label,
-  type,
-  disabled,
-  formatPrice,
-  register,
-  required,
-}) => {
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
-
-  const handlePrice = useDebouncedCallback(
-    (priceFromTo: string, price: string) => {
-      const params = new URLSearchParams(searchParams);
-      if (priceFromTo == "minPrice") {
-        params.set("price_from", price);
-      }
-      if (priceFromTo == "maxPrice") {
-        params.set("price_to", price);
-      }
-      replace(`${pathname}?${params.toString()}`);
-    },
-    450
-  );
-
-  return (
-    <div className="w-full relative ">
-      <input
-        id={id}
-        disabled={disabled}
-        placeholder=""
-        type={type}
-        {...register(id, { required })}
-        onChange={(e) => {
-          handlePrice(id, e.target.value);
-        }}
-        className={`peer w-full p-1 pt-5 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
-    ${formatPrice ? "pl-9" : " pl-4"}
-    `}
-      />
-      <label
-        className={`absolute text-sm duration-150 transform -translate-y-3 top-5 z-10 origin-[0] 
-    ${formatPrice ? "left-9" : "left-4"}
-    peer-placeholder-shown:scale-100 
-    peer-placeholder-shown:translate-y-0
-    peer-focus:scale-75
-    peer-focus:-translate-y-4
-    text-zinc-400
-    `}
-      >
-        {label}
-      </label>
-    </div>
-  );
-};
+import Input from "../../inputs/Input";
 
 const PriceBody = () => {
   const { register } = useForm<FieldValues>({
@@ -80,12 +13,90 @@ const PriceBody = () => {
       maxPrice: null,
     },
   });
+  const [minErrorMessage, setMinErrorMessage] = useState("");
+  const [maxErrorMessage, setMaxErrorMessage] = useState("");
+
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+
+  const handlePrice = useDebouncedCallback(
+    (priceFromTo: "minPrice" | "maxPrice", price: string) => {
+      const params = new URLSearchParams(searchParams);
+      const priceNum = parseInt(price, 10);
+
+      if (isNaN(priceNum) && price !== "") {
+        // エラー処理: 文字列の時
+        if (priceFromTo === "minPrice") {
+          params.delete("price_from");
+          setMinErrorMessage("数字を入力してください");
+        } else if (priceFromTo === "maxPrice") {
+          params.delete("price_to");
+          setMaxErrorMessage("数字を入力してください");
+        }
+        console.error("Invalid input. Please enter a valid number.");
+
+        return;
+      }
+
+      // minPrice
+      if (priceFromTo == "minPrice") {
+        if (price === "" || priceNum === 0) {
+          // 空欄または0が入力された時
+          params.delete("price_from");
+          setMinErrorMessage("");
+        } else {
+          // 通常時
+          params.set("price_from", price);
+          setMinErrorMessage("");
+        }
+      }
+
+      // maxPrice
+      if (priceFromTo === "maxPrice") {
+        const minPrice = parseInt(params.get("price_from") || "0", 10);
+
+        if (price === "") {
+          // 空欄の時
+          params.delete("price_to");
+          setMaxErrorMessage("");
+        } else if (!isNaN(priceNum) && priceNum >= minPrice) {
+          // 正常な値の場合（数字が入力され、かつmaxPriceがminPriceより大きい時）
+          params.set("price_to", price);
+          setMaxErrorMessage("");
+        } else if (priceNum < minPrice) {
+          // エラー処理: maxPriceがminPriceより小さい場合
+          console.error("maxPrice must be greater than or equal to minPrice");
+          setMaxErrorMessage("下限金額より大きな数字を入れてください");
+        }
+      }
+
+      replace(`${pathname}?${params.toString()}`);
+    },
+    450
+  );
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row gap-2">
-        <Input id="minPrice" label="下限" register={register} />
-        <Input id="maxPrice" label="上限" register={register} />
+        <Input
+          id="minPrice"
+          label="下限"
+          register={register}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handlePrice("minPrice", e.target.value)
+          }
+          errorMessage={minErrorMessage ? minErrorMessage : ""}
+        />
+        <Input
+          id="maxPrice"
+          label="上限"
+          register={register}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handlePrice("maxPrice", e.target.value)
+          }
+          errorMessage={maxErrorMessage ? maxErrorMessage : ""}
+        />
       </div>
     </div>
   );

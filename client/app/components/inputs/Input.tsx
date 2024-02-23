@@ -8,6 +8,8 @@ interface InputProps {
   formatPrice?: boolean;
   register: UseFormRegister<FieldValues>;
   required?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errorMessage: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,17 +20,21 @@ const Input: React.FC<InputProps> = ({
   formatPrice,
   register,
   required,
+  onChange,
+  errorMessage,
 }) => {
   return (
-    <div className="w-full relative ">
+    <div className="w-full relative">
       <input
         id={id}
         disabled={disabled}
         placeholder=""
         type={type}
         {...register(id, { required })}
+        onChange={onChange}
         className={`peer w-full p-1 pt-5 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}
+    ${errorMessage ? "border-red-300" : "border-gray-300"} 
     `}
       />
       <label
@@ -38,11 +44,12 @@ const Input: React.FC<InputProps> = ({
     peer-placeholder-shown:translate-y-0
     peer-focus:scale-75
     peer-focus:-translate-y-4
-    text-zinc-400
+    ${errorMessage ? "text-red-400" : "text-zinc-400"} 
     `}
       >
         {label}
       </label>
+      {errorMessage && <p className="text-red-400 text-xs">{errorMessage}</p>}
     </div>
   );
 };
