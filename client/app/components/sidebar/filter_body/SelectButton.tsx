@@ -37,6 +37,8 @@ const SelectButton: React.FC<SelectButtonProps> = ({
       : [...selectedValues, label]; // id が含まれていない場合は追加
     setValue(id, updatedValues); // 更新された値をフォームに反映
 
+    console.log(updatedValues);
+
     // 現在のURLにフィルタのパラメータを追加
     const params = new URLSearchParams(searchParams);
 

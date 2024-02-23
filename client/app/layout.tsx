@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: " カナダに住む日本人のための情報サイト Waccanet",
-  description: "Find your home in Canada",
+  description: "カナダ在住の日本人必見！家探しや仕事探しはWaccanetで！",
 };
 
 export default function RootLayout({
