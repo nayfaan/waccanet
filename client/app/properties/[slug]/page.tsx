@@ -49,7 +49,9 @@ export default async function PropertyDetail({
 
         <div className="md:px-3 lg:px-16">
           <div className="flex flex-col border rounded-xl p-2 sm:p-6 lg:p-8">
-            <p className="text-gray-600">{property.description}</p>
+            <p className="text-gray-600 whitespace-pre-wrap">
+              {property.description}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-1 pt-2">
