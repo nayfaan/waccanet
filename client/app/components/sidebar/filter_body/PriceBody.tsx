@@ -70,7 +70,7 @@ const PriceBody = () => {
           setMaxErrorMessage("下限金額より大きな数字を入れてください");
         }
       }
-
+      params.set("page", "1");
       replace(`${pathname}?${params.toString()}`);
     },
     450
