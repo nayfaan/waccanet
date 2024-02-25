@@ -7,8 +7,8 @@ import Footer from "../footer/Footer";
 import { PaginationProperties } from "@/app/types/types";
 import React from "react";
 import { fetchPropertyListPagination } from "../../lib/data";
-import PaginationTop from "./PaginationTop";
-import Pagination from "./Pagination";
+import PaginationTop from "../pagination/PaginationTop";
+import Pagination from "../pagination/Pagination";
 
 interface PropertiesHomeProps {
   search_query: string;
@@ -40,34 +40,36 @@ const PropertiesHome: React.FC<PropertiesHomeProps> = async ({
   return (
     <main className="bg-gray-50 relative overflow-y-auto md:ml-72 min-h-screen flex flex-col justify-between pt-14">
       <Sidebar />
-      {paginationPropertiesData.results.length > 0 && (
-        // 物件データがない時は表示しない
-        <div className="p-1 sm:px-6 min-w-screen">
-          <PaginationTop
+
+      <Suspense
+        key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
+        fallback={<Loading />}
+      >
+        {paginationPropertiesData.results.length > 0 && (
+          // 物件データがない時は表示しない
+          <div className="p-1 sm:px-6 min-w-screen">
+            <PaginationTop
+              total={paginationPropertiesData.total}
+              current_page={paginationPropertiesData.current_page}
+              properties_per_page={paginationPropertiesData.properties_per_page}
+            />
+          </div>
+        )}
+        {/* <div className="flex flex-col justify-between h-full"> */}
+
+        <PropertiesList properties={paginationPropertiesData.results} />
+        {/* </div> */}
+        {paginationPropertiesData.results.length > 0 && (
+          // 物件データがない時は表示しない
+          <Pagination
             total={paginationPropertiesData.total}
             current_page={paginationPropertiesData.current_page}
             properties_per_page={paginationPropertiesData.properties_per_page}
             num_pages={paginationPropertiesData.num_pages}
           />
-        </div>
-      )}
-      {/* <div className="flex flex-col justify-between h-full"> */}
-      <Suspense
-        key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
-        fallback={<Loading />}
-      >
-        <PropertiesList properties={paginationPropertiesData.results} />
+        )}
       </Suspense>
-      {/* </div> */}
-      {paginationPropertiesData.results.length > 0 && (
-        // 物件データがない時は表示しない
-        <Pagination
-          total={paginationPropertiesData.total}
-          current_page={paginationPropertiesData.current_page}
-          properties_per_page={paginationPropertiesData.properties_per_page}
-          num_pages={paginationPropertiesData.num_pages}
-        />
-      )}
+
       <Footer />
     </main>
   );
