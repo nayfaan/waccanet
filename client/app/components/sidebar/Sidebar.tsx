@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
@@ -475,9 +475,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
-        <Suspense>
-          <Search placeholder="キーワード検索" />
-        </Suspense>
+        <Search placeholder="キーワード検索" />
         <div className="p-2">フィルター</div>
         <div className="font-medium">
           {filterElements.map((element) => (
