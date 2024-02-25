@@ -77,7 +77,10 @@ const Pagination: React.FC<PaginationProps> = ({
         <div>
           {range(1, num_pages).map((number, index) =>
             number == current_page ? (
-              <span className="relative inline-flex bg-blue-500 items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+              <span
+                key={index}
+                className="relative inline-flex bg-blue-500 items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+              >
                 {number}
               </span>
             ) : number == current_page - 1 ||
@@ -94,7 +97,10 @@ const Pagination: React.FC<PaginationProps> = ({
                 {number}
               </button>
             ) : number === 2 || number === num_pages - 1 ? (
-              <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+              <span
+                key={index}
+                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+              >
                 ...
               </span>
             ) : null
