@@ -62,44 +62,53 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex items-center justify-center px-4 sx:pt-1 py-3 sm:pb-3 sm:px-6">
-      <div>
-        <nav
-          className="isolate inline-flex -space-x-px rounded-md shadow-sm  bg-white"
-          aria-label="Pagination"
+      <nav
+        className="isolate inline-flex -space-x-px rounded-md shadow-sm  bg-white"
+        aria-label="Pagination"
+      >
+        <button
+          onClick={handleClickPrevious}
+          className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
         >
-          <button
-            onClick={handleClickPrevious}
-            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            <span className="sr-only">Previous</span>
-            <MdOutlineFirstPage className="h-5 w-5" aria-hidden="true" />
-          </button>
+          <span className="sr-only">Previous</span>
+          <MdOutlineFirstPage className="h-5 w-5" aria-hidden="true" />
+        </button>
 
-          <div>
-            {range(1, num_pages).map((number, index) =>
+        <div>
+          {range(1, num_pages).map((number, index) =>
+            number == current_page ? (
+              <span className="relative inline-flex bg-blue-500 items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                {number}
+              </span>
+            ) : number == current_page - 1 ||
+              number == current_page ||
+              number == current_page + 1 ||
               number == 1 ||
               number == num_pages ||
               number === Math.floor(num_pages / 2) ? (
-                <button
-                  key={index}
-                  className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  onClick={() => onClick(number)}
-                >
-                  {number}
-                </button>
-              ) : null
-            )}
-          </div>
+              <button
+                key={index}
+                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300  hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                onClick={() => onClick(number)}
+              >
+                {number}
+              </button>
+            ) : number === 2 || number === num_pages - 1 ? (
+              <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                ...
+              </span>
+            ) : null
+          )}
+        </div>
 
-          <button
-            onClick={handleClickNext}
-            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          >
-            <span className="sr-only">Next</span>
-            <MdOutlineLastPage className="h-5 w-5" aria-hidden="true" />
-          </button>
-        </nav>
-      </div>
+        <button
+          onClick={handleClickNext}
+          className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+        >
+          <span className="sr-only">Next</span>
+          <MdOutlineLastPage className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </nav>
     </div>
   );
 };
