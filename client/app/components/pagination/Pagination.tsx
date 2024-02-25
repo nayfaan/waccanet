@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { MdOutlineFirstPage, MdOutlineLastPage } from "react-icons/md";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import React from "react";
 
 interface PaginationProps {
   total: number;
@@ -61,17 +62,20 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center px-4 sx:pt-1 py-3 sm:pb-3 sm:px-6">
+    <div className="flex items-center justify-center px-4  py-3 sm:pb-3 sm:px-6">
       <nav
         className="isolate inline-flex -space-x-px rounded-md shadow-sm  bg-white"
         aria-label="Pagination"
       >
         <button
           onClick={handleClickPrevious}
-          className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className="relative inline-flex items-center rounded-l-md sm:px-2 sm:py-2 px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
         >
           <span className="sr-only">Previous</span>
-          <MdOutlineFirstPage className="h-5 w-5" aria-hidden="true" />
+          <MdOutlineFirstPage
+            className="sm:h-5 sm:w-5 h-4 w-4"
+            aria-hidden="true"
+          />
         </button>
 
         <div>
@@ -79,7 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({
             number == current_page ? (
               <span
                 key={index}
-                className="relative inline-flex bg-blue-500 items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                className="relative inline-flex bg-blue-500 items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
               >
                 {number}
               </span>
@@ -91,7 +95,7 @@ const Pagination: React.FC<PaginationProps> = ({
               number === Math.floor(num_pages / 2) ? (
               <button
                 key={index}
-                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300  hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                 onClick={() => onClick(number)}
               >
                 {number}
@@ -99,7 +103,7 @@ const Pagination: React.FC<PaginationProps> = ({
             ) : number === 2 || number === num_pages - 1 ? (
               <span
                 key={index}
-                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                className="relative inline-flex items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
               >
                 ...
               </span>
@@ -109,10 +113,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
         <button
           onClick={handleClickNext}
-          className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className="relative inline-flex items-center rounded-r-md sm:px-2 sm:py-2 px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
         >
           <span className="sr-only">Next</span>
-          <MdOutlineLastPage className="h-5 w-5" aria-hidden="true" />
+          <MdOutlineLastPage
+            className="sm:h-5 sm:w-5 h-4 w-4"
+            aria-hidden="true"
+          />
         </button>
       </nav>
     </div>
