@@ -4,9 +4,9 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { PiSidebar } from "react-icons/pi";
 import Image from "next/image";
 import WaccanetLogo from "../../../public/favicon.ico";
-import Sidebar from "../sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import SidebarProvider from "../sidebar/SidebarProvider";
 
 const navigations = [
   { name: "物件新規登録", href: "/developing", current: false },
@@ -112,12 +112,11 @@ const Navbar = () => {
       )}
       {/* Sidebar for Mobile */}
       {isSidebarOpen && (
-        <Sidebar
+        <SidebarProvider
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
       )}
-      {/* </header> */}
     </>
   );
 };
