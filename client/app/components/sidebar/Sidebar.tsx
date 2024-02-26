@@ -40,11 +40,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [openElements, setOpenElements] = useState<string[]>([]);
   const params = useContext(SidebarContext);
-  // const { getValues, setValue } = useForm<FieldValues>({
-  //   defaultValues: {
-  //     params,
-  //   },
-  // });
 
   const filterElements = [
     {

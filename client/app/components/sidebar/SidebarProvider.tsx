@@ -21,11 +21,20 @@ export const defaultSearchParams: SearchParams = {
   onlineViewing: [],
   minimumStay: [],
   references: [],
+  page: "",
 };
 
 export const SidebarContext = createContext<SearchParams>(defaultSearchParams);
 
-const SidebarProvider = () => {
+interface SidebarProviderProps {
+  isSidebarOpen?: boolean;
+  setIsSidebarOpen?: (value: boolean) => void;
+}
+
+const SidebarProvider: React.FC<SidebarProviderProps> = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+}) => {
   const [params, setParams] = useState<SearchParams>(defaultSearchParams);
   const searchParams = useSearchParams();
   const strSearchParams = searchParams.toString();
@@ -68,7 +77,10 @@ const SidebarProvider = () => {
 
   return (
     <SidebarContext.Provider value={params}>
-      <Sidebar />
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
     </SidebarContext.Provider>
   );
 };
