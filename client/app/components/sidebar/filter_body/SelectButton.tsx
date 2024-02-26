@@ -1,54 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { FaCheckCircle } from "react-icons/fa";
-import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface SelectButtonProps {
   id: string;
   label: string;
   multipleChoice?: boolean;
-  getValues: () => FieldValues;
-  setValue: (name: string, value: any, options?: Record<string, any>) => void;
+  paramsArr: string[];
 }
 
 const SelectButton: React.FC<SelectButtonProps> = ({
   id,
   label,
   multipleChoice,
-  getValues,
-  setValue,
+  paramsArr,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const selectedValues = getValues()[id] || [];
-  const isLabelIncluded = selectedValues.includes(label);
+  const [selectedValues, setSelectedValues] = useState<{
+    [key: string]: string[];
+  }>({ [id]: paramsArr });
 
+  const [isChecked, setIsChecked] = useState(
+    selectedValues[id]?.includes(label) ?? false
+  );
   const pathname = usePathname();
   const { replace } = useRouter();
   const searchParams = useSearchParams();
 
-  const handleRegister = () => {
-    setIsChecked(!isChecked);
+  useEffect(() => {
+    // 読み込まれた時にselectedValuesにparamから取得した値を入れる
+    setSelectedValues((prev) => ({ ...prev, [id]: paramsArr }));
+  }, [paramsArr, id]);
 
-    // if (multipleChoice) {
-    const updatedValues = isLabelIncluded
-      ? selectedValues.filter((value: string) => value !== label) // id が含まれている場合は削除
-      : [...selectedValues, label]; // id が含まれていない場合は追加
-    setValue(id, updatedValues); // 更新された値をフォームに反映
+  useEffect(() => {
+    // selectedValuesが更新されたらisCheckedをtoggle
+    // label名が配列にあればtrue,なければfalse
+    setIsChecked(selectedValues[id]?.includes(label) ?? false);
+  }, [label, selectedValues, id]);
 
-    console.log(updatedValues);
+  const handleSelectButtonClick = () => {
+    const updatedValues = selectedValues[id]?.includes(label)
+      ? selectedValues[id]?.filter((value) => value !== label) ?? []
+      : [...(selectedValues[id] ?? []), label];
+
+    // 選択された値を更新
+    setSelectedValues((prev) => ({ ...prev, [id]: updatedValues }));
 
     // 現在のURLにフィルタのパラメータを追加
     const params = new URLSearchParams(searchParams);
 
-    if (updatedValues.length == 0) {
+    if (updatedValues.length === 0) {
       params.delete(id);
     } else {
       const joinedFilterElements = updatedValues.join("_");
       params.set(id, joinedFilterElements);
     }
     params.set("page", "1");
+
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -64,7 +73,7 @@ const SelectButton: React.FC<SelectButtonProps> = ({
       ${multipleChoice ? "text-xs" : "text-sm py-1.5"}
       
       `}
-      onClick={handleRegister}
+      onClick={handleSelectButtonClick}
     >
       {isChecked && !multipleChoice && <FaCheckCircle />}
       {label}

@@ -3,18 +3,20 @@ import { UseFormRegister, FieldValues } from "react-hook-form";
 interface InputProps {
   id: string;
   label: string;
+  defaultValue?: string;
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
-  register: UseFormRegister<FieldValues>;
+  register?: UseFormRegister<FieldValues>;
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errorMessage: string;
+  errorMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
   id,
   label,
+  defaultValue,
   type,
   disabled,
   formatPrice,
@@ -29,8 +31,9 @@ const Input: React.FC<InputProps> = ({
         id={id}
         disabled={disabled}
         placeholder=""
+        defaultValue={defaultValue}
         type={type}
-        {...register(id, { required })}
+        {...(register ? register(id, { required }) : {})}
         onChange={onChange}
         className={`peer w-full p-1 pt-5 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}

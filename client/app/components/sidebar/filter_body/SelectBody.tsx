@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SelectButton from "./SelectButton";
 import { FieldValues } from "react-hook-form";
 
@@ -6,16 +6,14 @@ interface SelectBodyProps {
   id: string;
   labels: string[];
   multipleChoice?: boolean;
-  getValues: () => FieldValues;
-  setValue: (name: string, value: any, options?: Record<string, any>) => void;
+  paramsArr: string[];
 }
 
 const SelectBody: React.FC<SelectBodyProps> = ({
+  id,
   labels,
   multipleChoice,
-  getValues,
-  setValue,
-  id,
+  paramsArr,
 }) => {
   return (
     <div
@@ -29,8 +27,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({
           key={label}
           label={label}
           multipleChoice={multipleChoice}
-          getValues={getValues}
-          setValue={setValue}
+          paramsArr={paramsArr}
         />
       ))}
     </div>

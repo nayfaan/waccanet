@@ -1,9 +1,9 @@
 import React from "react";
 import { Suspense } from "react";
-import Sidebar from "../sidebar/Sidebar";
 import Loading from "@/app/loading";
 import PropertiesMain from "@/app/components/properties/PropertiesMain";
 import Footer from "../footer/Footer";
+import SidebarProvider from "../sidebar/SidebarProvider";
 
 interface PropertiesHomeProps {
   search_query: string;
@@ -24,8 +24,7 @@ const PropertiesHome: React.FC<PropertiesHomeProps> = async ({
 }) => {
   return (
     <main className="bg-gray-50 relative overflow-y-auto md:ml-72 min-h-screen flex flex-col justify-between pt-14">
-      <Sidebar />
-
+      <SidebarProvider />
       <Suspense
         key={`${search_query}-${price_from}-${price_to}-${areas}-${reference}-${page}`}
         fallback={<Loading />}

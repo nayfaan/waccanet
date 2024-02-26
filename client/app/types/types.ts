@@ -22,6 +22,26 @@ export interface PaginationProperties {
   results: Property[];
 }
 
+export interface SearchParams {
+  price_from: string;
+  price_to: string;
+  roomTypes: string[];
+  roommates: string[];
+  gender: string[];
+  areas: string[];
+  stations: string[];
+  utilities: string[];
+  wifi: string[];
+  furnished: string[];
+  takeover: string[];
+  moveInDate: string;
+  paymentMethod: string[];
+  onlineViewing: string[];
+  minimumStay: string[];
+  references: string[];
+  [key: string]: string | string[];
+}
+
 export interface Condition {
   name: string;
   isSelected: boolean;

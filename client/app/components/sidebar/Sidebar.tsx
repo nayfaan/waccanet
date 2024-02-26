@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
 import { PiTrainSimple } from "react-icons/pi";
@@ -28,6 +27,7 @@ import SelectBody from "./filter_body/SelectBody";
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
 import DevelopingBody from "./filter_body/DevelopingBody";
+import { SidebarContext } from "./SidebarProvider";
 
 interface SidebarProps {
   isSidebarOpen?: boolean;
@@ -39,35 +39,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   setIsSidebarOpen,
 }) => {
   const [openElements, setOpenElements] = useState<string[]>([]);
-
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      // minPrice: null,
-      // maxPrice: null,
-      roomTypes: [],
-      roommates: [],
-      areas: [],
-      stations: [],
-      utilities: [],
-      wifi: [],
-      furnished: [],
-      takeover: [],
-      // moveInDate: null,
-      minimumStay: [],
-    },
-  });
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("onSubmit called", data);
-
-    // call api
-  };
+  const params = useContext(SidebarContext);
+  // const { getValues, setValue } = useForm<FieldValues>({
+  //   defaultValues: {
+  //     params,
+  //   },
+  // });
 
   const filterElements = [
     {
@@ -150,8 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             "UBC",
           ]}
           multipleChoice
-          getValues={getValues}
-          setValue={setValue}
+          paramsArr={params.areas}
         />
       ),
     },
@@ -364,7 +340,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       ),
     },
     {
-      id: "payment-method",
+      id: "paymentMethod",
       label: "支払方法",
       icon: RiBankCardLine,
       body: (
@@ -416,16 +392,15 @@ const Sidebar: React.FC<SidebarProps> = ({
       ),
     },
     {
-      id: "reference",
+      id: "references",
       label: "物件情報参照元",
       icon: TfiAgenda,
       body: (
         <SelectBody
-          id="reference"
+          id="references"
           labels={["Waccanet", "JPCanada"]}
           multipleChoice
-          getValues={getValues}
-          setValue={setValue}
+          paramsArr={params.references}
         />
       ),
     },
@@ -493,9 +468,6 @@ const Sidebar: React.FC<SidebarProps> = ({
             </div>
           ))}
         </div>
-        {/* <div className="p-2">
-          <Button label="絞り込み" onClick={handleSubmit(onSubmit)} />
-        </div> */}
       </div>
     </div>
   );

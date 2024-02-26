@@ -1,0 +1,76 @@
+"use client";
+import { createContext, useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
+import { useSearchParams } from "next/navigation";
+import { SearchParams } from "@/app/types/types";
+
+export const defaultSearchParams: SearchParams = {
+  price_from: "",
+  price_to: "",
+  roomTypes: [],
+  roommates: [],
+  gender: [],
+  areas: [],
+  stations: [],
+  utilities: [],
+  wifi: [],
+  furnished: [],
+  takeover: [],
+  moveInDate: "",
+  paymentMethod: [],
+  onlineViewing: [],
+  minimumStay: [],
+  references: [],
+};
+
+export const SidebarContext = createContext<SearchParams>(defaultSearchParams);
+
+const SidebarProvider = () => {
+  const [params, setParams] = useState<SearchParams>(defaultSearchParams);
+  const searchParams = useSearchParams();
+  const strSearchParams = searchParams.toString();
+
+  useEffect(() => {
+    if (!strSearchParams) {
+      // pathが "/"のとき
+      setParams(defaultSearchParams);
+    } else {
+      const paramsObject: SearchParams = { ...defaultSearchParams };
+      strSearchParams.split("&").forEach((param) => {
+        const [key, value] = param.split("=");
+        if (paramsObject.hasOwnProperty(key)) {
+          // paramsObjectにキーが存在する場合
+          if (Array.isArray(paramsObject[key])) {
+            // 配列の場合
+            paramsObject[key] = value.split("_").map(decodeURIComponent);
+          } else {
+            // 配列でない場合
+            paramsObject[key] = decodeURIComponent(value);
+          }
+        } else {
+          // paramsObjectにキーが存在しない場合
+          if (Array.isArray(defaultSearchParams[key])) {
+            // デフォルトが配列の場合
+            paramsObject[key] = value.split("_").map(decodeURIComponent);
+          } else {
+            // デフォルトが配列でない場合
+            paramsObject[key] = decodeURIComponent(value);
+          }
+        }
+      });
+      setParams(paramsObject);
+    }
+  }, [strSearchParams]);
+
+  useEffect(() => {
+    console.log(params);
+  }, [strSearchParams, params]);
+
+  return (
+    <SidebarContext.Provider value={params}>
+      <Sidebar />
+    </SidebarContext.Provider>
+  );
+};
+
+export default SidebarProvider;
