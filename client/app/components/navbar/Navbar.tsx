@@ -34,13 +34,15 @@ const Navbar = () => {
       <nav className="fixed flex justify-between items-center z-40 md:px-5 border-b-[1px] bg-white w-screen h-14">
         <div className="w-full flex items-center justify-between">
           {/* ----- Sidebar Open Button ----- */}
-          <PiSidebar
-            className={`text-gray-600 m-2 md:hidden ${
-              isPropertiesHome ? "opacity-100" : "opacity-0"
-            }`}
-            size={24}
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          />
+          {isPropertiesHome ? (
+            <PiSidebar
+              className="text-gray-600 m-2 md:hidden"
+              size={24}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            />
+          ) : (
+            <div className="md:hidden"></div>
+          )}
 
           {/* ----- Logo ----- */}
           <a href="/" className="flex items-center justify-center">
