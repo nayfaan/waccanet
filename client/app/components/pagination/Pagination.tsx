@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MdOutlineFirstPage, MdOutlineLastPage } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import React from "react";
 
@@ -62,28 +62,35 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center px-4  py-3 sm:pb-3 sm:px-6">
+    <div className="flex items-center justify-center px-1 py-3 sm:pb-3 sm:px-6">
       <nav
-        className="isolate inline-flex -space-x-px rounded-md shadow-sm  bg-white"
+        className="isolate inline-flex gap-2 sm:gap-2 -space-x-px"
         aria-label="Pagination"
       >
         <button
           onClick={handleClickPrevious}
-          className="relative inline-flex items-center rounded-l-md sm:px-2 sm:py-2 px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className={`relative inline-flex justify-center items-center rounded-md ring-1 w-7 h-7 sm:h-8 sm:w-auto sm:pr-2
+          ${
+            current_page === 1
+              ? "cursor-default bg-gray-200 ring-gray-400 text-gray-400"
+              : "cursor-pointer ring-gray-500 text-gray-500 hover:bg-gray-200"
+          }
+          `}
+          disabled={current_page === 1}
         >
-          <span className="sr-only">Previous</span>
-          <MdOutlineFirstPage
-            className="sm:h-5 sm:w-5 h-4 w-4"
+          <MdKeyboardArrowLeft
+            className="sm:h-6 sm:w-6 h-4 w-4"
             aria-hidden="true"
           />
+          <span className="hidden sm:block text-sm">前へ</span>
         </button>
 
-        <div>
+        <>
           {range(1, num_pages).map((number, index) =>
             number == current_page ? (
               <span
                 key={index}
-                className="relative inline-flex bg-blue-500 items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                className="relative inline-flex justify-center items-center text-xs sm:text-sm font-semibold rounded-md ring-1 ring-blue-500 bg-blue-500 text-white w-7 h-7 sm:w-8 sm:h-8 focus:outline-offset-0"
               >
                 {number}
               </span>
@@ -95,7 +102,7 @@ const Pagination: React.FC<PaginationProps> = ({
               number === Math.floor(num_pages / 2) ? (
               <button
                 key={index}
-                className="relative inline-flex items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex justify-center items-center text-xs sm:text-sm font-semibold rounded-md ring-1 ring-gray-500 w-7 h-7 sm:w-8 sm:h-8 text-gray-500 hover:bg-gray-200 focus:z-20 focus:outline-offset-0"
                 onClick={() => onClick(number)}
               >
                 {number}
@@ -103,21 +110,26 @@ const Pagination: React.FC<PaginationProps> = ({
             ) : number === 2 || number === num_pages - 1 ? (
               <span
                 key={index}
-                className="relative inline-flex items-center sm:px-4 sm:py-2 px-2 py-1 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                className="relative inline-flex items-center sm:p-1 text-xs sm:text-sm font-semibold text-gray-500 focus:outline-offset-0"
               >
                 ...
               </span>
             ) : null
           )}
-        </div>
+        </>
 
         <button
           onClick={handleClickNext}
-          className="relative inline-flex items-center rounded-r-md sm:px-2 sm:py-2 px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className={`relative inline-flex justify-center items-center rounded-md ring-1 sm:pl-2 w-7 h-7 sm:h-8 sm:w-auto focus:z-20 focus:outline-offset-0 ${
+            current_page === num_pages
+              ? "cursor-default bg-gray-200 ring-gray-400 text-gray-400"
+              : "cursor-pointer ring-gray-500 text-gray-500 hover:bg-gray-200"
+          }`}
+          disabled={current_page === num_pages}
         >
-          <span className="sr-only">Next</span>
-          <MdOutlineLastPage
-            className="sm:h-5 sm:w-5 h-4 w-4"
+          <span className="hidden sm:block text-sm">次へ</span>
+          <MdKeyboardArrowRight
+            className="sm:h-6 sm:w-6 h-4 w-4"
             aria-hidden="true"
           />
         </button>
