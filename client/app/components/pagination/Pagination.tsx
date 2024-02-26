@@ -90,7 +90,7 @@ const Pagination: React.FC<PaginationProps> = ({
             number == current_page ? (
               <span
                 key={index}
-                className="relative inline-flex justify-center items-center text-xs sm:text-sm font-semibold rounded-md ring-1 ring-blue-500 bg-blue-500 text-white w-7 h-7 sm:w-8 sm:h-8 focus:outline-offset-0"
+                className="relative inline-flex justify-center items-center text-xs sm:text-sm font-semibold rounded-md ring-1 ring-gray-500 bg-gray-500 text-white w-7 h-7 sm:w-8 sm:h-8 focus:outline-offset-0"
               >
                 {number}
               </span>
