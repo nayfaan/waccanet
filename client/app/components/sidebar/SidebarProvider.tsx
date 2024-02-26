@@ -71,10 +71,6 @@ const SidebarProvider: React.FC<SidebarProviderProps> = ({
     }
   }, [strSearchParams]);
 
-  useEffect(() => {
-    console.log(params);
-  }, [strSearchParams, params]);
-
   return (
     <SidebarContext.Provider value={params}>
       <Sidebar
