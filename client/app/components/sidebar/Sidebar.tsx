@@ -46,7 +46,9 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: "price",
       label: "家賃",
       icon: RiMoneyDollarCircleLine,
-      body: <PriceBody />,
+      body: (
+        <PriceBody price_from={params.price_from} price_to={params.price_to} />
+      ),
     },
     {
       id: "roomTypes",
@@ -445,7 +447,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
-        <Search placeholder="キーワード検索" />
+        <Search
+          placeholder="キーワード検索"
+          search_query={params.search_query}
+        />
         <div className="p-2">フィルター</div>
         <div className="font-medium">
           {filterElements.map((element) => (
