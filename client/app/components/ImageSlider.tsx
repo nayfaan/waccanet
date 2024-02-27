@@ -1,34 +1,37 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 
-interface ImgProps {
-  src: string;
+interface ImageProps {
+  src: { file_name: string; image_path: string };
   alt: string;
   active: boolean;
   small?: boolean;
 }
 
-const Img: React.FC<ImgProps> = ({ src, alt, active, small }) => {
+const SlideImage: React.FC<ImageProps> = ({ src, alt, active, small }) => {
   return (
     <div
       className="duration-700 ease-in-out transition-opacity"
       data-carousel-item
     >
-      <img
-        src={src}
-        className={`absolute z-20 w-full object-cover ${
+      <Image
+        src={src.image_path}
+        className={`absolute z-20 w-full h-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
         }
-        ${small ? "h-48" : "h-full"}
+        ${small ? "w-full h-64" : "w-full h-full"}
         `}
         alt={alt}
+        width={500}
+        height={400}
       />
     </div>
   );
 };
 
 interface ImageSliderProps {
-  images: string[];
+  images: { file_name: string; image_path: string }[];
   name: string;
   small?: boolean;
 }
@@ -48,6 +51,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
 
   return (
     <div
+      id="default-carousel"
       className={`object-cover ${
         small ? "w-full rounded-t-lg max-h-48" : "rounded-lg w-full h-full"
       }`}
@@ -60,7 +64,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
         }`}
       >
         {images.map((image, index) => (
-          <Img
+          <SlideImage
             key={index}
             src={image}
             alt={name}
