@@ -12,7 +12,7 @@ import {
   getPriceColor,
   getTruncatedText,
 } from "@/app/format/formattedData";
-import ImageSlider from "./ImageSlider";
+import ImageSlider from "../ImageSlider";
 
 interface PropertyCardProps {
   property: Property;
@@ -36,13 +36,19 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         >
           ${property.price}
         </div>
-        {property.images.length > 0 ? (
+        {property.images.length > 1 ? (
           <ImageSlider images={formattedImgs} name={property.name} small />
         ) : (
           <Image
-            src={DefaultImage}
-            alt="Default Image"
-            className="rounded-t-lg min-w-ful h-48 object-cover"
+            src={
+              property.images.length === 0
+                ? DefaultImage
+                : property.images[0].image_path
+            }
+            alt={property.images.length === 0 ? "Default Image" : property.name}
+            className="rounded-t-lg min-w-ful h-56 object-cover"
+            width={500}
+            height={80}
           />
         )}
       </div>
