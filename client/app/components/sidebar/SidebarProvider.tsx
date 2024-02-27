@@ -47,7 +47,11 @@ const SidebarProvider: React.FC<SidebarProviderProps> = ({
     } else {
       const paramsObject: SearchParams = { ...defaultSearchParams };
       strSearchParams.split("&").forEach((param) => {
-        const [key, value] = param.split("=");
+        let [key, value] = param.split("=");
+        if (key === "search-query") {
+          // "search-query"を"search_query" に変更
+          key = "search_query";
+        }
         if (paramsObject.hasOwnProperty(key)) {
           // paramsObjectにキーが存在する場合
           if (Array.isArray(paramsObject[key])) {
