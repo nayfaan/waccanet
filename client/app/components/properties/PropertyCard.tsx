@@ -46,7 +46,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                 : property.images[0].image_path
             }
             alt={property.images.length === 0 ? "Default Image" : property.name}
-            className="rounded-t-lg min-w-ful h-80 sm:h-56 md:h-64 object-cover"
+            className="rounded-t-lg min-w-ful h-64 sm:h-48 xl:h-56 object-cover"
             width={500}
             height={80}
           />

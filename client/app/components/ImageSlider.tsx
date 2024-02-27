@@ -20,7 +20,7 @@ const SlideImage: React.FC<ImageProps> = ({ src, alt, active, small }) => {
         className={`absolute z-20 w-full h-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
         }
-        ${small ? "w-full h-80 sm:h-56 md:h-64" : "w-full h-full"}
+        ${small ? "w-full h-64 sm:h-48 xl:h-56" : "w-full h-full"}
         `}
         alt={alt}
         // width={500}
@@ -54,7 +54,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
       id="default-carousel"
       className={`object-cover ${
         small
-          ? "w-full rounded-t-lg max-h-80 sm:h-56 md:h-64"
+          ? "w-full rounded-t-lg h-64 sm:h-48 xl:h-56"
           : "rounded-lg w-full h-full"
       }`}
       data-carousel="slide"
@@ -63,7 +63,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
       <div
         className={`relative overflow-hidden ${
           small
-            ? "h-80 sm:h-56 md:h-64 rounded-t-lg"
+            ? "h-64 sm:h-48 xl:h-56 rounded-t-lg"
             : " w-full h-full rounded-lg"
         }`}
       >
