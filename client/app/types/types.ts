@@ -39,6 +39,8 @@ export interface SearchParams {
   onlineViewing: string[];
   minimumStay: string[];
   references: string[];
+  search_query: string[];
+  page: string;
   [key: string]: string | string[];
 }
 

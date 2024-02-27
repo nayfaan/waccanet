@@ -5,10 +5,13 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { FieldValues, UseFormRegister, useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 import Input from "../../inputs/Input";
-import { SidebarContext } from "../SidebarProvider";
 
-const PriceBody = () => {
-  const params = useContext(SidebarContext);
+interface PriceBodyProps {
+  price_from: string;
+  price_to: string;
+}
+
+const PriceBody: React.FC<PriceBodyProps> = ({ price_from, price_to }) => {
   const [minErrorMessage, setMinErrorMessage] = useState("");
   const [maxErrorMessage, setMaxErrorMessage] = useState("");
 
@@ -80,7 +83,7 @@ const PriceBody = () => {
         <Input
           id="price_from"
           label="下限"
-          defaultValue={params.price_from}
+          defaultValue={price_from}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handlePrice("price_from", e.target.value)
           }
@@ -89,7 +92,7 @@ const PriceBody = () => {
         <Input
           id="price_to"
           label="上限"
-          defaultValue={params.price_to}
+          defaultValue={price_to}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handlePrice("price_to", e.target.value)
           }

@@ -21,6 +21,7 @@ export const defaultSearchParams: SearchParams = {
   onlineViewing: [],
   minimumStay: [],
   references: [],
+  search_query: [],
   page: "",
 };
 
@@ -51,7 +52,16 @@ const SidebarProvider: React.FC<SidebarProviderProps> = ({
           // paramsObjectにキーが存在する場合
           if (Array.isArray(paramsObject[key])) {
             // 配列の場合
-            paramsObject[key] = value.split("_").map(decodeURIComponent);
+            if (value.includes("_")) {
+              paramsObject[key] = value.split("_").map(decodeURIComponent);
+            } else if (value.includes("+")) {
+              paramsObject[key] = value.split("+").map(decodeURIComponent);
+            } else {
+              // 空白の値
+              paramsObject[key] = value
+                .split("%E3%80%80")
+                .map(decodeURIComponent);
+            }
           } else {
             // 配列でない場合
             paramsObject[key] = decodeURIComponent(value);

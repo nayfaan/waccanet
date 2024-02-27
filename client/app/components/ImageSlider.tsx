@@ -15,16 +15,16 @@ const SlideImage: React.FC<ImageProps> = ({ src, alt, active, small }) => {
       className="duration-700 ease-in-out transition-opacity"
       data-carousel-item
     >
-      <Image
+      <img
         src={src.image_path}
         className={`absolute z-20 w-full h-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
         }
-        ${small ? "w-full h-64" : "w-full h-full"}
+        ${small ? "w-full h-80 sm:h-56 md:h-64" : "w-full h-full"}
         `}
         alt={alt}
-        width={500}
-        height={400}
+        // width={500}
+        // height={400}
       />
     </div>
   );
@@ -53,14 +53,18 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
     <div
       id="default-carousel"
       className={`object-cover ${
-        small ? "w-full rounded-t-lg max-h-56" : "rounded-lg w-full h-full"
+        small
+          ? "w-full rounded-t-lg max-h-80 sm:h-56 md:h-64"
+          : "rounded-lg w-full h-full"
       }`}
       data-carousel="slide"
     >
       {/* Carousel wrapper */}
       <div
         className={`relative overflow-hidden ${
-          small ? "h-56 rounded-t-lg" : " w-full h-full rounded-lg"
+          small
+            ? "h-80 sm:h-56 md:h-64 rounded-t-lg"
+            : " w-full h-full rounded-lg"
         }`}
       >
         {images.map((image, index) => (

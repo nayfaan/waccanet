@@ -3,7 +3,12 @@
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { BiSearch } from "react-icons/bi";
 
-export default function Search({ placeholder }: { placeholder: string }) {
+interface SearchProps {
+  placeholder: string;
+  search_query: string[];
+}
+
+const Search: React.FC<SearchProps> = ({ placeholder, search_query }) => {
   //変数の状態を保持しておく
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -33,6 +38,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
           name="search-query"
           className="block w-full p-3 ps-5 text-sm text-gray-900 border rounded-full bg-gray-50 focus:border-blue-500"
           placeholder={placeholder}
+          defaultValue={search_query.join(" ")}
         />
         <button
           type="submit"
@@ -43,4 +49,6 @@ export default function Search({ placeholder }: { placeholder: string }) {
       </div>
     </form>
   );
-}
+};
+
+export default Search;
