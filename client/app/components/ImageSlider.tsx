@@ -53,14 +53,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
     <div
       id="default-carousel"
       className={`object-cover ${
-        small ? "w-full rounded-t-lg max-h-48" : "rounded-lg w-full h-full"
+        small ? "w-full rounded-t-lg max-h-56" : "rounded-lg w-full h-full"
       }`}
       data-carousel="slide"
     >
       {/* Carousel wrapper */}
       <div
         className={`relative overflow-hidden ${
-          small ? "h-48 rounded-t-lg" : " w-full h-full rounded-lg"
+          small ? "h-56 rounded-t-lg" : " w-full h-full rounded-lg"
         }`}
       >
         {images.map((image, index) => (
