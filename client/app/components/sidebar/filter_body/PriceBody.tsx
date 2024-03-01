@@ -87,6 +87,7 @@ const PriceBody: React.FC<PriceBodyProps> = ({ price_from, price_to }) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handlePrice("price_from", e.target.value)
           }
+          formatPrice
           errorMessage={minErrorMessage ? minErrorMessage : ""}
         />
         <Input
@@ -96,6 +97,7 @@ const PriceBody: React.FC<PriceBodyProps> = ({ price_from, price_to }) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handlePrice("price_to", e.target.value)
           }
+          formatPrice
           errorMessage={maxErrorMessage ? maxErrorMessage : ""}
         />
       </div>
