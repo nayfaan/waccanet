@@ -3,8 +3,8 @@ from django.core.validators import MinValueValidator
 
 
 class Owner(models.Model):
-    user_id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)],null=True)
-    user_name = models.CharField(max_length=50)
+    user_id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
+    user_name = models.CharField(max_length=50,null=True)
     password = models.CharField(max_length=30,null=True)
     email = models.EmailField(max_length = 254,null=True)
 
