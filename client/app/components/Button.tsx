@@ -9,6 +9,7 @@ interface ButtonProps {
   small?: boolean;
   actionType?: string;
   href?: string;
+  disabled?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   small,
   actionType,
   href,
+  disabled,
   onClick,
 }) => {
   const router = useRouter();

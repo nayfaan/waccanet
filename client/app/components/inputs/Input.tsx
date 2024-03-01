@@ -1,4 +1,5 @@
 import { UseFormRegister, FieldValues } from "react-hook-form";
+import { BiDollar } from "react-icons/bi";
 
 interface InputProps {
   id: string;
@@ -27,6 +28,9 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="w-full relative">
+      {formatPrice && (
+        <BiDollar size={18} className="text-gray-400 absolute top-5 left-2" />
+      )}
       <input
         id={id}
         disabled={disabled}
@@ -35,7 +39,7 @@ const Input: React.FC<InputProps> = ({
         type={type}
         {...(register ? register(id, { required }) : {})}
         onChange={onChange}
-        className={`peer w-full p-1 pt-5 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+        className={`peer w-full p-1 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}
     ${errorMessage ? "border-red-300" : "border-gray-300"} 
     `}
