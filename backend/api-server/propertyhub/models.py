@@ -3,7 +3,13 @@ from django.core.validators import MinValueValidator
 
 
 class Owner(models.Model):
-    name = models.CharField(max_length=50)
+    user_id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
+    user_name = models.CharField(max_length=50)
+    password = models.CharField(max_length=30,null=True)
+    email = models.EmailField(max_length = 254,null=True)
+
+    def __str__(self):
+        return "ID:{}-{}".format(str(self.user_id),self.user_name)
 
 '''
 物件ID (id)
@@ -23,7 +29,7 @@ class Property(models.Model):
     address = models.CharField(max_length=100,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
     reference = models.CharField(max_length=50,default='Waccanet')
-    # owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
         return self.name

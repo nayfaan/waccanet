@@ -1,11 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PropertyViewSet,OwnerList
+from .views import PropertyViewSet
 
 router = DefaultRouter()
 router.register('apis', PropertyViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('ownerList/',OwnerList.as_view())
 ]

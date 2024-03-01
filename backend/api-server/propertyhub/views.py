@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from .models import Property,Owner,Image
 from .serializers import PropertySerializer,OwnerSerializer
-from rest_framework import generics
+from django.core.mail import send_mail
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,6 +12,7 @@ from operator import and_,or_
 import re
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticated  
+from django.db import transaction
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
@@ -87,11 +88,6 @@ class PropertyViewSet(viewsets.ModelViewSet):
         return properties_objects 
     
     def property_filter_reference(self, properties_objects,filter_reference_query):
-        for _ in range(10):
-            print(filter_reference_query)
-            print(filter_reference_query.split('_'))
-            print(filter_reference_query.split('_')[0])
-
   
         if filter_reference_query:
             query = reduce(
@@ -121,18 +117,95 @@ class PropertyViewSet(viewsets.ModelViewSet):
         # プロパティデータをシリアライザーで検証・保存
         property_serializer = PropertySerializer(data=property_data)
         if property_serializer.is_valid():
-            property_instance = property_serializer.save()
+            with transaction.atomic():
 
-            # 送信された画像をImageモデルと関連付けて保存
-            for image in images:
-                Image.objects.create(property=property_instance,file_name=str(image.name),image_path=image)
+                property_instance = property_serializer.save()
+
+                # 送信された画像をImageモデルと関連付けて保存
+                for image in images:
+                    Image.objects.create(property=property_instance,file_name=str(image.name),image_path=image)
             
+                if property_data['reference'] == 'Waccanet':
+                    import random, string
+                    #仮のユーザ名自動生成
+                    user_name='waccanet-'+''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
+                    #パスワード自動生成
+                    password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(20))
+
+                    owner_data = {
+                    'user_name': user_name,
+                    'password': password,
+                    'email': property_data['email']
+                    }
+
+                    # プロパティデータをシリアライザーで検証・保存
+                    owner_serializer = OwnerSerializer(data=owner_data)
+                    if owner_serializer.is_valid():
+            
+                        # UserIDがすでに使われていた場合
+                        if Owner.objects.filter(user_name=owner_data['user_name']).exists():
+                            transaction.set_rollback(True)  # ロールバックをマーク
+
+                            return Response({'error': 3}, status=status.HTTP_400_BAD_REQUEST)
+
+                        try:
+                            # トランザクション内でOwnerを保存
+                            owner_instance = owner_serializer.save()
+                            property_instance.owner = owner_instance
+                            property_instance.save()  # プロパティにOwnerを関連付けて保存
+                        except:
+                            # データベースエラー
+                            return Response({'error': 11}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    else:
+                        transaction.set_rollback(True)  # ロールバックをマーク
+                        return Response(owner_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                    
+                    #オーナに登録が完了したことを通知
+                    self.send_mail2owner(owner_data)
+
             return Response('Property and Images created successfully', status=status.HTTP_201_CREATED)
         else:
-          return Response(property_serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+          return Response(property_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-class OwnerList(generics.ListAPIView):
-    permission_classes = [HasAPIKey | IsAuthenticated]
-    queryset=Owner.objects.all()
-    serializer_class = OwnerSerializer
+    def send_mail2owner(self,owner_data):
+            
+            user_name = owner_data['user_name']
+            password = owner_data['password']
+            email_address=owner_data['email']
+            """題名"""
+            subject = 'waccanet物件登録の完了のお知らせ'
+
+            """本文"""
+            "送信元："
+            message = "このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : {} password {}".format(user_name,password)
+            """送信元メールアドレス"""
+            from_email = ""
+            """宛先メールアドレス"""
+            recipient_list = [
+                email_address
+            ]
+            send_mail(subject, message, from_email, recipient_list)
+
+            return 
+ 
+
+    @action(detail=True, methods=['post'])
+    def property_delete (self,request,pk=None):
+
+        owner_name = pk
+        password = request.data['password']
+
+        try:
+            owner_instance = Owner.objects.get(user_name=owner_name)
+        except:
+            return Response({'error': 'Property not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # プロパティが存在するか確認
+        if owner_instance:
+            with transaction.atomic():
+                if owner_instance.password == password:
+                    # オブジェクトの削除
+                    owner_instance.delete()
+                    return Response({'message': 'Property deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+                else:
+                    return Response({'error': 'password is incorrect.'}, status=status.HTTP_404_NOT_FOUND)

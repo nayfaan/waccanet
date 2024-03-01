@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_api_key',
     'django_filters',
+    'django_cleanup',
     'account',
     'propertyhub',
     'contactus',
