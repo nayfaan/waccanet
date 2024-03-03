@@ -16,7 +16,9 @@ export async function fetchPropertyListPagination(search_query: string,price_fro
             throw new Error('X_Api_Key is missing or undefined.');
         }
         const apt_query = `${api_server_link}/property/apis/properties_info_get/?search_query=${search_query}&price_from=${price_from}&price_to=${price_to}&areas=${areas}&reference=${reference}&page=${page}`
-        const res = await fetch(apt_query, { headers: headers, next: {revalidate: 54000} });
+        const res = await fetch(apt_query, { headers: headers, next: {revalidate: 3600} });
+        // const res = await fetch(apt_query, { headers: headers, next: {revalidate: 10800} });
+
         if (!res.ok) {
             // エラー処理
             console.error('Request failed with status:', res.status);
@@ -44,7 +46,9 @@ export async function fetchPropertyDetail(slug: string) {
         // const apt_query = `${api_server_link}/property/apis/property_id/?id=${slug}`
         const apt_query = `${api_server_link}/property/apis/${slug}/`
 
-        const res = await fetch(apt_query, {  headers: headers });
+        const res = await fetch(apt_query, { headers: headers, next: {revalidate: 3600} });
+        // const res = await fetch(apt_query, {  headers: headers });
+        
         if (!res.ok) {
             // エラー処理
             console.error('Request failed with status:', res.status);

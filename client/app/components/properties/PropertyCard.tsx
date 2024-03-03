@@ -12,7 +12,7 @@ import {
   getPriceColor,
   getTruncatedText,
 } from "@/app/format/formattedData";
-import ImageSlider from "./ImageSlider";
+import ImageSlider from "../ImageSlider";
 
 interface PropertyCardProps {
   property: Property;
@@ -25,7 +25,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const truncatedDescription = getTruncatedText(property.description, 100);
 
   return (
-    <div className="flex flex-col w-full max-w-[500px] sm:w-[290px] md:w-[225px] lg:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
+    <div className="flex flex-col w-full max-w-[500px] sm:w-[290px] md:w-[225px] xl:w-[260px] m-1 bg-white border border-gray-200 rounded-lg shadow">
       <div className="relative">
         <div
           className={`absolute z-40 top-0 left-0 border-2 ${priceColor} py-1 px-2 rounded-lg ${
@@ -36,13 +36,19 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         >
           ${property.price}
         </div>
-        {property.images.length > 0 ? (
+        {property.images.length > 1 ? (
           <ImageSlider images={formattedImgs} name={property.name} small />
         ) : (
           <Image
-            src={DefaultImage}
-            alt="Default Image"
-            className="rounded-t-lg min-w-ful h-48 object-cover"
+            src={
+              property.images.length === 0
+                ? DefaultImage
+                : property.images[0].image_path
+            }
+            alt={property.images.length === 0 ? "Default Image" : property.name}
+            className="rounded-t-lg min-w-ful h-64 sm:h-48 xl:h-56 object-cover"
+            width={500}
+            height={80}
           />
         )}
       </div>

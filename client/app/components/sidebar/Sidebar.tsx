@@ -28,6 +28,22 @@ import Button from "../Button";
 import Calendar from "../inputs/Calendar";
 import DevelopingBody from "./filter_body/DevelopingBody";
 import { SidebarContext } from "./SidebarProvider";
+import {
+  areas,
+  furnished,
+  gender,
+  laundry,
+  minimumStay,
+  onlineViewing,
+  paymentMethod,
+  references,
+  roomTypes,
+  roommates,
+  stations,
+  takeover,
+  utilities,
+  wifi,
+} from "@/app/selectLists";
 
 interface SidebarProps {
   isSidebarOpen?: boolean;
@@ -46,30 +62,22 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: "price",
       label: "家賃",
       icon: RiMoneyDollarCircleLine,
-      body: <PriceBody />,
+      body: (
+        <PriceBody price_from={params.price_from} price_to={params.price_to} />
+      ),
     },
     {
       id: "roomTypes",
       label: "部屋タイプ",
       icon: PiHouseLine,
       body: (
-        // (
-        //   <SelectBody
-        //     id="roomTypes"
-        //     labels={[
-        //       "プライベートルーム",
-        //       "シェアルーム",
-        //       "デン",
-        //       "リビングルーム",
-        //       "ソラリウム",
-        //       "バスルーム付きの部屋",
-        //       "完全プライベートスイート",
-        //     ]}
-        //     multipleChoice
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
+        // <SelectBody
+        //   id="roomTypes"
+        //   labels={roomTypes}
+        //   multipleChoice
+        //   paramsArr={params.roomTypes}
+        // />
+
         <DevelopingBody />
       ),
     },
@@ -80,10 +88,9 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         // <SelectBody
         //   id="roommates"
-        //   labels={["なし", "1〜3人", "3〜5人", "6人以上"]}
+        //   labels={roommates}
         //   multipleChoice
-        //   getValues={getValues}
-        //   setValue={setValue}
+        //   paramsArr={params.roommates}
         // />
         <DevelopingBody />
       ),
@@ -93,14 +100,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "性別",
       icon: BiMaleFemale,
       body: (
-        // <SelectBody
-        //   id="gender"
-        //   labels={["女性専用", "男性専用", "性別制限なし"]}
-        //   multipleChoice
-        //   getValues={getValues}
-        //   setValue={setValue}
-        // />
-        <DevelopingBody />
+        <SelectBody
+          id="gender"
+          labels={gender}
+          multipleChoice
+          paramsArr={params.gender}
+        />
+        // <DevelopingBody />
       ),
     },
     {
@@ -110,17 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         <SelectBody
           id="areas"
-          labels={[
-            "ダウンタウン",
-            "バーナビー",
-            "ノースバーナビー",
-            "リッチモンド",
-            "ノースバンクーバー",
-            "サレー",
-            "コキットラム",
-            "ランガラ",
-            "UBC",
-          ]}
+          labels={areas}
           multipleChoice
           paramsArr={params.areas}
         />
@@ -132,84 +128,41 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: PiTrainSimple,
       body: (
         // [
+        // <FilterElement
+        //   key="expo_line"
+        //   id="expo_line"
+        //   label="Expo Line"
+        //   icon={FaCircle}
+        //   openElements={openElements}
+        //   color="#185B9F"
+        //   body={
+        //     <SelectBody
+        //       id="stations"
+        //       labels={stations.expo_line}
+        //       multipleChoice
+        //       paramsArr={params.stations}
+        //     />
+        //   }
+        // />,
+        // <FilterElement
+        //   key="canada_line"
+        //   id="canada_line"
+        //   label="Canada Line"
+        //   icon={FaCircle}
+        //   openElements={openElements}
+        //   color="#1694BF"
+        //   body={
+        //     <SelectBody
+        //       id="stations"
+        //       labels={stations.canada_line}
+        //       multipleChoice
+        //       paramsArr={params.stations}
+        //     />
+        //   }
+        // />,
         //   <FilterElement
-        //     key="expo-line"
-        //     id="expo-line"
-        //     label="Expo Line"
-        //     icon={FaCircle}
-        //     openElements={openElements}
-        //     color="#185B9F"
-        //     body={
-        //       <SelectBody
-        //         id="stations"
-        //         labels={[
-        //           "Waterfront",
-        //           "Burrard",
-        //           "Granville",
-        //           "Stadium-Chinatown",
-        //           "Main Street-Science World",
-        //           "Commercial-Broadway",
-        //           "Nanaimo",
-        //           "29th Avenue",
-        //           "Joyce-Collingwood",
-        //           "Patterson",
-        //           "Metrotown",
-        //           "Royal Oak",
-        //           "Edmonds",
-        //           "22nd Street",
-        //           "New Westminster",
-        //           "Columbia",
-        //           "Scott Road",
-        //           "Gateway",
-        //           "Surrey Central",
-        //           "King George",
-        //           "Sapperton",
-        //           "Braid",
-        //           "Lougheed",
-        //           "Production Way",
-        //         ]}
-        //         multipleChoice
-        //         getValues={getValues}
-        //         setValue={setValue}
-        //       />
-        //     }
-        //   />,
-        //   <FilterElement
-        //     key="canada-line"
-        //     id="canada-line"
-        //     label="Canada Line"
-        //     icon={FaCircle}
-        //     openElements={openElements}
-        //     color="#1694BF"
-        //     body={
-        //       <SelectBody
-        //         id="stations"
-        //         labels={[
-        //           "Vancouver City Centre",
-        //           "Yaletown-Roundhouse",
-        //           "Olympic Village",
-        //           "Broadway-City Hall",
-        //           "King Edward",
-        //           "Oakridge-41st Ave",
-        //           "Langara-49th Ave",
-        //           "Marine Drive",
-        //           "Bridgeport",
-        //           "Aberdeen",
-        //           "Lansdowne",
-        //           "Richmond-Brighouse",
-        //           "Templeton",
-        //           "Sea Island Centre",
-        //           "YVR Airport",
-        //         ]}
-        //         multipleChoice
-        //         getValues={getValues}
-        //         setValue={setValue}
-        //       />
-        //     }
-        //   />,
-        //   <FilterElement
-        //     key="millennium-line"
-        //     id="millennium-line"
+        //     key="millennium_line"
+        //     id="millennium_line"
         //     label="Millennium Line"
         //     icon={FaCircle}
         //     openElements={openElements}
@@ -217,33 +170,13 @@ const Sidebar: React.FC<SidebarProps> = ({
         //     body={
         //       <SelectBody
         //         id="stations"
-        //         labels={[
-        //           "VCC-Clark",
-        //           "Renfrew",
-        //           "Rupert",
-        //           "Gilmore",
-        //           "Brentwood",
-        //           "Holdom",
-        //           "Metrotown",
-        //           "Sperling-Burnaby Lake",
-        //           "Lake City",
-        //           "Production Way-University",
-        //           "Lougheed Town Centre",
-        //           "Burquitlam",
-        //           "Moody Centre",
-        //           "Inlet Centre",
-        //           "Coquitlam Central",
-        //           "Lincoln",
-        //           "Lafarge Lake-Douglas",
-        // ]
-
-        // }
-        //   multipleChoice
-        //   getValues={getValues}
-        //   setValue={setValue}
-        // />
-        //   }
-        // />,
+        //         labels={stations.millennium_line}
+        //         multipleChoice
+        //         paramsArr={params.stations}
+        //       />
+        //     }
+        //   />,
+        // ],
         <DevelopingBody />
       ),
     },
@@ -252,14 +185,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "光熱費",
       icon: PiPlugCharging,
       body: (
-        // (
-        //   <SelectBody
-        //     id="utilities"
-        //     labels={["含む", "含まない"]}
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
+        // <SelectBody
+        //   id="utilities"
+        //   labels={utilities}
+        //   paramsArr={params.utilities}
+        // />
         <DevelopingBody />
       ),
     },
@@ -268,14 +198,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "Wi-Fi",
       icon: FaWifi,
       body: (
-        // (
-        //   <SelectBody
-        //     id="wifi"
-        //     labels={["含む"]}
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
+        // <SelectBody id="wifi" labels={wifi} paramsArr={params.wifi} />
         <DevelopingBody />
       ),
     },
@@ -284,15 +207,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "家具",
       icon: IoBedOutline,
       body: (
-        // (
-        //   <SelectBody
-        //     id="furnished"
-        //     labels={["あり", "なし"]}
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
-        <DevelopingBody />
+        <SelectBody
+          id="furnished"
+          labels={furnished}
+          paramsArr={params.furnished}
+        />
+        // <DevelopingBody />
       ),
     },
     {
@@ -302,9 +222,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         // <SelectBody
         //   id="laundry"
-        //   labels={["無料"]}
-        //   getValues={getValues}
-        //   setValue={setValue}
+        //   labels={laundry}
+        //   paramsArr={params.laundry}
         // />
         <DevelopingBody />
       ),
@@ -314,14 +233,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "テイクオーバー",
       icon: LiaMoneyCheckAltSolid,
       body: (
-        // (
-        //   <SelectBody
-        //     id="takeover"
-        //     labels={["不要"]}
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
+        // <SelectBody
+        //   id="takeover"
+        //   labels={takeover}
+        //   paramsArr={params.takeover}
+        // />
         <DevelopingBody />
       ),
     },
@@ -330,7 +246,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "入居可能日",
       icon: SlCalender,
       body: (
-        //  <Calendar id="moveInDate" register={register} required />,
+        // <Calendar id="moveInDate" required />,
         <DevelopingBody />
       ),
     },
@@ -341,10 +257,9 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         // <SelectBody
         //   id="payment-method"
-        //   labels={["現金", "E-Transfer", "小切手", "要相談"]}
+        //   labels={paymentMethod}
         //   multipleChoice
-        //   getValues={getValues}
-        //   setValue={setValue}
+        //   paramsArr={params.paymentMethod}
         // />
         <DevelopingBody />
       ),
@@ -356,9 +271,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         // <SelectBody
         //   id="onlineViewing"
-        //   labels={["対応"]}
-        //   getValues={getValues}
-        //   setValue={setValue}
+        //   labels={onlineViewing}
+        //   paramsArr={params.onlineViewing}
         // />
         <DevelopingBody />
       ),
@@ -368,21 +282,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "ミニマムステイ",
       icon: CgSandClock,
       body: (
-        // (
-        //   <SelectBody
-        //     id="minimumStay"
-        //     labels={[
-        //       "1ヶ月",
-        //       "2〜3ヶ月",
-        //       "4ヶ月〜半年未満",
-        //       "半年〜1年未満",
-        //       "1年以上",
-        //     ]}
-        //     multipleChoice
-        //     getValues={getValues}
-        //     setValue={setValue}
-        //   />
-        // ),
+        // <SelectBody
+        //   id="minimumStay"
+        //   labels={minimumStay}
+        //   multipleChoice
+        //   paramsArr={params.minimumStay}
+        // />
         <DevelopingBody />
       ),
     },
@@ -393,7 +298,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         <SelectBody
           id="references"
-          labels={["Waccanet", "JPCanada"]}
+          labels={references}
           multipleChoice
           paramsArr={params.references}
         />
@@ -445,7 +350,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
-        <Search placeholder="キーワード検索" />
+        <Search
+          placeholder="キーワード検索"
+          search_query={params.search_query}
+        />
         <div className="p-2">フィルター</div>
         <div className="font-medium">
           {filterElements.map((element) => (

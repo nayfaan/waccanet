@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import SidebarProvider from "../sidebar/SidebarProvider";
 
 const navigations = [
-  { name: "物件新規登録", href: "/developing", current: false },
+  { name: "物件新規登録", href: "/properties/register", current: false },
   { name: "サイト概要", href: "/about-our-site", current: false },
   { name: "お問い合わせ", href: "/contact-us", current: false },
 ];
