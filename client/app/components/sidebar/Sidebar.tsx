@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         <SelectBody
           id="gender"
-          labels={gender}
+          labels={gender.japanese}
           multipleChoice
           paramsArr={params.gender}
         />
@@ -116,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         <SelectBody
           id="areas"
-          labels={areas}
+          labels={areas.japanse}
           multipleChoice
           paramsArr={params.areas}
         />
@@ -207,12 +207,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "家具",
       icon: IoBedOutline,
       body: (
-        <SelectBody
-          id="furnished"
-          labels={furnished}
-          paramsArr={params.furnished}
-        />
-        // <DevelopingBody />
+        // <SelectBody
+        //   id="furnished"
+        //   labels={furnished.japanese}
+        //   paramsArr={params.furnished}
+        // />
+        <DevelopingBody />
       ),
     },
     {
@@ -298,7 +298,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       body: (
         <SelectBody
           id="references"
-          labels={references}
+          labels={references.japanese}
           multipleChoice
           paramsArr={params.references}
         />

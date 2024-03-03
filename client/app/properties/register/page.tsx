@@ -1,23 +1,36 @@
 "use client";
+import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
 import RegisterForm from "@/app/components/RegisterForm";
 import Footer from "@/app/components/footer/Footer";
 import Dropdown from "@/app/components/inputs/Dropdown";
 import Input from "@/app/components/inputs/Input";
-import SelectButton from "@/app/components/sidebar/filter_body/SelectButton";
-import { areas, stations } from "@/app/selectLists";
+import Toggle from "@/app/components/inputs/Toggle";
+import {
+  areas,
+  furnished,
+  gender,
+  laundry,
+  minimumStay,
+  paymentMethod,
+  roommates,
+  stations,
+  utilities,
+  wifi,
+} from "@/app/selectLists";
 import React, { useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 enum STEPS {
   PROFILE = 0,
   REQUIRED_INFO = 1,
-  LOCATION = 2,
-  IMAGES = 3,
-  INCLUDED_IN_RENT = 4,
-  OTHER_OPTIONS = 5,
-  DATES = 6,
-  DESCRIPTION = 7,
+  MAP = 2,
+  LOCATION = 3,
+  IMAGES = 4,
+  INCLUDED_IN_RENT = 5,
+  OTHER_OPTIONS = 6,
+  DATES = 7,
+  DESCRIPTION = 8,
 }
 
 const Register = () => {
@@ -33,7 +46,7 @@ const Register = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       profile: {
-        name: "",
+        owner_name: "",
         owner_address: "",
         contact_info: {
           email: "",
@@ -44,8 +57,11 @@ const Register = () => {
         title: "",
         price: 1,
       },
-      location: {
+      map: {
         house_address: "",
+        map: "",
+      },
+      location: {
         station: "",
         area: "",
       },
@@ -58,15 +74,13 @@ const Register = () => {
       },
       other_options: {
         gender: "",
-        roommates: 1,
-        takeover: 0,
+        minimum_stay: "",
+        roommates: "",
         payment: "",
+        takeover: "",
         online_viewing: false,
       },
-      dates: {
-        move_in_date: "",
-        move_out_date: "",
-      },
+      move_in_date: "",
       description: "",
     },
   });
@@ -148,8 +162,20 @@ const Register = () => {
           subtitle="What is the title of the place and how much it the rent?"
         />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Input id="title" label="Title" />
-          <Input id="rent" label="Rent" formatPrice />
+          <Input id="title" label="Title" required />
+          <Input id="rent" label="Rent" formatPrice required />
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.MAP) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Address" subtitle="Where is the place located?" />
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Input id="house_address" label="Address" />
+          <div>GoogleMapをここに追加</div>
         </div>
       </div>
     );
@@ -160,9 +186,116 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Location" subtitle="Where is the place located?" />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Input id="house_address" label="Address" />
-          <Dropdown label="Select area" items={areas} />
-          {/* <Dropdown label="Select closest station" items={stations} /> */}
+          <Dropdown label="Select area" items={areas.english} />
+          <Dropdown label="Select closest station" items={stations} />
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Images of the place"
+          subtitle="What's the place look like?"
+        />
+        <div className="flex flex-col items-center justify-center gap-2">
+          画像を挿入できるものをここに追加
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.INCLUDED_IN_RENT) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Utilities, Wifi, Laundry and more..."
+          subtitle="What is included in rent?"
+        />
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="flex items-center justify-start w-full gap-2">
+            <div className="w-1/4 text-sm md:text-base text-gray-500">
+              Utilities
+            </div>
+            <Toggle
+              messageTrue="Yes! Included in rent"
+              messageFalse="Tenants have to pay"
+            />
+          </div>
+
+          <div className="flex items-center justify-start w-full gap-2">
+            <div className="w-1/4 text-sm md:text-base text-gray-500">Wifi</div>
+            <Toggle
+              messageTrue="Yes! Included in rent"
+              messageFalse="Not part of rent"
+            />
+          </div>
+
+          <div className="flex items-center justify-start w-full gap-2">
+            <div className="w-1/4 text-sm md:text-base text-gray-500">
+              Laundry
+            </div>
+            <Toggle
+              messageTrue="Yes! Included in rent"
+              messageFalse="Not part of rent"
+            />
+          </div>
+
+          <div className="flex items-center justify-start w-full gap-2">
+            <div className="w-1/4 text-sm md:text-base text-gray-500">
+              Furniture
+            </div>
+            <Toggle messageTrue="Yes! Furnished" messageFalse="No furniture" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.OTHER_OPTIONS) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Other information" subtitle="Tell us more details!" />
+        <div className="flex flex-col items-center justify-center w-full gap-2">
+          <Dropdown label="Select gender preference" items={gender.english} />
+          <Dropdown
+            label="Select rent payment preference"
+            items={paymentMethod.english}
+          />
+          <Input id="roommates" label="Number of roommates" />
+          <Input id="minimum_stay" label="Minimum stay (Month)" />
+          <Input id="takeover" label="Price of takeover" formatPrice />
+          <div className="flex items-center justify-start w-full gap-2">
+            <div className="text-gray-500">Online Viewing</div>
+            <Toggle
+              messageTrue="Yes! Online tour available"
+              messageFalse="In person only"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.DATES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Move in date" subtitle="When is the room available?" />
+        <div className="flex flex-col items-center justify-center gap-2">
+          カレンダーを追加する
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Description" subtitle="More about the place..." />
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Input id="description" label="Description" textarea />
         </div>
       </div>
     );
