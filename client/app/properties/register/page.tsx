@@ -13,6 +13,7 @@ import {
   laundry,
   minimumStay,
   paymentMethod,
+  roomTypes,
   roommates,
   stations,
   utilities,
@@ -55,7 +56,8 @@ const Register = () => {
       },
       required_info: {
         title: "",
-        price: 1,
+        price: "",
+        room_type: "",
       },
       map: {
         house_address: "",
@@ -141,10 +143,7 @@ const Register = () => {
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading
-        title="Complete your profile"
-        subtitle="Please input your information!"
-      />
+      <Heading title="Your Profile" subtitle="Please input your information!" />
       <div className="flex flex-col items-center justify-center gap-2">
         <Input id="name" label="Name" />
         <Input id="owner_address" label="Address" />
@@ -158,12 +157,13 @@ const Register = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Title and Rent"
-          subtitle="What is the title of the place and how much it the rent?"
+          title="Title, Rent and Room"
+          subtitle="Basic information about the place"
         />
         <div className="flex flex-col items-center justify-center gap-2">
           <Input id="title" label="Title" required />
           <Input id="rent" label="Rent" formatPrice required />
+          <Dropdown label="Select room type" items={roomTypes.english} />
         </div>
       </div>
     );
@@ -184,7 +184,10 @@ const Register = () => {
   if (step === STEPS.LOCATION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Location" subtitle="Where is the place located?" />
+        <Heading
+          title="Area and Station"
+          subtitle="Which area and station is your place loacated?"
+        />
         <div className="flex flex-col items-center justify-center gap-2">
           <Dropdown label="Select area" items={areas.english} />
           <Dropdown label="Select closest station" items={stations} />
@@ -198,7 +201,7 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Images of the place"
-          subtitle="What's the place look like?"
+          subtitle="Insert some images so people get interested"
         />
         <div className="flex flex-col items-center justify-center gap-2">
           画像を挿入できるものをここに追加
@@ -211,8 +214,8 @@ const Register = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Utilities, Wifi, Laundry and more..."
-          subtitle="What is included in rent?"
+          title="Utilities, Wifi, Laundry and Furniture"
+          subtitle="Are these is included in rent?"
         />
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex items-center justify-start w-full gap-2">
@@ -282,7 +285,7 @@ const Register = () => {
   if (step === STEPS.DATES) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Move in date" subtitle="When is the room available?" />
+        <Heading title="Move-in Date" subtitle="When is the room available?" />
         <div className="flex flex-col items-center justify-center gap-2">
           カレンダーを追加する
         </div>
