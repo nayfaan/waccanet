@@ -5,6 +5,7 @@ import RegisterForm from "@/app/components/RegisterForm";
 import Footer from "@/app/components/footer/Footer";
 import Calendar from "@/app/components/inputs/Calendar";
 import Dropdown from "@/app/components/inputs/Dropdown";
+import ImagesInput from "@/app/components/inputs/ImagesInput";
 import Input from "@/app/components/inputs/Input";
 import Toggle from "@/app/components/inputs/Toggle";
 import {
@@ -205,7 +206,7 @@ const Register = () => {
           subtitle="Insert some images so people get interested"
         />
         <div className="flex flex-col items-center justify-center gap-2">
-          画像を挿入できるものをここに追加
+          <ImagesInput />
         </div>
       </div>
     );

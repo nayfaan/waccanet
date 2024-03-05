@@ -39,7 +39,13 @@ const Button: React.FC<ButtonProps> = ({
       onClick={handleClick}
       className={`rounded-md bg-${color}-500 hover:bg-${color}-600 px-5 py-2 text-sm font-medium text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-${color}-500 ${
         small ? "" : "w-full"
-      }`}
+      }
+      ${
+        disabled
+          ? "bg-gray-200 cursor-default"
+          : `bg-${color}-500 hover:bg-${color}-600`
+      }
+      `}
     >
       {label}
     </button>
