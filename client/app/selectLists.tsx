@@ -1,28 +1,66 @@
-export const roomTypes = [
-  "プライベートルーム",
-  "シェアルーム",
-  "デン",
-  "リビングルーム",
-  "ソラリウム",
-  "バスルーム付きの部屋",
-  "完全プライベートスイート",
-];
+export const roomTypes = {
+  japanese: [
+    "プライベートルーム",
+    "シェアルーム",
+    "デン",
+    "リビングルーム",
+    "ソラリウム",
+    "バスルーム付きの部屋",
+    "完全プライベートスイート",
+  ],
+  english: [
+    "Private Room",
+    "Shared Room",
+    "Den",
+    "Living Room",
+    "Solalium",
+    "Room with bathroom",
+    "Private Studio",
+  ],
+};
+export const roommates = {
+  japanese: ["なし", "1〜3人", "3〜5人", "6人以上"],
+  english: ["0", "1-3", "3-5", "6 or more"],
+};
 
-export const roommates = ["なし", "1〜3人", "3〜5人", "6人以上"];
+export const gender = {
+  japanese: ["女性専用", "男性専用", "性別制限なし"],
+  english: ["Woman", "Man", "Couple", "Anyone"],
+};
 
-export const gender = ["女性専用", "男性専用", "性別制限なし"];
-
-export const areas = [
-  "ダウンタウン",
-  "バーナビー",
-  "ノースバーナビー",
-  "リッチモンド",
-  "ノースバンクーバー",
-  "サレー",
-  "コキットラム",
-  "ランガラ",
-  "UBC",
-];
+export const areas = {
+  japanse: [
+    "ダウンタウン",
+    "キツラノ",
+    "サウスバンクーバー",
+    "バーナビー",
+    "ノースバーナビー",
+    "リッチモンド",
+    "ノースバンクーバー",
+    "ウェストバンクーバー",
+    "サレー",
+    "コキットラム",
+    "ニューウェストミンスター",
+    "ランガラ",
+    "UBC",
+  ],
+  english: [
+    "Downtown",
+    "Kitsilano",
+    "South Vancouver",
+    "Burnaby",
+    "North Burnaby",
+    "Richmond",
+    "North Vancouver",
+    "West Vancouver",
+    "Surrey",
+    "Coquitlam",
+    "New Westminster",
+    "Langara",
+    "UBC",
+    "SFU",
+  ],
+};
 
 export const stations = {
   expo_line: [
@@ -89,20 +127,45 @@ export const stations = {
   ],
 };
 
-export const utilities = ["含む", "含まない"];
+export const utilities = {
+  japanese: ["含む", "含まない"],
+  english: ["Included", "Not included"],
+};
 
-export const wifi = ["含む"];
+export const wifi = { japanese: ["含む"], english: ["Included"] };
 
-export const furnished = ["あり", "なし"];
+export const furnished = {
+  japanese: ["家具付き", "家具なし"],
+  english: ["Furnished", "Not Furnished"],
+};
 
-export const laundry = ["無料"];
+export const laundry = {
+  japansese: ["無料", "有料", "なし"],
+  english: ["Free", "Not Free", "Don't have machines"],
+};
 
-export const takeover = ["不要"];
+export const takeover = { japanese: ["不要"], english: ["No need to pay"] };
 
-export const paymentMethod = ["現金", "E-Transfer", "小切手", "要相談"];
+export const paymentMethod = {
+  japanese: ["現金", "E-Transfer", "小切手", "要相談"],
+  english: ["Cash", "E-Transfer", "Check", "Any"],
+};
 
-export const onlineViewing = ["対応"];
+export const onlineViewing = { japanese: ["対応"], english: ["Available"] };
 
-export const minimumStay = ["現金", "E-Transfer", "小切手", "要相談"];
+export const minimumStay = {
+  japanese: ["1ヶ月未満", "1ヶ月", "2〜3ヶ月", "4〜6ヶ月", "半年超", "1年以上"],
+  english: [
+    "Under 1 Month",
+    "1 Month",
+    "2-3 Month",
+    "4-6 Month",
+    "Over 6 Month",
+    "Over 1 Year",
+  ],
+};
 
-export const references = ["Waccanet", "JPCanada"];
+export const references = {
+  japanese: ["Waccanet", "JPCanada"],
+  english: ["Waccanet", "JPCanada"],
+};

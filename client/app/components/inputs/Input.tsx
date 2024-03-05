@@ -7,6 +7,7 @@ interface InputProps {
   defaultValue?: string;
   type?: string;
   disabled?: boolean;
+  textarea?: boolean;
   formatPrice?: boolean;
   register?: UseFormRegister<FieldValues>;
   required?: boolean;
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   defaultValue,
   type,
   disabled,
+  textarea,
   formatPrice,
   register,
   required,
@@ -31,19 +33,34 @@ const Input: React.FC<InputProps> = ({
       {formatPrice && (
         <BiDollar size={18} className="text-gray-400 absolute top-5 left-2" />
       )}
-      <input
-        id={id}
-        disabled={disabled}
-        placeholder=""
-        defaultValue={defaultValue}
-        type={type}
-        {...(register ? register(id, { required }) : {})}
-        onChange={onChange}
-        className={`peer w-full p-1 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+      {textarea ? (
+        <textarea
+          id={id}
+          disabled={disabled}
+          placeholder=""
+          defaultValue={defaultValue}
+          // type={type}
+          {...(register ? register(id, { required }) : {})}
+          // onChange={onChange}
+          className={`peer w-full p-1 pt-6 px-4 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+          ${errorMessage ? "border-red-300" : "border-gray-300"} 
+    `}
+        />
+      ) : (
+        <input
+          id={id}
+          disabled={disabled}
+          placeholder=""
+          defaultValue={defaultValue}
+          type={type}
+          {...(register ? register(id, { required }) : {})}
+          onChange={onChange}
+          className={`peer w-full p-1 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}
     ${errorMessage ? "border-red-300" : "border-gray-300"} 
     `}
-      />
+        />
+      )}
       <label
         className={`absolute text-sm duration-150 transform -translate-y-3 top-5 z-10 origin-[0] 
     ${formatPrice ? "left-9" : "left-4"}

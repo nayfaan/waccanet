@@ -7,67 +7,105 @@ import {
 
 interface DropdownProps {
   label: string;
-  items: string[];
+  items:
+    | string[]
+    | { expo_line: string[]; canada_line: string[]; millennium_line: string[] };
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ label, items }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [checkedLabel, setCheckedLabel] = useState("");
-  const [isClosing, setIsClosing] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleCheck = (item: string) => {
     setCheckedLabel(item);
-    setIsClosing(true);
 
     // 500ms 後にドロップダウンを閉じる
     setTimeout(() => {
       setIsDropdownOpen(false);
-      setIsClosing(false);
     }, 500);
   };
 
+  const convertCategory = (str: string) => {
+    return str
+      .replace(/_/g, " ")
+      .replace(/(?:^|\s)\S/g, (match) => match.toUpperCase());
+  };
+
+  const renderItems = (items: string[] | Record<string, string[]>) => {
+    if (Array.isArray(items)) {
+      return (
+        <ul className="text-sm text-gray-700">
+          {items.map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200"
+              onClick={() => handleCheck(item)}
+            >
+              {item === checkedLabel ? (
+                <MdOutlineRadioButtonChecked />
+              ) : (
+                <MdOutlineRadioButtonUnchecked />
+              )}
+              <li>{item}</li>
+            </div>
+          ))}
+        </ul>
+      );
+    } else {
+      return (
+        <ul className="text-sm text-gray-700">
+          {Object.entries(items).map(([category, subItems]) => (
+            <li key={category}>
+              <div className="flex items-center gap-1 px-2 py-1">
+                <strong>{convertCategory(category)}</strong>
+              </div>
+              {renderItems(subItems)}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  };
+
   return (
-    <>
-      <div className="w-full relative" ref={dropdownRef}>
-        <label
-          className="w-full p-3.5 text-sm border-gray-300 text-zinc-400 bg-white border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center justify-between"
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        >
-          {checkedLabel ? checkedLabel : "Select area"}
-          <RiArrowDropDownLine size={20} />
-        </label>
-      </div>
+    <div className="w-full relative" ref={dropdownRef}>
+      <input
+        placeholder=""
+        readOnly
+        defaultValue={checkedLabel}
+        className={`peer w-full p-1 pl-4 pt-6 font-light bg-white border-2 border-gray-300 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed`}
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      />
+      <label
+        className={`absolute flex justify-between left-4 text-sm duration-150 transform -translate-y-3 top-5 origin-[0]
+                    peer-placeholder-shown:scale-100
+                    peer-placeholder-shown:translate-y-0
+                    peer-focus:scale-75 text-zinc-400
+                    peer-focus:-translate-y-4`}
+      >
+        {label}
+        <RiArrowDropDownLine size={20} />
+      </label>
 
       {/* Dropdown menu */}
       {isDropdownOpen && (
         <div
-          className={`absolute z-10 bg-gray-50 rounded-lg shadow ${
+          className={`absolute bg-gray-50 rounded-lg shadow z-10 w-full ${
             isDropdownOpen ? "block" : "hidden"
           }`}
+          style={{
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxHeight: "350px",
+            overflowY: "auto", // 高さを超えた場合にスクロール可能にする
+          }}
         >
-          <ul
-            className="text-sm text-gray-700"
-            aria-labelledby="multiLevelDropdownButton"
-          >
-            {items.map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200"
-                onClick={() => handleCheck(item)}
-              >
-                {item === checkedLabel ? (
-                  <MdOutlineRadioButtonChecked />
-                ) : (
-                  <MdOutlineRadioButtonUnchecked />
-                )}
-                <li>{item}</li>
-              </div>
-            ))}
-          </ul>
+          {renderItems(items)}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
