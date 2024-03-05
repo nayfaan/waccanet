@@ -7,7 +7,7 @@ import Image from "next/image";
 import DefaultImage from "../../../public/images/defaultImg.png";
 import Button from "../Button";
 import {
-  getFormattedDate,
+  getFormattedDateAndTime,
   getFormattedImages,
   getPriceColor,
   getTruncatedText,
@@ -19,7 +19,7 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const formattedDate = getFormattedDate(property.pub_date);
+  const formattedDate = getFormattedDateAndTime(property.pub_date);
   const priceColor = getPriceColor(property.price);
   const formattedImgs = property.images;
   const truncatedDescription = getTruncatedText(property.description, 100);

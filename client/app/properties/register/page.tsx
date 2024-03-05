@@ -3,6 +3,7 @@ import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
 import RegisterForm from "@/app/components/RegisterForm";
 import Footer from "@/app/components/footer/Footer";
+import Calendar from "@/app/components/inputs/Calendar";
 import Dropdown from "@/app/components/inputs/Dropdown";
 import Input from "@/app/components/inputs/Input";
 import Toggle from "@/app/components/inputs/Toggle";
@@ -287,7 +288,7 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Move-in Date" subtitle="When is the room available?" />
         <div className="flex flex-col items-center justify-center gap-2">
-          カレンダーを追加する
+          <Calendar id="move_in_date" inline register={register} />
         </div>
       </div>
     );

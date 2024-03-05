@@ -1,4 +1,4 @@
-export const getFormattedDate = (pub_date: string) => {
+export const getFormattedDateAndTime = (pub_date: string) => {
   const dateObject = new Date(pub_date);
 
   const options = {
