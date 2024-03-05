@@ -4,7 +4,7 @@ import { CiAlarmOn } from "react-icons/ci";
 import { TfiAgenda } from "react-icons/tfi";
 import Button from "@/app/components/Button";
 import {
-  getFormattedDate,
+  getFormattedDateAndTime,
   getFormattedImages,
 } from "@/app/format/formattedData";
 import ImageSlider from "@/app/components/ImageSlider";
@@ -18,7 +18,7 @@ export default async function PropertyDetail({
   params: { slug: string };
 }) {
   const property: Property = await fetchPropertyDetail(params.slug);
-  const formattedDate = getFormattedDate(property.pub_date);
+  const formattedDate = getFormattedDateAndTime(property.pub_date);
   const formattedImgs = property.images;
 
   return (

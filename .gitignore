@@ -225,3 +225,6 @@ backend/scripts/settings/config_file.ini
 backend/api-server/.env_local
 backend/api-server/.env_product
 backend/scripts/settings/config_file_prod.ini
+.devcontainer/*
+backend/api-server/propertyhub/migrations/*.py
+memo.txt
