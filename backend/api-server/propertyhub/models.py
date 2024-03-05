@@ -2,22 +2,39 @@ from django.db import models
 from django.core.validators import MinValueValidator 
 
 
+
+'''
+物件ID (id):number
+投稿日(pub_date):date
+物件名(タイトル)(Property Name):string
+画像(images):string
+価格(price):number
+住所 (address):string 
+ルームタイプ(roomTypes)string
+roommates
+物件説明 (description)
+参照元(reference)
+'''
+
 class Owner(models.Model):
     user_id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
     user_name = models.CharField(max_length=50,null=True)
     password = models.CharField(max_length=30,null=True)
     email = models.EmailField(max_length = 254,null=True)
 
+
     def __str__(self):
         return "ID:{}-{}".format(str(self.user_id),self.user_name)
 
 '''
-物件ID (id)
-投稿日(pub_date)
-物件名(タイトル)(Property Name)
-画像(images)
-価格(price)
-住所 (address)できたら
+物件ID (id):number
+投稿日(pub_date):date
+物件名(タイトル)(Property Name):string
+画像(images):string
+価格(price):number
+住所 (address):string 
+ルームタイプ(roomTypes)string
+roommates
 物件説明 (description)
 参照元(reference)
 '''

@@ -62,12 +62,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                     color="gray"
                   />
                 )}
-                <Button
-                  disabled={disabled}
-                  label={actionLabel}
-                  onClick={handleSubmit}
-                  color="blue"
-                />
+                {actionLabel != "off" && (
+                  <Button
+                    disabled={disabled}
+                    label={actionLabel}
+                    onClick={handleSubmit}
+                    color="blue"
+                  />
+                )}
               </div>
               {footer}
             </div>

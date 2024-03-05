@@ -27,7 +27,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
         #get query parameter 
         search_query = request.GET.get('search_query')
         filter_price_from_query = request.GET.get('price_from','0')
-        filter_price_to_query = request.GET.get('price_to','99999')
+        filter_price_to_query = request.GET.get('price_to','999999')
         filter_areas_query = request.GET.get('areas')
         filter_reference_query = request.GET.get('reference')
         page = request.GET.get('page','1')
@@ -163,7 +163,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
                     #オーナに登録が完了したことを通知
                     self.send_mail2owner(owner_data)
 
-            return Response('Property and Images created successfully', status=status.HTTP_201_CREATED)
+            return Response('Property Registration successfully', status=status.HTTP_201_CREATED)
         else:
           return Response(property_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
@@ -176,15 +176,17 @@ class PropertyViewSet(viewsets.ModelViewSet):
             subject = 'waccanet物件登録の完了のお知らせ'
 
             """本文"""
-            "送信元："
-            message = "このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : {} password {}".format(user_name,password)
-            """送信元メールアドレス"""
-            from_email = ""
+            message = 'このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n'\
+                        '物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n'\
+                        '物件情報を削除する\n'\
+                        'http://localhost:3000/{} \n'\
+                        'password {}'.format(user_name,password)
+            
             """宛先メールアドレス"""
             recipient_list = [
                 email_address
             ]
-            send_mail(subject, message, from_email, recipient_list)
+            send_mail(subject, message, None, recipient_list)
 
             return 
  
@@ -206,6 +208,26 @@ class PropertyViewSet(viewsets.ModelViewSet):
                 if owner_instance.password == password:
                     # オブジェクトの削除
                     owner_instance.delete()
-                    return Response({'message': 'Property deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+                    return Response({'message': 'Property deleted successfully'}, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({'error': 'password is incorrect.'}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=False, methods=['post'])
+    def sendMail2ads2owner(self, request):
+
+        email_address=request.data['email']
+        """題名"""
+        subject = 'waccanetに物件登録をしませんか？'
+
+        """本文"""
+        "送信元："
+        message = "はじめまして、我々は、某webサイトに変わる物件紹介サイトを作成をしてる有志のプログラマです。\nもし、宜しければ私たちのサイトに物件情報を登録してみませんか？\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : {} password {}".format(user_name,password)
+        """送信元メールアドレス"""
+        from_email = ""
+        """宛先メールアドレス"""
+        recipient_list = [
+            email_address
+        ]
+        send_mail(subject, message, from_email, recipient_list)
+
+        return 
