@@ -7,6 +7,7 @@ import Calendar from "@/app/components/inputs/Calendar";
 import Dropdown from "@/app/components/inputs/Dropdown";
 import ImagesInput from "@/app/components/inputs/ImagesInput";
 import Input from "@/app/components/inputs/Input";
+import Map from "@/app/components/inputs/Map/Map";
 import Toggle from "@/app/components/inputs/Toggle";
 import {
   areas,
@@ -177,7 +178,8 @@ const Register = () => {
         <Heading title="Address" subtitle="Where is the place located?" />
         <div className="flex flex-col items-center justify-center gap-2">
           <Input id="house_address" label="Address" />
-          <div>GoogleMapをここに追加</div>
+          {/* <Map /> */}
+          <Map />
         </div>
       </div>
     );
