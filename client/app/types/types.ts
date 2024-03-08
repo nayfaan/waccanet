@@ -1,3 +1,4 @@
+import { LatLngTuple } from "leaflet";
 import { IconType } from "react-icons";
 
 export interface Property {
@@ -12,6 +13,33 @@ export interface Property {
   address: string;
   description: string;
   reference: string;
+}
+
+export interface PropertyRegisterData {
+  ownerName: string;
+  ownerAddress: string;
+  ownerEmail: string;
+  ownerPhoneNumber: string;
+  title: string;
+  rent: string;
+  roomType: string;
+  houseAddress: string;
+  center: LatLngTuple;
+  station: string;
+  area: string;
+  images: string[];
+  wifi: boolean;
+  utilities: boolean;
+  furnished: boolean;
+  laundry: boolean;
+  gender: string;
+  minimumStay: string;
+  roommates: string;
+  payment: string;
+  takeover: string;
+  onlineViewing: boolean;
+  moveInDate: Date;
+  description: string;
 }
 
 export interface PaginationProperties {

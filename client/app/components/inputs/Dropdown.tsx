@@ -6,24 +6,32 @@ import {
 } from "react-icons/md";
 
 interface DropdownProps {
+  id: string;
   label: string;
+  value: string | string[];
+  onChange: (id: string, value: string | string[]) => void;
   items:
     | string[]
     | { expo_line: string[]; canada_line: string[]; millennium_line: string[] };
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ label, items }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  id,
+  label,
+  value,
+  onChange,
+  items,
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [checkedLabel, setCheckedLabel] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleCheck = (item: string) => {
-    setCheckedLabel(item);
-
     // 500ms 後にドロップダウンを閉じる
     setTimeout(() => {
       setIsDropdownOpen(false);
     }, 500);
+
+    onChange(id, item);
   };
 
   const convertCategory = (str: string) => {
@@ -42,7 +50,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, items }) => {
               className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200"
               onClick={() => handleCheck(item)}
             >
-              {item === checkedLabel ? (
+              {item === value ? (
                 <MdOutlineRadioButtonChecked />
               ) : (
                 <MdOutlineRadioButtonUnchecked />
@@ -73,7 +81,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, items }) => {
       <input
         placeholder=""
         readOnly
-        defaultValue={checkedLabel}
+        value={value}
         className={`peer w-full p-1 pl-4 pt-6 font-light bg-white border-2 border-gray-300 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed`}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       />

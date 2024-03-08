@@ -1,5 +1,4 @@
 "use client";
-import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
 import RegisterForm from "@/app/components/RegisterForm";
 import Footer from "@/app/components/footer/Footer";
@@ -7,23 +6,18 @@ import Calendar from "@/app/components/inputs/Calendar";
 import Dropdown from "@/app/components/inputs/Dropdown";
 import ImagesInput from "@/app/components/inputs/ImagesInput";
 import Input from "@/app/components/inputs/Input";
-import Map from "@/app/components/inputs/Map/Map";
 import Toggle from "@/app/components/inputs/Toggle";
 import {
   areas,
-  furnished,
   gender,
-  laundry,
-  minimumStay,
   paymentMethod,
   roomTypes,
-  roommates,
   stations,
-  utilities,
-  wifi,
 } from "@/app/selectLists";
-import React, { useMemo, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { PropertyRegisterData } from "@/app/types/types";
+import { LatLngTuple } from "leaflet";
+import dynamic from "next/dynamic";
+import React, { useEffect, useMemo, useState } from "react";
 
 enum STEPS {
   PROFILE = 0,
@@ -39,73 +33,81 @@ enum STEPS {
 
 const Register = () => {
   const [step, setStep] = useState(STEPS.PROFILE);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm<FieldValues>({
-    defaultValues: {
-      profile: {
-        owner_name: "",
-        owner_address: "",
-        contact_info: {
-          email: "",
-          phone_number: "",
-        },
-      },
-      required_info: {
-        title: "",
-        price: "",
-        room_type: "",
-      },
-      map: {
-        house_address: "",
-        map: "",
-      },
-      location: {
-        station: "",
-        area: "",
-      },
+  const [propertyRegisterData, setPropertyRegisterData] =
+    useState<PropertyRegisterData>({
+      ownerName: "",
+      ownerAddress: "",
+      ownerEmail: "",
+      ownerPhoneNumber: "",
+      title: "",
+      rent: "",
+      roomType: "",
+      houseAddress: "",
+      center: [49.246292, -123.116226], //バンクーバー
+      station: "",
+      area: "",
       images: [],
-      included_in_rent: {
-        wifi: false,
-        utilities: false,
-        furnished: false,
-        laundry: false,
-      },
-      other_options: {
-        gender: "",
-        minimum_stay: "",
-        roommates: "",
-        payment: "",
-        takeover: "",
-        online_viewing: false,
-      },
-      move_in_date: "",
+      wifi: false,
+      utilities: false,
+      furnished: false,
+      laundry: false,
+      gender: "",
+      minimumStay: "",
+      roommates: "",
+      payment: "",
+      takeover: "",
+      onlineViewing: false,
+      moveInDate: new Date(),
       description: "",
-    },
+    });
+
+  // const [profile, setProfile] = useState({
+  //   owner_name: "",
+  //   owner_address: "",
+  //   owner_email: "",
+  //   owner_phone_number: "",
+  // });
+  // const [requiredInfo, setRequiredInfo] = useState({
+  //   title: "",
+  //   rent: "",
+  //   roomType: "",
+  // });
+  // const [houseAddress, setHouseAddress] = useState("");
+  // const [location, setLocation] = useState({
+  //   station: "",
+  //   area: "",
+  // });
+  // const [images, setImages] = useState([]);
+  // const [includedInRent, setIncludedInRent] = useState({
+  //   wifi: false,
+  //   utilities: false,
+  //   furnished: false,
+  //   laundry: false,
+  // });
+  // const [otherOptions, setOtherOptions] = useState({
+  //   gender: "",
+  //   minimumStay: "",
+  //   roommates: "",
+  //   payment: "",
+  //   takeover: "",
+  //   onlineViewing: false,
+  // });
+  // const [moveInDate, setMoveInDate] = useState(new Date());
+  // const [description, setDescription] = useState("");
+
+  const Map = dynamic(() => import("../../components/inputs/Map"), {
+    ssr: false,
   });
 
-  const profile = watch("profile");
-  const required_info = watch("required_info");
-  const location = watch("location");
-  const images = watch("images");
-  const included_in_rent = watch("included_in_rent");
-  const other_options = watch("other_options");
-  const dates = watch("dates");
-
   const onBack = () => {
-    setStep((value) => value - 1);
+    setStep((value) => Math.max(value - 1, STEPS.PROFILE)); // ステップがPROFILEより小さくならないように制限
   };
 
   const onNext = () => {
-    setStep((value) => value + 1);
+    setStep((value) => Math.min(value + 1, STEPS.DESCRIPTION)); // ステップがDESCRIPTIONより大きくならないように制限
   };
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+
+  const onSubmit = () => {
     if (step !== STEPS.DESCRIPTION) {
       return onNext();
     }
@@ -144,14 +146,44 @@ const Register = () => {
     return "Back";
   }, [step]);
 
+  const handleInputChange = (
+    id: string,
+    value: string | string[] | boolean | Date | LatLngTuple
+  ) => {
+    setPropertyRegisterData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading title="Your Profile" subtitle="Please input your information!" />
       <div className="flex flex-col items-center justify-center gap-2">
-        <Input id="name" label="Name" />
-        <Input id="owner_address" label="Address" />
-        <Input id="email" label="Email" />
-        <Input id="phone_number" label="Phone Number" />
+        <Input
+          id="ownerName"
+          label="Name"
+          value={propertyRegisterData.ownerName}
+          onChange={handleInputChange}
+        />
+        <Input
+          id="ownerAddress"
+          label="Address"
+          value={propertyRegisterData.ownerAddress}
+          onChange={handleInputChange}
+        />
+        <Input
+          id="ownerEmail"
+          label="Email"
+          value={propertyRegisterData.ownerEmail}
+          onChange={handleInputChange}
+        />
+        <Input
+          id="ownerPhoneNumber"
+          label="Phone Number"
+          value={propertyRegisterData.ownerPhoneNumber}
+          onChange={handleInputChange}
+        />
       </div>
     </div>
   );
@@ -164,9 +196,28 @@ const Register = () => {
           subtitle="Basic information about the place"
         />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Input id="title" label="Title" required />
-          <Input id="rent" label="Rent" formatPrice required />
-          <Dropdown label="Select room type" items={roomTypes.english} />
+          <Input
+            id="title"
+            label="Title"
+            value={propertyRegisterData.title}
+            onChange={handleInputChange}
+            required
+          />
+          <Input
+            id="rent"
+            label="Rent"
+            value={propertyRegisterData.rent}
+            onChange={handleInputChange}
+            formatPrice
+            required
+          />
+          <Dropdown
+            id="roomType"
+            label="Select room type"
+            value={propertyRegisterData.roomType}
+            onChange={handleInputChange}
+            items={roomTypes.english}
+          />
         </div>
       </div>
     );
@@ -177,9 +228,22 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Address" subtitle="Where is the place located?" />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Input id="house_address" label="Address" />
-          {/* <Map /> */}
-          <Map />
+          {/* <Input
+            id="houseAddress"
+            label="Address"
+            value={propertyRegisterData.houseAddress}
+            onChange={handleInputChange}
+          /> */}
+          {propertyRegisterData.houseAddress && (
+            <div className="text-gray-700 text-sm">
+              {propertyRegisterData.houseAddress}
+            </div>
+          )}
+          <Map
+            center={propertyRegisterData.center}
+            houseAddress={propertyRegisterData.houseAddress}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
     );
@@ -193,8 +257,20 @@ const Register = () => {
           subtitle="Which area and station is your place loacated?"
         />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Dropdown label="Select area" items={areas.english} />
-          <Dropdown label="Select closest station" items={stations} />
+          <Dropdown
+            id="area"
+            label="Select area"
+            value={propertyRegisterData.area}
+            onChange={handleInputChange}
+            items={areas.english}
+          />
+          <Dropdown
+            id="station"
+            label="Select closest station"
+            value={propertyRegisterData.station}
+            onChange={handleInputChange}
+            items={stations}
+          />
         </div>
       </div>
     );
@@ -208,7 +284,11 @@ const Register = () => {
           subtitle="Insert some images so people get interested"
         />
         <div className="flex flex-col items-center justify-center gap-2">
-          <ImagesInput />
+          <ImagesInput
+            id="images"
+            values={propertyRegisterData.images}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
     );
@@ -227,16 +307,22 @@ const Register = () => {
               Utilities
             </div>
             <Toggle
+              id="utilities"
               messageTrue="Yes! Included in rent"
               messageFalse="Tenants have to pay"
+              value={propertyRegisterData.utilities}
+              onChange={handleInputChange}
             />
           </div>
 
           <div className="flex items-center justify-start w-full gap-2">
             <div className="w-1/4 text-sm md:text-base text-gray-500">Wifi</div>
             <Toggle
+              id="wifi"
               messageTrue="Yes! Included in rent"
               messageFalse="Not part of rent"
+              value={propertyRegisterData.wifi}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -245,8 +331,11 @@ const Register = () => {
               Laundry
             </div>
             <Toggle
+              id="laundry"
               messageTrue="Yes! Included in rent"
               messageFalse="Not part of rent"
+              value={propertyRegisterData.laundry}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -254,7 +343,13 @@ const Register = () => {
             <div className="w-1/4 text-sm md:text-base text-gray-500">
               Furniture
             </div>
-            <Toggle messageTrue="Yes! Furnished" messageFalse="No furniture" />
+            <Toggle
+              id="furnished"
+              messageTrue="Yes! Furnished"
+              messageFalse="No furniture"
+              value={propertyRegisterData.furnished}
+              onChange={handleInputChange}
+            />
           </div>
         </div>
       </div>
@@ -266,19 +361,47 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Other information" subtitle="Tell us more details!" />
         <div className="flex flex-col items-center justify-center w-full gap-2">
-          <Dropdown label="Select gender preference" items={gender.english} />
           <Dropdown
+            id="gender"
+            label="Select gender preference"
+            value={propertyRegisterData.gender}
+            onChange={handleInputChange}
+            items={gender.english}
+          />
+          <Dropdown
+            id="payment"
             label="Select rent payment preference"
+            value={propertyRegisterData.payment}
+            onChange={handleInputChange}
             items={paymentMethod.english}
           />
-          <Input id="roommates" label="Number of roommates" />
-          <Input id="minimum_stay" label="Minimum stay (Month)" />
-          <Input id="takeover" label="Price of takeover" formatPrice />
+          <Input
+            id="roommates"
+            label="Number of roommates"
+            value={propertyRegisterData.roommates}
+            onChange={handleInputChange}
+          />
+          <Input
+            id="minimumStay"
+            label="Minimum stay (Month)"
+            value={propertyRegisterData.minimumStay}
+            onChange={handleInputChange}
+          />
+          <Input
+            id="takeover"
+            label="Price of takeover"
+            value={propertyRegisterData.takeover}
+            onChange={handleInputChange}
+            formatPrice
+          />
           <div className="flex items-center justify-start w-full gap-2">
             <div className="text-gray-500">Online Viewing</div>
             <Toggle
+              id="onlineViewing"
               messageTrue="Yes! Online tour available"
               messageFalse="In person only"
+              value={propertyRegisterData.onlineViewing}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -291,7 +414,12 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Move-in Date" subtitle="When is the room available?" />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Calendar id="move_in_date" inline register={register} />
+          <Calendar
+            id="moveInDate"
+            value={propertyRegisterData.moveInDate}
+            onChange={handleInputChange}
+            inline
+          />
         </div>
       </div>
     );
@@ -302,7 +430,13 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Description" subtitle="More about the place..." />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Input id="description" label="Description" textarea />
+          <Input
+            id="description"
+            label="Description"
+            value={propertyRegisterData.description}
+            onChange={handleInputChange}
+            textarea
+          />
         </div>
       </div>
     );
@@ -311,7 +445,7 @@ const Register = () => {
   return (
     <div className="p-2 pt-14 min-h-screen flex flex-col justify-between">
       <RegisterForm
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.PROFILE ? undefined : onBack}

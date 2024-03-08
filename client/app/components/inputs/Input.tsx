@@ -1,17 +1,16 @@
-import { UseFormRegister, FieldValues } from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
 
 interface InputProps {
   id: string;
   label: string;
   defaultValue?: string;
+  value?: string;
   type?: string;
   disabled?: boolean;
   textarea?: boolean;
   formatPrice?: boolean;
-  register?: UseFormRegister<FieldValues>;
   required?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (id: string, value: string) => void;
   errorMessage?: string;
 }
 
@@ -19,11 +18,11 @@ const Input: React.FC<InputProps> = ({
   id,
   label,
   defaultValue,
+  value,
   type,
   disabled,
   textarea,
   formatPrice,
-  register,
   required,
   onChange,
   errorMessage,
@@ -39,9 +38,8 @@ const Input: React.FC<InputProps> = ({
           disabled={disabled}
           placeholder=""
           defaultValue={defaultValue}
-          // type={type}
-          {...(register ? register(id, { required }) : {})}
-          // onChange={onChange}
+          value={value}
+          onChange={(e) => onChange && onChange(id, e.target.value)}
           className={`peer w-full p-1 pt-6 px-4 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
           ${errorMessage ? "border-red-300" : "border-gray-300"} 
     `}
@@ -52,9 +50,9 @@ const Input: React.FC<InputProps> = ({
           disabled={disabled}
           placeholder=""
           defaultValue={defaultValue}
+          value={value}
           type={type}
-          {...(register ? register(id, { required }) : {})}
-          onChange={onChange}
+          onChange={(e) => onChange && onChange(id, e.target.value)}
           className={`peer w-full p-1 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
     ${formatPrice ? "pl-9" : " pl-4"}
     ${errorMessage ? "border-red-300" : "border-gray-300"} 
