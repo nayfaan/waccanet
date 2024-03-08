@@ -7,6 +7,7 @@ import Dropdown from "@/app/components/inputs/Dropdown";
 import ImagesInput from "@/app/components/inputs/ImagesInput";
 import Input from "@/app/components/inputs/Input";
 import Toggle from "@/app/components/inputs/Toggle";
+import { getFormattedDate } from "@/app/format/formattedData";
 import {
   areas,
   gender,
@@ -17,7 +18,7 @@ import {
 import { PropertyRegisterData } from "@/app/types/types";
 import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 enum STEPS {
   PROFILE = 0,
@@ -29,6 +30,8 @@ enum STEPS {
   OTHER_OPTIONS = 6,
   DATES = 7,
   DESCRIPTION = 8,
+  CONFIRMATION = 9,
+  PREVIEW = 10,
 }
 
 const Register = () => {
@@ -73,6 +76,7 @@ const Register = () => {
   //   roomType: "",
   // });
   // const [houseAddress, setHouseAddress] = useState("");
+  // const [center, setCenter] = useState([49.246292, -123.116226]);
   // const [location, setLocation] = useState({
   //   station: "",
   //   area: "",
@@ -95,6 +99,8 @@ const Register = () => {
   // const [moveInDate, setMoveInDate] = useState(new Date());
   // const [description, setDescription] = useState("");
 
+  const formatDate = getFormattedDate(propertyRegisterData.moveInDate);
+
   const Map = dynamic(() => import("../../components/inputs/Map"), {
     ssr: false,
   });
@@ -104,11 +110,11 @@ const Register = () => {
   };
 
   const onNext = () => {
-    setStep((value) => Math.min(value + 1, STEPS.DESCRIPTION)); // ステップがDESCRIPTIONより大きくならないように制限
+    setStep((value) => Math.min(value + 1, STEPS.PREVIEW)); // ステップがPREVIEWより大きくならないように制限
   };
 
   const onSubmit = () => {
-    if (step !== STEPS.DESCRIPTION) {
+    if (step !== STEPS.PREVIEW) {
       return onNext();
     }
 
@@ -131,8 +137,11 @@ const Register = () => {
   };
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.DESCRIPTION) {
-      return "Create";
+    if (step === STEPS.CONFIRMATION) {
+      return "Preview";
+    }
+    if (step === STEPS.PREVIEW) {
+      return "Post";
     }
 
     return "Next";
@@ -228,17 +237,6 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading title="Address" subtitle="Where is the place located?" />
         <div className="flex flex-col items-center justify-center gap-2">
-          {/* <Input
-            id="houseAddress"
-            label="Address"
-            value={propertyRegisterData.houseAddress}
-            onChange={handleInputChange}
-          /> */}
-          {propertyRegisterData.houseAddress && (
-            <div className="text-gray-700 text-sm">
-              {propertyRegisterData.houseAddress}
-            </div>
-          )}
           <Map
             center={propertyRegisterData.center}
             houseAddress={propertyRegisterData.houseAddress}
@@ -437,6 +435,183 @@ const Register = () => {
             onChange={handleInputChange}
             textarea
           />
+        </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.CONFIRMATION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Provided Information"
+          subtitle="Please check if all the information you provided is correct. "
+        />
+        <div className="flex flex-col justify-center gap-2">
+          <div>
+            <div className="text-xl font-bold">Your Information</div>
+            <div className="flex gap-3">
+              <div>Name</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.ownerName || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Address</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.ownerAddress || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Email</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.ownerEmail || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Phone Number</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.ownerPhoneNumber || "NA"}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="text-xl font-bold">House Information</div>
+            <div className="flex gap-3">
+              <div>Title</div>
+              <div className="text-gray-500">{propertyRegisterData.title}</div>
+            </div>
+            <div className="flex gap-3">
+              <div>Rent</div>
+              <div className="text-gray-500">${propertyRegisterData.rent}</div>
+            </div>
+            <div className="flex gap-3">
+              <div>Room Type</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.roomType || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Area</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.area || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Station</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.station || "NA"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Wifi</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.wifi
+                  ? "Included in rent"
+                  : "Not included"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Utilities</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.utilities
+                  ? "Included in rent"
+                  : "Not included"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Furnished</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.furnished ? "Furnished" : "Not Furnished"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Laundry</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.laundry
+                  ? "Included in rent"
+                  : "Not included"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Gender</div>
+              <div className="text-gray-500">{propertyRegisterData.gender}</div>
+            </div>
+            <div className="flex gap-3">
+              <div>Minimum Stay</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.minimumStay} Month
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Number of Roommates</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.roommates} people
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Payment Method</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.payment}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Takeover</div>
+              <div className="text-gray-500">
+                ${propertyRegisterData.takeover}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Online Viewing</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.onlineViewing
+                  ? "Available"
+                  : "In person only"}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div>Move-in Date</div>
+              <div className="text-gray-500">{formatDate}</div>
+            </div>
+            <div>
+              <div>Description</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.description}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-xl font-bold">Images</div>
+            {propertyRegisterData.images.length === 0 && (
+              <div className="text-gray-500">No image provided...</div>
+            )}
+            <div className="flex flex-wrap gap-1">
+              {propertyRegisterData.images.map((img) => (
+                <img
+                  key={img}
+                  src={img}
+                  alt="register images"
+                  className="w-48 object-contain"
+                />
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-xl font-bold">Map</div>
+            {propertyRegisterData.houseAddress ? (
+              <Map
+                houseAddress={propertyRegisterData.houseAddress}
+                center={propertyRegisterData.center}
+              />
+            ) : (
+              <div className="text-gray-500">No address provided...</div>
+            )}
+          </div>
+
+          <div className="font-light text-neutral-500 mt-2">
+            Before you submit, You can see the preview on the next page!
+          </div>
         </div>
       </div>
     );

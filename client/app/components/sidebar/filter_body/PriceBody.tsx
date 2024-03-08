@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { FieldValues, UseFormRegister, useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 import Input from "../../inputs/Input";
 

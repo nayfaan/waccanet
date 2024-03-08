@@ -8,14 +8,20 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 interface MapProps {
   houseAddress: string;
   center: LatLngTuple;
-  onChange: (id: string, value: string | LatLngTuple) => void;
+  onChange?: (id: string, value: string | LatLngTuple) => void;
 }
 
-const Map: React.FC<MapProps> = ({ houseAddress, center, onChange }) => {
+const Map: React.FC<MapProps> = ({
+  houseAddress,
+  center,
+  onChange = () => {},
+}) => {
   const handleMapClick = async (event: LeafletMouseEvent) => {
     const address = await fetchAddress(event.latlng.lat, event.latlng.lng);
-    onChange("houseAddress", address);
-    onChange("center", [event.latlng.lat, event.latlng.lng]);
+    if (onChange) {
+      onChange("houseAddress", address);
+      onChange("center", [event.latlng.lat, event.latlng.lng]);
+    }
   };
 
   const fetchAddress = async (lat: number, lng: number) => {
@@ -49,7 +55,7 @@ const Map: React.FC<MapProps> = ({ houseAddress, center, onChange }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ClickHandler onMapClick={handleMapClick} />
-      {center && (
+      {houseAddress && (
         <>
           <Marker position={center} icon={customIcon} />
           {houseAddress && <Popup position={center}>{houseAddress}</Popup>}

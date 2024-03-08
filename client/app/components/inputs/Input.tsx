@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
           defaultValue={defaultValue}
           value={value}
           onChange={(e) => onChange && onChange(id, e.target.value)}
-          className={`peer w-full p-1 pt-6 px-4 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+          className={`peer w-full p-1 pt-6 px-4 h-48 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
           ${errorMessage ? "border-red-300" : "border-gray-300"} 
     `}
         />
@@ -60,7 +60,7 @@ const Input: React.FC<InputProps> = ({
         />
       )}
       <label
-        className={`absolute text-sm duration-150 transform -translate-y-3 top-5 z-10 origin-[0] 
+        className={`absolute bg-white text-sm duration-150 transform -translate-y-3 top-5 z-10 origin-[0] 
     ${formatPrice ? "left-9" : "left-4"}
     peer-placeholder-shown:scale-100 
     peer-placeholder-shown:translate-y-0
