@@ -1,9 +1,14 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { LuImagePlus } from "react-icons/lu";
-import ImageSlider from "../ImageSlider";
 
-const ImagesInput: React.FC = () => {
-  const [images, setImages] = useState<string[]>([]);
+interface ImagesInputProps {
+  id: string;
+  values: string[];
+  onChange: (id: string, value: string[]) => void;
+}
+
+const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
+  const [images, setImages] = useState<string[]>(values);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -16,6 +21,10 @@ const ImagesInput: React.FC = () => {
       ]);
     }
   };
+
+  useEffect(() => {
+    onChange(id, images);
+  }, [images]);
 
   return (
     <>

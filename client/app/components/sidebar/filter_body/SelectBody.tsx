@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import SelectButton from "./SelectButton";
-import { FieldValues } from "react-hook-form";
 
 interface SelectBodyProps {
   id: string;

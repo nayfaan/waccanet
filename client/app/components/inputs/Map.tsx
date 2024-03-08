@@ -5,17 +5,23 @@ import "leaflet/dist/leaflet.css";
 import ReactDOMServer from "react-dom/server";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-const MapComponent: React.FC = () => {
-  const center: LatLngTuple = [49.246292, -123.116226];
-  const [clickedPosition, setClickedPosition] = useState<LatLngTuple | null>(
-    null
-  );
-  const [clickedAddress, setClickedAddress] = useState<string | null>(null);
+interface MapProps {
+  houseAddress: string;
+  center: LatLngTuple;
+  onChange?: (id: string, value: string | LatLngTuple) => void;
+}
 
+const Map: React.FC<MapProps> = ({
+  houseAddress,
+  center,
+  onChange = () => {},
+}) => {
   const handleMapClick = async (event: LeafletMouseEvent) => {
-    setClickedPosition([event.latlng.lat, event.latlng.lng]);
     const address = await fetchAddress(event.latlng.lat, event.latlng.lng);
-    setClickedAddress(address);
+    if (onChange) {
+      onChange("houseAddress", address);
+      onChange("center", [event.latlng.lat, event.latlng.lng]);
+    }
   };
 
   const fetchAddress = async (lat: number, lng: number) => {
@@ -30,14 +36,6 @@ const MapComponent: React.FC = () => {
       return null;
     }
   };
-
-  useEffect(() => {
-    console.log("clickedAddress", clickedAddress);
-  }, [clickedAddress]);
-
-  useEffect(() => {
-    console.log("clickedPosition", clickedPosition);
-  }, [clickedPosition]);
 
   const customIcon = L.divIcon({
     html: ReactDOMServer.renderToString(
@@ -57,10 +55,11 @@ const MapComponent: React.FC = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ClickHandler onMapClick={handleMapClick} />
-      {clickedPosition && (
-        <Marker position={clickedPosition} icon={customIcon}>
-          {clickedAddress && <Popup>{clickedAddress}</Popup>}
-        </Marker>
+      {houseAddress && (
+        <>
+          <Marker position={center} icon={customIcon} />
+          {houseAddress && <Popup position={center}>{houseAddress}</Popup>}
+        </>
       )}
     </MapContainer>
   );
@@ -74,13 +73,18 @@ const ClickHandler: React.FC<ClickHandlerProps> = ({ onMapClick }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.on("click", onMapClick);
+    const handleClick = (event: LeafletMouseEvent) => {
+      onMapClick(event);
+    };
+
+    map.on("click", handleClick);
+
     return () => {
-      map.off("click", onMapClick);
+      map.off("click", handleClick);
     };
   }, [map, onMapClick]);
 
   return null;
 };
 
-export default MapComponent;
+export default Map;
