@@ -4,7 +4,9 @@ import PropertyDelete from "@/app/properties/delete/[slug]/PropertyDelete";
 import Footer from "@/app/components/footer/Footer";
 
 export default async function Delete({ params }: { params: { slug: string } }) {
-  const propertyExist: boolean = await fetchPropertyExist(params.slug);
+  const propertyExist: { exist: boolean } = await fetchPropertyExist(
+    params.slug
+  );
 
   if (propertyExist.exist) {
     return <PropertyDelete PropertyId={params.slug} />;
