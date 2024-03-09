@@ -1,11 +1,9 @@
+import { PropertyExistResponse } from "@/app/types/types";
 import Button from "@/app/components/Button";
 import { fetchPropertyExist } from "@/app/lib/data";
 import PropertyDelete from "@/app/properties/delete/[slug]/PropertyDelete";
 import Footer from "@/app/components/footer/Footer";
 
-interface PropertyExistResponse {
-  exist: boolean;
-}
 export default async function Delete({ params }: { params: { slug: string } }) {
   const propertyExist: PropertyExistResponse = await fetchPropertyExist(
     params.slug

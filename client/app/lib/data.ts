@@ -2,6 +2,7 @@
 import {
     Property,
     PaginationProperties,
+    PropertyExistResponse,
 } from "../types/types";
 
 export async function fetchPropertyListPagination(search_query: string,price_from: string,price_to: string,areas: string,reference: string, page: number) {
@@ -84,7 +85,7 @@ export async function fetchPropertyExist(slug: string) {
             console.error('Request failed with status:', res.status);
             throw new Error('Request failed with status:');
         }
-        const data: boolean = await res.json();
+        const data: PropertyExistResponse = await res.json();
         return data
     } catch (error) {
         console.error('Database Error:', error);
