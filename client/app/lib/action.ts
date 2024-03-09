@@ -70,3 +70,52 @@ export async function createContact(formData: FormData) {
     revalidatePath('/contact-us');
     redirect('/contact-us/confirmation/');
 }
+
+export async function deletePropertyData(propertyData: string,propertyPassword: string) {
+
+    const passwordData = {
+        password:propertyPassword
+    }
+
+    // console.log("lib from api passwordData");
+    // console.log(propertyData);
+    // console.log(passwordData);
+
+    const api_server_link = process.env.api_server_link
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+    };
+    const X_Api_Key = process.env.X_Api_Key;
+    if (X_Api_Key) {
+        headers['X-Api-Key'] = X_Api_Key;
+    } else {
+        // console.error('X_Api_Key is missing or undefined.'); // X_Api_Keyが存在しない場合のエラー処理
+        throw new Error('X_Api_Key is missing or undefined.');
+    }
+
+    const apt_query = `${api_server_link}/property/apis/${propertyData}/property_delete/`
+
+    try {
+        const res = await fetch(apt_query, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(passwordData),
+        });
+    
+        if (!res.ok) {
+            // エラー処理
+            const errorText = await res.text(); // APIからのエラーメッセージを取得
+            // 例外を投げるか、適切なエラー処理を実行
+            throw new Error(errorText);
+        }
+    
+        // 成功した場合の処理
+        const data = await res.json();
+        // console.log(data);
+        return data
+
+    } catch (error) {
+        throw error;
+    }
+  
+}

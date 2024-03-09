@@ -15,6 +15,10 @@ export interface Property {
   reference: string;
 }
 
+export interface PropertyExistResponse {
+  exist: boolean;
+}
+
 export interface PropertyRegisterData {
   ownerName: string;
   ownerAddress: string;

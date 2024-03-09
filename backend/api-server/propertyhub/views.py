@@ -166,6 +166,16 @@ class PropertyViewSet(viewsets.ModelViewSet):
             return Response('Property Registration successfully', status=status.HTTP_201_CREATED)
         else:
           return Response(property_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+   
+    @action(detail=True)
+    def property_exists(self, request,pk=None):
+        owner_name = pk
+        # 部件情報があるかの確認
+        if Owner.objects.filter(user_name=owner_name).exists():
+            return Response({'exist': True})
+        else:
+            return Response({'exist': False})
+        
 
     def send_mail2owner(self,owner_data):
             
@@ -179,7 +189,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
             message = 'このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n'\
                         '物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n'\
                         '物件情報を削除する\n'\
-                        'http://localhost:3000/{} \n'\
+                        'https://www.waccanet.com/properties/delete/{} \n'\
                         'password {}'.format(user_name,password)
             
             """宛先メールアドレス"""
@@ -221,7 +231,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
         """本文"""
         "送信元："
-        message = "はじめまして、我々は、某webサイトに変わる物件紹介サイトを作成をしてる有志のプログラマです。\nもし、宜しければ私たちのサイトに物件情報を登録してみませんか？\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : {} password {}".format(user_name,password)
+        message = "はじめまして、我々は、某webサイトに変わる物件紹介サイトを作成をしてる有志のプログラマです。\nもし、宜しければ私たちのサイトに物件情報を登録してみませんか？\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : properties/delete/{} password {}".format(user_name,password)
         """送信元メールアドレス"""
         from_email = ""
         """宛先メールアドレス"""
