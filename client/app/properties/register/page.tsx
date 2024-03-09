@@ -15,7 +15,11 @@ import {
   roomTypes,
   stations,
 } from "@/app/selectLists";
-import { PropertyRegisterData } from "@/app/types/types";
+import {
+  PropertyRegisterData,
+  PropertyRegisterDataPrevious,
+} from "@/app/types/types";
+import { registerePropertyData } from "@/app/lib/action";
 import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
@@ -117,6 +121,18 @@ const Register = () => {
     if (step !== STEPS.PREVIEW) {
       return onNext();
     }
+
+    var today = new Date();
+    const PropertyData: PropertyRegisterDataPrevious = {
+      pub_date: today,
+      title: propertyRegisterData.title,
+      rent: propertyRegisterData.rent,
+      description: propertyRegisterData.description,
+      reference: "Waccanet",
+      ownerEmail: propertyRegisterData.ownerEmail,
+    };
+
+    registerePropertyData(PropertyData);
 
     // setIsLoading(true);
     // axios
