@@ -46,6 +46,16 @@ export interface PropertyRegisterData {
   description: string;
 }
 
+export interface PropertyRegisterDataPrevious {
+  pub_date: Date;
+  title: string;
+  // images: string[];
+  rent: string;
+  description: string;
+  reference: String;
+  ownerEmail: string;
+}
+
 export interface PaginationProperties {
   total: number;
   current_page: number;
