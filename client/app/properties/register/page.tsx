@@ -161,7 +161,10 @@ const Register = () => {
           });
           return true;
         }
-        if (!validator.isMobilePhone(propertyRegisterData.ownerPhoneNumber)) {
+        if (
+          !validator.isEmpty(propertyRegisterData.ownerPhoneNumber) &&
+          !validator.isMobilePhone(propertyRegisterData.ownerPhoneNumber)
+        ) {
           setErrors({
             ownerPhoneNumber: "Please input valid phone number.",
           });
