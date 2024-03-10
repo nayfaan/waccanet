@@ -23,6 +23,7 @@ import { registerePropertyData } from "@/app/lib/action";
 import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
+import validator from "validator";
 
 enum STEPS {
   PROFILE = 0,
@@ -35,7 +36,6 @@ enum STEPS {
   DATES = 7,
   DESCRIPTION = 8,
   CONFIRMATION = 9,
-  PREVIEW = 10,
 }
 
 const Register = () => {
@@ -68,57 +68,48 @@ const Register = () => {
       description: "",
     });
 
-  // const [profile, setProfile] = useState({
-  //   owner_name: "",
-  //   owner_address: "",
-  //   owner_email: "",
-  //   owner_phone_number: "",
-  // });
-  // const [requiredInfo, setRequiredInfo] = useState({
-  //   title: "",
-  //   rent: "",
-  //   roomType: "",
-  // });
-  // const [houseAddress, setHouseAddress] = useState("");
-  // const [center, setCenter] = useState([49.246292, -123.116226]);
-  // const [location, setLocation] = useState({
-  //   station: "",
-  //   area: "",
-  // });
-  // const [images, setImages] = useState([]);
-  // const [includedInRent, setIncludedInRent] = useState({
-  //   wifi: false,
-  //   utilities: false,
-  //   furnished: false,
-  //   laundry: false,
-  // });
-  // const [otherOptions, setOtherOptions] = useState({
-  //   gender: "",
-  //   minimumStay: "",
-  //   roommates: "",
-  //   payment: "",
-  //   takeover: "",
-  //   onlineViewing: false,
-  // });
-  // const [moveInDate, setMoveInDate] = useState(new Date());
-  // const [description, setDescription] = useState("");
-
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const formatDate = getFormattedDate(propertyRegisterData.moveInDate);
 
   const Map = dynamic(() => import("../../components/inputs/Map"), {
     ssr: false,
   });
 
+  const actionLabel = useMemo(() => {
+    if (step === STEPS.CONFIRMATION) {
+      return "Post";
+    }
+
+    return "Next";
+  }, [step]);
+
+  const secondaryActionLabel = useMemo(() => {
+    if (step === STEPS.PROFILE) {
+      return undefined;
+    }
+
+    return "Back";
+  }, [step]);
+
   const onBack = () => {
     setStep((value) => Math.max(value - 1, STEPS.PROFILE)); // ステップがPROFILEより小さくならないように制限
   };
 
   const onNext = () => {
-    setStep((value) => Math.min(value + 1, STEPS.PREVIEW)); // ステップがPREVIEWより大きくならないように制限
+    // バリデーションエラーがあるかどうかチェック
+    if (stepValidation()) {
+      // エラーがある場合は何もせずに終了
+      return;
+    }
+
+    // エラーがない場合は次のステップに進む
+    setStep((value) => Math.min(value + 1, STEPS.CONFIRMATION));
+    // エラーが解消されたらエラー状態をクリア
+    setErrors({});
   };
 
   const onSubmit = () => {
-    if (step !== STEPS.PREVIEW) {
+    if (step !== STEPS.CONFIRMATION) {
       return onNext();
     }
 
@@ -152,24 +143,72 @@ const Register = () => {
     //   });
   };
 
-  const actionLabel = useMemo(() => {
-    if (step === STEPS.CONFIRMATION) {
-      return "Preview";
+  const stepValidation = () => {
+    // ステップごとのバリデーションを行う
+    switch (step) {
+      case STEPS.PROFILE:
+        if (validator.isEmpty(propertyRegisterData.ownerName)) {
+          setErrors({
+            ownerName: "Please input your name.",
+          });
+          return true; // エラーがある場合は true を返す
+        } else if (
+          validator.isEmpty(propertyRegisterData.ownerEmail) ||
+          !validator.isEmail(propertyRegisterData.ownerEmail)
+        ) {
+          setErrors({
+            ownerEmail: "Please input valid email.",
+          });
+          return true;
+        }
+        if (!validator.isMobilePhone(propertyRegisterData.ownerPhoneNumber)) {
+          setErrors({
+            ownerPhoneNumber: "Please input valid phone number.",
+          });
+          return true;
+        }
+        break;
+      case STEPS.REQUIRED_INFO:
+        if (validator.isEmpty(propertyRegisterData.title)) {
+          setErrors({
+            title: "Please input the title.",
+          });
+          return true;
+        } else if (validator.isEmpty(propertyRegisterData.rent)) {
+          setErrors({
+            rent: "Please input rent",
+          });
+          return true;
+        } else if (!validator.isNumeric(propertyRegisterData.rent)) {
+          setErrors({
+            rent: "Rent has to be a number.",
+          });
+          return true;
+        }
+        break;
+      case STEPS.OTHER_OPTIONS:
+        if (
+          !validator.isEmpty(propertyRegisterData.roommates) &&
+          !validator.isNumeric(propertyRegisterData.roommates)
+        ) {
+          setErrors({
+            roommates: "Number of roommates has to be a number.",
+          });
+          return true;
+        } else if (
+          !validator.isEmpty(propertyRegisterData.minimumStay) &&
+          !validator.isNumeric(propertyRegisterData.minimumStay)
+        ) {
+          setErrors({
+            minimumStay: "Minimum stay has to be a number.",
+          });
+          return true;
+        }
+        break;
+      default:
+        break;
     }
-    if (step === STEPS.PREVIEW) {
-      return "Post";
-    }
-
-    return "Next";
-  }, [step]);
-
-  const secondaryActionLabel = useMemo(() => {
-    if (step === STEPS.PROFILE) {
-      return undefined;
-    }
-
-    return "Back";
-  }, [step]);
+  };
 
   const handleInputChange = (
     id: string,
@@ -181,44 +220,62 @@ const Register = () => {
     }));
   };
 
-  let bodyContent = (
-    <div className="flex flex-col gap-8">
-      <Heading title="Your Profile" subtitle="Please input your information!" />
-      <div className="flex flex-col items-center justify-center gap-2">
-        <Input
-          id="ownerName"
-          label="Name"
-          value={propertyRegisterData.ownerName}
-          onChange={handleInputChange}
+  let bodyContent;
+  let next;
+  let back;
+
+  if (step === STEPS.PROFILE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Your Profile"
+          stepNum="1/10"
+          subtitle="Please input your information! (Only your name will be public)"
         />
-        <Input
-          id="ownerAddress"
-          label="Address"
-          value={propertyRegisterData.ownerAddress}
-          onChange={handleInputChange}
-        />
-        <Input
-          id="ownerEmail"
-          label="Email"
-          value={propertyRegisterData.ownerEmail}
-          onChange={handleInputChange}
-        />
-        <Input
-          id="ownerPhoneNumber"
-          label="Phone Number"
-          value={propertyRegisterData.ownerPhoneNumber}
-          onChange={handleInputChange}
-        />
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Input
+            id="ownerName"
+            label="Name"
+            value={propertyRegisterData.ownerName}
+            onChange={handleInputChange}
+            errorMessage={errors.ownerName}
+            required
+          />
+          <Input
+            id="ownerAddress"
+            label="Address"
+            value={propertyRegisterData.ownerAddress}
+            onChange={handleInputChange}
+          />
+          <Input
+            id="ownerEmail"
+            label="Email"
+            value={propertyRegisterData.ownerEmail}
+            onChange={handleInputChange}
+            errorMessage={errors.ownerEmail}
+            required
+          />
+          <Input
+            id="ownerPhoneNumber"
+            label="Phone Number"
+            value={propertyRegisterData.ownerPhoneNumber}
+            onChange={handleInputChange}
+            errorMessage={errors.ownerPhoneNumber}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+    next = "Title, Rent and Room";
+    back = "";
+  }
 
   if (step === STEPS.REQUIRED_INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
           title="Title, Rent and Room"
-          subtitle="Basic information about the place"
+          stepNum="2/10"
+          subtitle="Basic information about the place."
         />
         <div className="flex flex-col items-center justify-center gap-2">
           <Input
@@ -226,6 +283,7 @@ const Register = () => {
             label="Title"
             value={propertyRegisterData.title}
             onChange={handleInputChange}
+            errorMessage={errors.title}
             required
           />
           <Input
@@ -233,6 +291,7 @@ const Register = () => {
             label="Rent"
             value={propertyRegisterData.rent}
             onChange={handleInputChange}
+            errorMessage={errors.rent}
             formatPrice
             required
           />
@@ -246,12 +305,18 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Map";
+    back = "Profile";
   }
 
   if (step === STEPS.MAP) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Address" subtitle="Where is the place located?" />
+        <Heading
+          title="Map"
+          stepNum="3/10"
+          subtitle="Where is the place located?"
+        />
         <div className="flex flex-col items-center justify-center gap-2">
           <Map
             center={propertyRegisterData.center}
@@ -261,6 +326,8 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Area and Station";
+    back = "Title, Rent and Room";
   }
 
   if (step === STEPS.LOCATION) {
@@ -268,6 +335,7 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Area and Station"
+          stepNum="4/10"
           subtitle="Which area and station is your place loacated?"
         />
         <div className="flex flex-col items-center justify-center gap-2">
@@ -288,6 +356,8 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Images of the place";
+    back = "Map";
   }
 
   if (step === STEPS.IMAGES) {
@@ -295,7 +365,8 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Images of the place"
-          subtitle="Insert some images so people get interested"
+          stepNum="5/10"
+          subtitle="Upload some images so people get interested!"
         />
         <div className="flex flex-col items-center justify-center gap-2">
           <ImagesInput
@@ -306,6 +377,8 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Utilities, Wifi, Laundry and Furniture";
+    back = "Area and Station";
   }
 
   if (step === STEPS.INCLUDED_IN_RENT) {
@@ -313,6 +386,7 @@ const Register = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Utilities, Wifi, Laundry and Furniture"
+          stepNum="6/10"
           subtitle="Are these is included in rent?"
         />
         <div className="flex flex-col items-center justify-center gap-2">
@@ -368,12 +442,18 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Other information";
+    back = "Images of the place";
   }
 
   if (step === STEPS.OTHER_OPTIONS) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Other information" subtitle="Tell us more details!" />
+        <Heading
+          title="Other information"
+          stepNum="7/10"
+          subtitle="Tell us more details!"
+        />
         <div className="flex flex-col items-center justify-center w-full gap-2">
           <Dropdown
             id="gender"
@@ -394,12 +474,14 @@ const Register = () => {
             label="Number of roommates"
             value={propertyRegisterData.roommates}
             onChange={handleInputChange}
+            errorMessage={errors.roommates}
           />
           <Input
             id="minimumStay"
             label="Minimum stay (Month)"
             value={propertyRegisterData.minimumStay}
             onChange={handleInputChange}
+            errorMessage={errors.minimumStay}
           />
           <Input
             id="takeover"
@@ -421,12 +503,18 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Move-in Date";
+    back = "Utilities, Wifi, Laundry and Furniture";
   }
 
   if (step === STEPS.DATES) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Move-in Date" subtitle="When is the room available?" />
+        <Heading
+          title="Move-in Date"
+          stepNum="8/10"
+          subtitle="When is the room available? Note: The room is available from today if you do not choose the date."
+        />
         <div className="flex flex-col items-center justify-center gap-2">
           <Calendar
             id="moveInDate"
@@ -437,12 +525,18 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Description";
+    back = "Other information";
   }
 
   if (step === STEPS.DESCRIPTION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Description" subtitle="More about the place..." />
+        <Heading
+          title="Description"
+          stepNum="9/10"
+          subtitle="More about the place..."
+        />
         <div className="flex flex-col items-center justify-center gap-2">
           <Input
             id="description"
@@ -454,13 +548,16 @@ const Register = () => {
         </div>
       </div>
     );
+    next = "Confirm";
+    back = "Move-in Date";
   }
 
   if (step === STEPS.CONFIRMATION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Provided Information"
+          title="Confirm"
+          stepNum="10/10"
           subtitle="Please check if all the information you provided is correct. "
         />
         <div className="flex flex-col justify-center gap-2">
@@ -551,30 +648,38 @@ const Register = () => {
             </div>
             <div className="flex gap-3">
               <div>Gender</div>
-              <div className="text-gray-500">{propertyRegisterData.gender}</div>
+              <div className="text-gray-500">
+                {propertyRegisterData.gender || "NA"}
+              </div>
             </div>
             <div className="flex gap-3">
               <div>Minimum Stay</div>
               <div className="text-gray-500">
-                {propertyRegisterData.minimumStay} Month
+                {propertyRegisterData.minimumStay
+                  ? `${propertyRegisterData.minimumStay} month`
+                  : "NA"}
               </div>
             </div>
             <div className="flex gap-3">
               <div>Number of Roommates</div>
               <div className="text-gray-500">
-                {propertyRegisterData.roommates} people
+                {propertyRegisterData.roommates
+                  ? `${propertyRegisterData.roommates} people`
+                  : "NA"}
               </div>
             </div>
             <div className="flex gap-3">
               <div>Payment Method</div>
               <div className="text-gray-500">
-                {propertyRegisterData.payment}
+                {propertyRegisterData.payment || "NA"}
               </div>
             </div>
             <div className="flex gap-3">
               <div>Takeover</div>
               <div className="text-gray-500">
-                ${propertyRegisterData.takeover}
+                {propertyRegisterData.takeover
+                  ? `$${propertyRegisterData.takeover}`
+                  : "NA"}
               </div>
             </div>
             <div className="flex gap-3">
@@ -592,7 +697,7 @@ const Register = () => {
             <div>
               <div>Description</div>
               <div className="text-gray-500">
-                {propertyRegisterData.description}
+                {propertyRegisterData.description || "NA"}
               </div>
             </div>
           </div>
@@ -624,13 +729,11 @@ const Register = () => {
               <div className="text-gray-500">No address provided...</div>
             )}
           </div>
-
-          <div className="font-light text-neutral-500 mt-2">
-            Before you submit, You can see the preview on the next page!
-          </div>
         </div>
       </div>
     );
+    next = "Finally, Post on Waccanet!";
+    back = "Description";
   }
 
   return (
@@ -642,6 +745,8 @@ const Register = () => {
         secondaryAction={step === STEPS.PROFILE ? undefined : onBack}
         body={bodyContent}
         title="Post Ad on Waccanet"
+        next={next}
+        back={back}
       />
       <Footer />
     </div>

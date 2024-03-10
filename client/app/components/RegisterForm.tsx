@@ -1,10 +1,13 @@
 import React, { useCallback } from "react";
 import Button from "./Button";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 interface RegisterFormProps {
   onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
+  next?: string;
+  back?: string;
   footer?: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
@@ -16,6 +19,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
   title,
   body,
+  next,
+  back,
   footer,
   actionLabel,
   disabled,
@@ -51,8 +56,28 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
             {/* BODY */}
             <div className="relative p-6 flex-auto">{body}</div>
+
+            {/* BUTTON GUIDE */}
+            <div className="flex justify-between gap-2 px-6 font-light text-xs sm:text-sm text-neutral-500 mt-2">
+              {back ? (
+                <div className="flex items-center">
+                  <IoIosArrowBack />
+                  <span>{back}</span>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {next ? (
+                <div className="flex items-center">
+                  <span>{next}</span>
+                  <IoIosArrowForward />
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
             {/* FOOTER */}
-            <div className="flex flex-col gap-2 p-6">
+            <div className="flex flex-col gap-2 p-6 pt-1">
               <div className="flex flex-row items-center gap-4 w-full">
                 {secondaryAction && secondaryActionLabel && (
                   <Button
