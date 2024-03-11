@@ -8,7 +8,7 @@ export default function page({
     price_from?: string;
     price_to?: string;
     areas?: string;
-    reference?: string;
+    references?: string;
     page?: string;
   };
 }) {
@@ -16,7 +16,7 @@ export default function page({
   const areas = searchParams?.areas || "";
   const price_from = searchParams?.price_from || "0";
   const price_to = searchParams?.price_to || "99999";
-  const reference = searchParams?.reference || "";
+  const reference = searchParams?.references || "";
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
