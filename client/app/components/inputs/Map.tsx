@@ -58,7 +58,7 @@ const Map: React.FC<MapProps> = ({
       {houseAddress && (
         <>
           <Marker position={center} icon={customIcon} />
-          {houseAddress && <Popup position={center}>{houseAddress}</Popup>}
+          {/* {houseAddress && <Popup position={center}>{houseAddress}</Popup>} */}
         </>
       )}
     </MapContainer>

@@ -101,7 +101,6 @@ const Register = () => {
       // エラーがある場合は何もせずに終了
       return;
     }
-
     // エラーがない場合は次のステップに進む
     setStep((value) => Math.min(value + 1, STEPS.CONFIRMATION));
     // エラーが解消されたらエラー状態をクリア
@@ -124,23 +123,6 @@ const Register = () => {
     };
 
     registerePropertyData(PropertyData);
-
-    // setIsLoading(true);
-    // axios
-    //   .post("/api/listings", data)
-    //   .then(() => {
-    //     toast.success("Listing Created!");
-    //     router.refresh();
-    //     reset();
-    //     setStep(STEPS.CATEGORY);
-    //     rentModal.onClose();
-    //   })
-    //   .catch(() => {
-    //     toast.error("Something went wrong");
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
   };
 
   const stepValidation = () => {

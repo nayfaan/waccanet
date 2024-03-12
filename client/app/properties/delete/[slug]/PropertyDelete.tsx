@@ -91,7 +91,7 @@ const PropertyDelete: React.FC<PropertyInfo> = ({ PropertyId }) => {
   if (step === STEPS.COMPLETED) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <div className="pt-20 px-2 flex flex-col items-center justify-center">
+        <div className="pt-20 px-2 flex flex-col items-center justify-center gap-4">
           <h1 className="font-semibold">
             登録されていたデータの削除が完了しました。
           </h1>
