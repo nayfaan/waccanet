@@ -11,7 +11,7 @@ const PropertiesList: React.FC<PropertiesListProps> = ({ properties }) => {
     <>
       {properties.length === 0 ? (
         <EmptyState
-          title="物件"
+          title="お探しの物件は見つかりませんでした"
           message="再度条件を設定するか、下のボタンでホームへ戻ってください。"
         />
       ) : (
