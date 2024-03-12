@@ -7,7 +7,7 @@ import {
   getFormattedDateAndTime,
   getFormattedImages,
 } from "@/app/format/formattedData";
-import ImageSlider from "@/app/components/ImageSlider";
+import ImageSlider from "@/app/components/image/ImageSlider";
 import Image from "next/image";
 import DefaultImage from "../../../public/images/defaultImg.png";
 import Footer from "@/app/components/footer/Footer";
