@@ -9,7 +9,7 @@ interface DropdownProps {
   id: string;
   label: string;
   value: string | string[];
-  onChange: (id: string, value: string | string[]) => void;
+  onChange: (id: string, value: string) => void;
   items:
     | string[]
     | { expo_line: string[]; canada_line: string[]; millennium_line: string[] };

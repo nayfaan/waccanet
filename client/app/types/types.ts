@@ -96,3 +96,12 @@ export interface Filter {
   label: string;
   icon: IconType;
 }
+
+export interface ContactData {
+  pub_date: Date;
+  first_name: string;
+  last_name: string;
+  email_address: string;
+  contact_type: string;
+  detail: string;
+}
