@@ -72,13 +72,13 @@ export interface SearchParams {
   gender: string[];
   areas: string[];
   stations: string[];
-  utilities: string[];
-  wifi: string[];
-  furnished: string[];
-  takeover: string[];
+  utilities: "0" | "1";
+  wifi: "0" | "1";
+  furnished: "0" | "1";
+  takeover: "0" | "1";
   moveInDate: string;
   paymentMethod: string[];
-  onlineViewing: string[];
+  onlineViewing: "0" | "1";
   minimumStay: string[];
   references: string[];
   search_query: string[];

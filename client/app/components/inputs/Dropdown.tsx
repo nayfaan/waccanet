@@ -1,9 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import {
-  MdOutlineRadioButtonChecked,
-  MdOutlineRadioButtonUnchecked,
-} from "react-icons/md";
+import { FaCheck } from "react-icons/fa6";
 
 interface DropdownProps {
   id: string;
@@ -51,9 +48,9 @@ const Dropdown: React.FC<DropdownProps> = ({
               onClick={() => handleCheck(item)}
             >
               {item === value ? (
-                <MdOutlineRadioButtonChecked />
+                <FaCheck />
               ) : (
-                <MdOutlineRadioButtonUnchecked />
+                <FaCheck className="text-gray-50" />
               )}
               <li>{item}</li>
             </div>
@@ -77,7 +74,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="w-full relative" ref={dropdownRef}>
+    <div className="w-full relative z-50" ref={dropdownRef}>
       <input
         placeholder=""
         readOnly
