@@ -9,6 +9,7 @@ interface SelectButtonProps {
   label: string;
   multipleChoice?: boolean;
   paramsArr: string[];
+  onChange: (id: string, value: string[]) => void;
 }
 
 const SelectButton: React.FC<SelectButtonProps> = ({
@@ -16,21 +17,22 @@ const SelectButton: React.FC<SelectButtonProps> = ({
   label,
   multipleChoice,
   paramsArr,
+  onChange,
 }) => {
+  const formattedParamsArr = paramsArr.map((param) =>
+    param.replace("%20", " ")
+  );
   const [selectedValues, setSelectedValues] = useState<{
     [key: string]: string[];
-  }>({ [id]: paramsArr });
+  }>({ [id]: formattedParamsArr });
 
   const [isChecked, setIsChecked] = useState(
     selectedValues[id]?.includes(label) ?? false
   );
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     // 読み込まれた時にselectedValuesにparamから取得した値を入れる
-    setSelectedValues((prev) => ({ ...prev, [id]: paramsArr }));
+    setSelectedValues((prev) => ({ ...prev, [id]: formattedParamsArr }));
   }, [paramsArr, id]);
 
   useEffect(() => {
@@ -46,25 +48,15 @@ const SelectButton: React.FC<SelectButtonProps> = ({
 
     // 選択された値を更新
     setSelectedValues((prev) => ({ ...prev, [id]: updatedValues }));
-
-    // 現在のURLにフィルタのパラメータを追加
-    const params = new URLSearchParams(searchParams);
-
-    if (updatedValues.length === 0) {
-      params.delete(id);
-    } else {
-      const joinedFilterElements = updatedValues.join("_");
-      params.set(id, joinedFilterElements);
-    }
-    params.set("page", "1");
-
-    replace(`${pathname}?${params.toString()}`);
+    onChange(id, updatedValues);
   };
 
   return (
-    <button
-      id={id}
-      className={`flex items-center justify-center gap-2 py-1.5 border-2 font-medium rounded-lg
+    <>
+      {label && (
+        <button
+          id={id}
+          className={`flex items-center justify-center gap-2 py-1.5 border-2 font-medium rounded-lg
       ${
         isChecked
           ? "bg-blue-500 text-white border-blue-500"
@@ -73,11 +65,13 @@ const SelectButton: React.FC<SelectButtonProps> = ({
       ${multipleChoice ? "text-xs" : "text-sm py-1.5"}
       
       `}
-      onClick={handleSelectButtonClick}
-    >
-      {isChecked && !multipleChoice && <FaCheckCircle />}
-      {label}
-    </button>
+          onClick={handleSelectButtonClick}
+        >
+          {isChecked && !multipleChoice && <FaCheckCircle />}
+          {label}
+        </button>
+      )}
+    </>
   );
 };
 

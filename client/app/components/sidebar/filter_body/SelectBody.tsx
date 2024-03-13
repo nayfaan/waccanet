@@ -6,6 +6,7 @@ interface SelectBodyProps {
   labels: string[];
   multipleChoice?: boolean;
   paramsArr: string[];
+  onChange: (id: string, value: string[]) => void;
 }
 
 const SelectBody: React.FC<SelectBodyProps> = ({
@@ -13,6 +14,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({
   labels,
   multipleChoice,
   paramsArr,
+  onChange,
 }) => {
   return (
     <div
@@ -27,6 +29,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({
           label={label}
           multipleChoice={multipleChoice}
           paramsArr={paramsArr}
+          onChange={onChange}
         />
       ))}
     </div>

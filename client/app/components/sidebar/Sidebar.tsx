@@ -30,9 +30,7 @@ import DevelopingBody from "./filter_body/DevelopingBody";
 import { SidebarContext } from "./SidebarProvider";
 import {
   areas,
-  furnished,
   gender,
-  laundry,
   minimumStay,
   onlineViewing,
   paymentMethod,
@@ -41,9 +39,10 @@ import {
   roommates,
   stations,
   takeover,
-  utilities,
-  wifi,
 } from "@/app/selectLists";
+import Toggle from "../inputs/Toggle";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getFormattedDate } from "@/app/format/formattedData";
 
 interface SidebarProps {
   isSidebarOpen?: boolean;
@@ -55,7 +54,52 @@ const Sidebar: React.FC<SidebarProps> = ({
   setIsSidebarOpen,
 }) => {
   const [openElements, setOpenElements] = useState<string[]>([]);
-  const params = useContext(SidebarContext);
+  const paramsData = useContext(SidebarContext);
+
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const handleParamChange = (
+    id: string,
+    value: string | string[] | boolean | Date
+  ) => {
+    // Booleanの時、Toggle.tsx
+    if (typeof value === "boolean") {
+      if (!value) {
+        params.delete(id);
+      } else {
+        params.set(id, "1");
+      }
+    }
+
+    // 文字列の配列 SelectButton.tsx
+    if (Array.isArray(value)) {
+      console.log(id, value);
+      const sanitizedValue = value.map((item) => item.replace(/ /g, "%20"));
+
+      if (value.length === 0) {
+        params.delete(id);
+      } else {
+        const joinedFilterElements = sanitizedValue.join("_");
+        params.set(id, joinedFilterElements);
+      }
+    }
+
+    // 日付が入る時、Calender.tsx
+    if (id === "moveInDate") {
+      if (value === "") {
+        params.delete(id);
+      } else if (value instanceof Date) {
+        const formattedDate = getFormattedDate(value);
+        params.set(id, formattedDate);
+      }
+    }
+
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   const filterElements = [
     {
@@ -63,7 +107,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "家賃",
       icon: RiMoneyDollarCircleLine,
       body: (
-        <PriceBody price_from={params.price_from} price_to={params.price_to} />
+        <PriceBody
+          price_from={paramsData.price_from}
+          price_to={paramsData.price_to}
+        />
       ),
     },
     {
@@ -71,14 +118,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "部屋タイプ",
       icon: PiHouseLine,
       body: (
-        // <SelectBody
-        //   id="roomTypes"
-        //   labels={roomTypes}
-        //   multipleChoice
-        //   paramsArr={params.roomTypes}
-        // />
-
-        <DevelopingBody />
+        <SelectBody
+          id="roomTypes"
+          labels={roomTypes.japanese}
+          multipleChoice
+          paramsArr={paramsData.roomTypes}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -86,13 +132,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "ルームメイト",
       icon: LiaUserFriendsSolid,
       body: (
-        // <SelectBody
-        //   id="roommates"
-        //   labels={roommates}
-        //   multipleChoice
-        //   paramsArr={params.roommates}
-        // />
-        <DevelopingBody />
+        <SelectBody
+          id="roommates"
+          labels={roommates.japanese}
+          multipleChoice
+          paramsArr={paramsData.roommates}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -104,9 +150,9 @@ const Sidebar: React.FC<SidebarProps> = ({
           id="gender"
           labels={gender.japanese}
           multipleChoice
-          paramsArr={params.gender}
+          paramsArr={paramsData.gender}
+          onChange={handleParamChange}
         />
-        // <DevelopingBody />
       ),
     },
     {
@@ -118,7 +164,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           id="areas"
           labels={areas.japanse}
           multipleChoice
-          paramsArr={params.areas}
+          paramsArr={paramsData.areas}
+          onChange={handleParamChange}
         />
       ),
     },
@@ -126,71 +173,72 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: "stations",
       label: "最寄駅",
       icon: PiTrainSimple,
-      body: (
-        // [
-        // <FilterElement
-        //   key="expo_line"
-        //   id="expo_line"
-        //   label="Expo Line"
-        //   icon={FaCircle}
-        //   openElements={openElements}
-        //   color="#185B9F"
-        //   body={
-        //     <SelectBody
-        //       id="stations"
-        //       labels={stations.expo_line}
-        //       multipleChoice
-        //       paramsArr={params.stations}
-        //     />
-        //   }
-        // />,
-        // <FilterElement
-        //   key="canada_line"
-        //   id="canada_line"
-        //   label="Canada Line"
-        //   icon={FaCircle}
-        //   openElements={openElements}
-        //   color="#1694BF"
-        //   body={
-        //     <SelectBody
-        //       id="stations"
-        //       labels={stations.canada_line}
-        //       multipleChoice
-        //       paramsArr={params.stations}
-        //     />
-        //   }
-        // />,
-        //   <FilterElement
-        //     key="millennium_line"
-        //     id="millennium_line"
-        //     label="Millennium Line"
-        //     icon={FaCircle}
-        //     openElements={openElements}
-        //     color="#FED007"
-        //     body={
-        //       <SelectBody
-        //         id="stations"
-        //         labels={stations.millennium_line}
-        //         multipleChoice
-        //         paramsArr={params.stations}
-        //       />
-        //     }
-        //   />,
-        // ],
-        <DevelopingBody />
-      ),
+      body: [
+        <FilterElement
+          key="expo_line"
+          id="expo_line"
+          label="Expo Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="#185B9F"
+          body={
+            <SelectBody
+              id="stations"
+              labels={stations.expo_line}
+              multipleChoice
+              paramsArr={paramsData.stations}
+              onChange={handleParamChange}
+            />
+          }
+        />,
+        <FilterElement
+          key="canada_line"
+          id="canada_line"
+          label="Canada Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="#1694BF"
+          body={
+            <SelectBody
+              id="stations"
+              labels={stations.canada_line}
+              multipleChoice
+              paramsArr={paramsData.stations}
+              onChange={handleParamChange}
+            />
+          }
+        />,
+        <FilterElement
+          key="millennium_line"
+          id="millennium_line"
+          label="Millennium Line"
+          icon={FaCircle}
+          openElements={openElements}
+          color="#FED007"
+          body={
+            <SelectBody
+              id="stations"
+              labels={stations.millennium_line}
+              multipleChoice
+              paramsArr={paramsData.stations}
+              onChange={handleParamChange}
+            />
+          }
+        />,
+      ],
     },
     {
       id: "utilities",
       label: "光熱費",
       icon: PiPlugCharging,
       body: (
-        // <SelectBody
-        //   id="utilities"
-        //   labels={utilities}
-        //   paramsArr={params.utilities}
-        // />
-        <DevelopingBody />
+        <Toggle
+          id="utilities"
+          messageTrue="光熱費無料"
+          messageFalse="全て表示"
+          value={paramsData.utilities === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -198,8 +246,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "Wi-Fi",
       icon: FaWifi,
       body: (
-        // <SelectBody id="wifi" labels={wifi} paramsArr={params.wifi} />
-        <DevelopingBody />
+        <Toggle
+          id="wifi"
+          messageTrue="Wifi無料"
+          messageFalse="全て表示"
+          value={paramsData.wifi === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -207,12 +260,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "家具",
       icon: IoBedOutline,
       body: (
-        // <SelectBody
-        //   id="furnished"
-        //   labels={furnished.japanese}
-        //   paramsArr={params.furnished}
-        // />
-        <DevelopingBody />
+        <Toggle
+          id="furnished"
+          messageTrue="家具付き"
+          messageFalse="全て表示"
+          value={paramsData.furnished === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -220,12 +274,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "洗濯機",
       icon: MdOutlineLocalLaundryService,
       body: (
-        // <SelectBody
-        //   id="laundry"
-        //   labels={laundry}
-        //   paramsArr={params.laundry}
-        // />
-        <DevelopingBody />
+        <Toggle
+          id="laundry"
+          messageTrue="洗濯無料"
+          messageFalse="全て表示"
+          value={paramsData.laundry === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -233,12 +288,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "テイクオーバー",
       icon: LiaMoneyCheckAltSolid,
       body: (
-        // <SelectBody
-        //   id="takeover"
-        //   labels={takeover}
-        //   paramsArr={params.takeover}
-        // />
-        <DevelopingBody />
+        <Toggle
+          id="utilities"
+          messageTrue="支払い不要"
+          messageFalse="全て表示"
+          value={paramsData.utilities === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -246,8 +302,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "入居可能日",
       icon: SlCalender,
       body: (
-        // <Calendar id="moveInDate" required />,
-        <DevelopingBody />
+        <Calendar
+          id="moveInDate"
+          value={
+            paramsData.moveInDate ? new Date(paramsData.moveInDate) : new Date()
+          }
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -255,13 +316,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "支払方法",
       icon: RiBankCardLine,
       body: (
-        // <SelectBody
-        //   id="payment-method"
-        //   labels={paymentMethod}
-        //   multipleChoice
-        //   paramsArr={params.paymentMethod}
-        // />
-        <DevelopingBody />
+        <SelectBody
+          id="payment-method"
+          labels={paymentMethod.japanese}
+          multipleChoice
+          paramsArr={paramsData.paymentMethod}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -269,12 +330,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "オンライン内見",
       icon: BsPersonVideo,
       body: (
-        // <SelectBody
-        //   id="onlineViewing"
-        //   labels={onlineViewing}
-        //   paramsArr={params.onlineViewing}
-        // />
-        <DevelopingBody />
+        <Toggle
+          id="onlineViewing"
+          messageTrue="対応"
+          messageFalse="全て表示"
+          value={paramsData.onlineViewing === "1" ? true : false}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -282,13 +344,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "ミニマムステイ",
       icon: CgSandClock,
       body: (
-        // <SelectBody
-        //   id="minimumStay"
-        //   labels={minimumStay}
-        //   multipleChoice
-        //   paramsArr={params.minimumStay}
-        // />
-        <DevelopingBody />
+        <SelectBody
+          id="minimumStay"
+          labels={minimumStay.japanese}
+          multipleChoice
+          paramsArr={paramsData.minimumStay}
+          onChange={handleParamChange}
+        />
       ),
     },
     {
@@ -300,7 +362,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           id="references"
           labels={references.japanese}
           multipleChoice
-          paramsArr={params.references}
+          paramsArr={paramsData.references}
+          onChange={handleParamChange}
         />
       ),
     },
@@ -352,7 +415,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
         <Search
           placeholder="キーワード検索"
-          search_query={params.search_query}
+          search_query={paramsData.search_query}
         />
         <div className="p-2">フィルター</div>
         <div className="font-medium">
