@@ -228,3 +228,4 @@ backend/scripts/settings/config_file_prod.ini
 .devcontainer/*
 backend/api-server/propertyhub/migrations/*.py
 memo.txt
+ .devcontainer

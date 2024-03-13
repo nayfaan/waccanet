@@ -27,15 +27,30 @@ class PropertyViewSet(viewsets.ModelViewSet):
         #get query parameter 
         search_query = request.GET.get('search_query')
         filter_price_from_query = request.GET.get('price_from','0')
-        filter_price_to_query = request.GET.get('price_to','999999')
+        filter_price_to_query = request.GET.get('price_to')
+
         filter_areas_query = request.GET.get('areas')
+        filter_station_query = request.GET.get('station')
+
+        filter_wifi_query = request.GET.get('wifi')
+        filter_utilities_query = request.GET.get('utilities')
+        filter_furnished_query = request.GET.get('furnished')
+        filter_laundry_query = request.GET.get('laundry')
+
         filter_reference_query = request.GET.get('reference')
         page = request.GET.get('page','1')
         properties_per_page=request.GET.get('properties_per_page','20')
         try:
             properties_objects=self.property_search(properties_objects,search_query)
-            properties_objects=self.property_filter_price(properties_objects,int(filter_price_from_query),int(filter_price_to_query))
+            properties_objects=self.property_filter_price(properties_objects,filter_price_from_query,filter_price_to_query)
             properties_objects=self.property_filter_areas(properties_objects,filter_areas_query)
+            properties_objects=self.property_filter_station(properties_objects,filter_station_query)
+
+            properties_objects=self.property_filter_wifi(properties_objects,filter_wifi_query)
+            properties_objects=self.property_filter_utilities(properties_objects,filter_utilities_query)
+            properties_objects=self.property_filter_furnished(properties_objects,filter_furnished_query)
+            properties_objects=self.property_filter_laundry(properties_objects,filter_laundry_query)
+
             properties_objects=self.property_filter_reference(properties_objects,filter_reference_query)
             paginator = Paginator(properties_objects, properties_per_page) # type: ignore
             properties_objects = paginator.page(page)
@@ -66,25 +81,66 @@ class PropertyViewSet(viewsets.ModelViewSet):
             query = reduce(
                 and_, [ Q(description__icontains=q) for q in query_list]
             )
-            properties_objects = properties_objects.filter(query).distinct() # 検索
+            properties_objects = properties_objects.filter(query) # 検索
 
         return properties_objects 
     
     def property_filter_price(self,properties_objects,price_from,price_to):
-  
-        query = Q(price__gte=price_from) & Q(price__lte=price_to)         
+
+        if price_to is None:
+            query = Q(price__gte=int(price_from))
+        else:
+            query = Q(price__gte=int(price_from)) & Q(price__lte=int(price_to))     
+
         properties_objects = properties_objects.filter(query)
 
         return properties_objects 
-    
+
     def property_filter_areas(self, properties_objects,filter_areas_query):
   
         if filter_areas_query:
-            query = reduce(
-                or_, [ Q(description__icontains=q) for q in filter_areas_query.split('_')]
-            )
-            properties_objects = properties_objects.filter(query).distinct()
+            description_queries = [Q(description__icontains=q) for q in filter_areas_query.split('_')]
+            area_queries = [Q(area=q) for q in filter_areas_query.split('_')]
 
+            query_description = reduce(or_, description_queries)
+            query_area = reduce(or_, area_queries)
+            combined_query = query_description | query_area
+
+            properties_objects = properties_objects.filter( combined_query )
+
+        return properties_objects 
+    
+    def property_filter_station(self, properties_objects,filter_station_query):
+  
+        if filter_station_query:
+            station_queries = [Q(station=q) for q in filter_station_query.split('_')]
+            query_station = reduce(or_, station_queries)
+
+            properties_objects = properties_objects.filter( query_station )
+
+        return properties_objects   
+      
+    def property_filter_wifi(self, properties_objects,filter_wifi_query):
+        if filter_wifi_query:
+            properties_objects = properties_objects.filter(wifi=True)
+        return properties_objects 
+
+    def property_filter_utilities(self, properties_objects,filter_utilities_query):
+  
+        if filter_utilities_query:
+            properties_objects = properties_objects.filter(utilities=True)
+        return properties_objects 
+
+    def property_filter_furnished(self, properties_objects,filter_furnished_query):
+  
+        if filter_furnished_query:
+            properties_objects = properties_objects.filter(furnished=True)
+        return properties_objects 
+
+    def property_filter_laundry(self, properties_objects,filter_laundry_query):
+  
+        if filter_laundry_query:
+            properties_objects = properties_objects.filter(laundry=True)
         return properties_objects 
     
     def property_filter_reference(self, properties_objects,filter_reference_query):
@@ -189,7 +245,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
             message = 'このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n'\
                         '物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n'\
                         '物件情報を削除する\n'\
-                        'https://www.waccanet.com/properties/delete/{} \n'\
+                        'https://www.waccanet.com/properties/delete/{} \n\n'\
                         'password {}'.format(user_name,password)
             
             """宛先メールアドレス"""
@@ -230,8 +286,14 @@ class PropertyViewSet(viewsets.ModelViewSet):
         subject = 'waccanetに物件登録をしませんか？'
 
         """本文"""
-        "送信元："
-        message = "はじめまして、我々は、某webサイトに変わる物件紹介サイトを作成をしてる有志のプログラマです。\nもし、宜しければ私たちのサイトに物件情報を登録してみませんか？\n 物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n url : properties/delete/{} password {}".format(user_name,password)
+        message = 'はじめまして、我々は、某webサイトに変わる物件紹介サイトを作成をしてる有志のプログラマです。\n'\
+                    'もし、宜しければ私たちのサイトに物件情報を登録してみませんか？ \n' \
+                    '物件情報の登録は下記のURLから可能です。 \n\n ' \
+                    'https://www.waccanet.com/properties/register \n\n' \
+                    '少しでも、みなさまのお役に立てることをここより願っています。\n' \
+                    'Waccanet一同より'
+        
+
         """送信元メールアドレス"""
         from_email = ""
         """宛先メールアドレス"""
