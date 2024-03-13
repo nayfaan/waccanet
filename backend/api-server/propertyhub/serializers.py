@@ -17,4 +17,4 @@ class PropertySerializer(serializers.ModelSerializer):
     owner = OwnerSerializer(required=False)  # ownerが必須でない場合
     class Meta:
         model = Property
-        fields = ['id','pub_date', 'name','price','images' ,'description','reference','owner']
+        fields = '__all__'
