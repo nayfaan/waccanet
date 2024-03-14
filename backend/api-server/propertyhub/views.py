@@ -28,30 +28,46 @@ class PropertyViewSet(viewsets.ModelViewSet):
         search_query = request.GET.get('search_query')
         filter_price_from_query = request.GET.get('price_from','0')
         filter_price_to_query = request.GET.get('price_to')
-
+        filter_roomTypes_query = request.GET.get('roomTypes')
+        filter_roommates_query = request.GET.get('roommates')
+        filter_gender_query = request.GET.get('gender')
         filter_areas_query = request.GET.get('areas')
-        filter_station_query = request.GET.get('station')
-
-        filter_wifi_query = request.GET.get('wifi')
+        filter_stations_query = request.GET.get('stations')
         filter_utilities_query = request.GET.get('utilities')
+        filter_wifi_query = request.GET.get('wifi')
         filter_furnished_query = request.GET.get('furnished')
         filter_laundry_query = request.GET.get('laundry')
-
-        filter_reference_query = request.GET.get('reference')
+        filter_takeover_query = request.GET.get('takeover')
+        filter_moveInDate_query = request.GET.get('moveInDate')
+        filter_payment_method_query = request.GET.get('payment-method')
+        filter_onlineViewing_query = request.GET.get('onlineViewing')
+        filter_minimumStay_query = request.GET.get('minimumStay')
+        filter_references_query = request.GET.get('references')
         page = request.GET.get('page','1')
         properties_per_page=request.GET.get('properties_per_page','20')
         try:
             properties_objects=self.property_search(properties_objects,search_query)
             properties_objects=self.property_filter_price(properties_objects,filter_price_from_query,filter_price_to_query)
-            properties_objects=self.property_filter_areas(properties_objects,filter_areas_query)
-            properties_objects=self.property_filter_station(properties_objects,filter_station_query)
 
-            properties_objects=self.property_filter_wifi(properties_objects,filter_wifi_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_roomTypes_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_roommates_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_gender_query)
+
+            properties_objects=self.property_filter_areas(properties_objects,filter_areas_query)
+            properties_objects=self.property_filter_stations(properties_objects,filter_stations_query)
+
             properties_objects=self.property_filter_utilities(properties_objects,filter_utilities_query)
+            properties_objects=self.property_filter_wifi(properties_objects,filter_wifi_query)
             properties_objects=self.property_filter_furnished(properties_objects,filter_furnished_query)
             properties_objects=self.property_filter_laundry(properties_objects,filter_laundry_query)
 
-            properties_objects=self.property_filter_reference(properties_objects,filter_reference_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_takeover_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_moveInDate_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_payment_method_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_onlineViewing_query)
+            properties_objects=self.property_filter_dummy(properties_objects,filter_minimumStay_query)
+
+            properties_objects=self.property_filter_references(properties_objects,filter_references_query)
             paginator = Paginator(properties_objects, properties_per_page) # type: ignore
             properties_objects = paginator.page(page)
         except Exception as err:
@@ -68,6 +84,13 @@ class PropertyViewSet(viewsets.ModelViewSet):
         }
 
         return Response(modified_data)
+    
+    def property_filter_dummy(self, properties_objects,filter_query):
+  
+        if filter_query:
+            properties_objects = properties_objects.none()
+
+        return properties_objects 
     
     def property_search(self, properties_objects,search_query):
        
@@ -110,25 +133,25 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
         return properties_objects 
     
-    def property_filter_station(self, properties_objects,filter_station_query):
+    def property_filter_stations(self, properties_objects,filter_stations_query):
   
-        if filter_station_query:
-            station_queries = [Q(station=q) for q in filter_station_query.split('_')]
+        if filter_stations_query:
+            station_queries = [Q(station=q) for q in filter_stations_query.split('_')]
             query_station = reduce(or_, station_queries)
 
             properties_objects = properties_objects.filter( query_station )
 
         return properties_objects   
-      
-    def property_filter_wifi(self, properties_objects,filter_wifi_query):
-        if filter_wifi_query:
-            properties_objects = properties_objects.filter(wifi=True)
-        return properties_objects 
 
     def property_filter_utilities(self, properties_objects,filter_utilities_query):
   
         if filter_utilities_query:
             properties_objects = properties_objects.filter(utilities=True)
+        return properties_objects
+      
+    def property_filter_wifi(self, properties_objects,filter_wifi_query):
+        if filter_wifi_query:
+            properties_objects = properties_objects.filter(wifi=True)
         return properties_objects 
 
     def property_filter_furnished(self, properties_objects,filter_furnished_query):
@@ -143,11 +166,11 @@ class PropertyViewSet(viewsets.ModelViewSet):
             properties_objects = properties_objects.filter(laundry=True)
         return properties_objects 
     
-    def property_filter_reference(self, properties_objects,filter_reference_query):
+    def property_filter_references(self, properties_objects,filter_references_query):
   
-        if filter_reference_query:
+        if filter_references_query:
             query = reduce(
-                or_, [ Q(reference__icontains=q) for q in filter_reference_query.split('_')]
+                or_, [ Q(reference__icontains=q) for q in filter_references_query.split('_')]
             )
             properties_objects = properties_objects.filter(query)
 
