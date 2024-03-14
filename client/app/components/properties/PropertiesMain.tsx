@@ -6,31 +6,12 @@ import PropertiesList from "./PropertiesList";
 import Pagination from "../pagination/Pagination";
 
 interface PropertiesMainProps {
-  search_query: string;
-  price_from: string;
-  price_to: string;
-  areas: string;
-  reference: string;
-  page: number;
+  query: string;
 }
 
-const PropertiesMain: React.FC<PropertiesMainProps> = async ({
-  search_query,
-  price_from,
-  price_to,
-  areas,
-  reference,
-  page,
-}) => {
+const PropertiesMain: React.FC<PropertiesMainProps> = async ({ query }) => {
   const paginationPropertiesData: PaginationProperties =
-    await fetchPropertyListPagination(
-      search_query,
-      price_from,
-      price_to,
-      areas,
-      reference,
-      page
-    );
+    await fetchPropertyListPagination(query);
 
   return (
     <div>
