@@ -37,7 +37,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
         filter_furnished_query = request.GET.get('furnished')
         filter_laundry_query = request.GET.get('laundry')
 
-        filter_reference_query = request.GET.get('reference')
+        filter_reference_query = request.GET.get('references')
         page = request.GET.get('page','1')
         properties_per_page=request.GET.get('properties_per_page','20')
         try:
