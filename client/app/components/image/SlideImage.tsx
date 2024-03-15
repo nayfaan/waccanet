@@ -23,7 +23,7 @@ const SlideImage: React.FC<ImageProps> = ({ src, alt, active, small }) => {
         alt={alt}
         width={500}
         height={400}
-        priority
+        // priority
       />
     </div>
   );
