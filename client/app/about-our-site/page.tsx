@@ -22,7 +22,7 @@ const AboutOurSite = () => {
             カナダに住む日本人のための情報サイト
           </h1>
 
-          <Image src={Waccanet} alt="Waccanet Logo" width={500} />
+          <img src={Waccanet} alt="Waccanet Logo" width={500} />
           <div className="flex flex-col items-center px-1 sm:px-3">
             <p className="mt-7 text-sm md:text-base">
               日本を意味する

@@ -39,7 +39,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         {property.images.length > 0 ? (
           <ImageSlider images={formattedImgs} name={property.name} small />
         ) : (
-          <Image
+          <img
             src={DefaultImage}
             alt="No Image"
             className="rounded-t-lg min-w-ful h-64 sm:h-48 xl:h-56 object-cover"

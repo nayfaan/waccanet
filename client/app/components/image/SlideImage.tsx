@@ -13,7 +13,7 @@ const SlideImage: React.FC<ImageProps> = ({ src, alt, active, small }) => {
       className="duration-700 ease-in-out transition-opacity"
       data-carousel-item
     >
-      <Image
+      <img
         src={src.image_path}
         className={`absolute z-20 w-full h-full object-cover ${
           active ? "opacity-100 block" : "opacity-0 hidden"
