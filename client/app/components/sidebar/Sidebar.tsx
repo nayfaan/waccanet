@@ -289,7 +289,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: LiaMoneyCheckAltSolid,
       body: (
         <Toggle
-          id="utilities"
+          id="takeover"
           messageTrue="支払い不要"
           messageFalse="全て表示"
           value={paramsData.utilities === "1" ? true : false}
