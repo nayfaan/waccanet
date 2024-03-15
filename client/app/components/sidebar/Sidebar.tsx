@@ -292,7 +292,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           id="takeover"
           messageTrue="支払い不要"
           messageFalse="全て表示"
-          value={paramsData.utilities === "1" ? true : false}
+          value={paramsData.takeover === "1" ? true : false}
           onChange={handleParamChange}
         />
       ),
