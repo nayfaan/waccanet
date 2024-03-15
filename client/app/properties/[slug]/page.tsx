@@ -38,7 +38,7 @@ export default async function PropertyDetail({
             <ImageSlider images={formattedImgs} name={property.name} />
           </div>
         ) : (
-          <img
+          <Image
             src={DefaultImage}
             alt="Default Image"
             className="rounded-lg w-full h-[350px] sm:w-[640px] sm:h-[400px] object-cover"
