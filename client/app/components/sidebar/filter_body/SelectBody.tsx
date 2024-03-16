@@ -6,6 +6,7 @@ interface SelectBodyProps {
   labels: string[];
   multipleChoice?: boolean;
   paramsArr: string[];
+  paramsLabels: string[];
   onChange: (id: string, value: string[]) => void;
 }
 
@@ -14,6 +15,7 @@ const SelectBody: React.FC<SelectBodyProps> = ({
   labels,
   multipleChoice,
   paramsArr,
+  paramsLabels,
   onChange,
 }) => {
   return (
@@ -22,11 +24,12 @@ const SelectBody: React.FC<SelectBodyProps> = ({
         multipleChoice ? "flex-wrap justify-start" : "flex-col w-full"
       }`}
     >
-      {labels.map((label) => (
+      {labels.map((label, index) => (
         <SelectButton
           id={id}
           key={label}
           label={label}
+          urlLabel={paramsLabels[index]}
           multipleChoice={multipleChoice}
           paramsArr={paramsArr}
           onChange={onChange}

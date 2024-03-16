@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     // 文字列の配列 SelectButton.tsx
     if (Array.isArray(value)) {
       console.log(id, value);
-      const sanitizedValue = value.map((item) => item.replace(/ /g, "%20"));
+      const sanitizedValue = value.map((item) => item.replaceAll(/ /g, "%20"));
 
       if (value.length === 0) {
         params.delete(id);
@@ -123,6 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={roomTypes.japanese}
           multipleChoice
           paramsArr={paramsData.roomTypes}
+          paramsLabels={roomTypes.english}
           onChange={handleParamChange}
         />
       ),
@@ -137,6 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={roommates.japanese}
           multipleChoice
           paramsArr={paramsData.roommates}
+          paramsLabels={roommates.english}
           onChange={handleParamChange}
         />
       ),
@@ -151,6 +153,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={gender.japanese}
           multipleChoice
           paramsArr={paramsData.gender}
+          paramsLabels={gender.english}
           onChange={handleParamChange}
         />
       ),
@@ -165,6 +168,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={areas.japanse}
           multipleChoice
           paramsArr={paramsData.areas}
+          paramsLabels={areas.english}
           onChange={handleParamChange}
         />
       ),
@@ -187,6 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               labels={stations.expo_line}
               multipleChoice
               paramsArr={paramsData.stations}
+              paramsLabels={stations.expo_line}
               onChange={handleParamChange}
             />
           }
@@ -204,6 +209,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               labels={stations.canada_line}
               multipleChoice
               paramsArr={paramsData.stations}
+              paramsLabels={stations.canada_line}
               onChange={handleParamChange}
             />
           }
@@ -221,6 +227,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               labels={stations.millennium_line}
               multipleChoice
               paramsArr={paramsData.stations}
+              paramsLabels={stations.millennium_line}
               onChange={handleParamChange}
             />
           }
@@ -321,6 +328,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={paymentMethod.japanese}
           multipleChoice
           paramsArr={paramsData.paymentMethod}
+          paramsLabels={paymentMethod.english}
           onChange={handleParamChange}
         />
       ),
@@ -349,6 +357,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={minimumStay.japanese}
           multipleChoice
           paramsArr={paramsData.minimumStay}
+          paramsLabels={minimumStay.english}
           onChange={handleParamChange}
         />
       ),
@@ -363,6 +372,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={references.japanese}
           multipleChoice
           paramsArr={paramsData.references}
+          paramsLabels={references.english}
           onChange={handleParamChange}
         />
       ),
