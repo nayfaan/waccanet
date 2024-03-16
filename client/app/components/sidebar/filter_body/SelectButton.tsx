@@ -7,6 +7,7 @@ import { FaCheckCircle } from "react-icons/fa";
 interface SelectButtonProps {
   id: string;
   label: string;
+  urlLabel: string;
   multipleChoice?: boolean;
   paramsArr: string[];
   onChange: (id: string, value: string[]) => void;
@@ -15,19 +16,20 @@ interface SelectButtonProps {
 const SelectButton: React.FC<SelectButtonProps> = ({
   id,
   label,
+  urlLabel,
   multipleChoice,
   paramsArr,
   onChange,
 }) => {
   const formattedParamsArr = paramsArr.map((param) =>
-    param.replace("%20", " ")
+    param.replaceAll("%20", " ")
   );
   const [selectedValues, setSelectedValues] = useState<{
     [key: string]: string[];
   }>({ [id]: formattedParamsArr });
 
   const [isChecked, setIsChecked] = useState(
-    selectedValues[id]?.includes(label) ?? false
+    selectedValues[id]?.includes(urlLabel) ?? false
   );
 
   useEffect(() => {
@@ -38,13 +40,13 @@ const SelectButton: React.FC<SelectButtonProps> = ({
   useEffect(() => {
     // selectedValuesが更新されたらisCheckedをtoggle
     // label名が配列にあればtrue,なければfalse
-    setIsChecked(selectedValues[id]?.includes(label) ?? false);
-  }, [label, selectedValues, id]);
+    setIsChecked(selectedValues[id]?.includes(urlLabel) ?? false);
+  }, [urlLabel, selectedValues, id]);
 
   const handleSelectButtonClick = () => {
-    const updatedValues = selectedValues[id]?.includes(label)
-      ? selectedValues[id]?.filter((value) => value !== label) ?? []
-      : [...(selectedValues[id] ?? []), label];
+    const updatedValues = selectedValues[id]?.includes(urlLabel)
+      ? selectedValues[id]?.filter((value) => value !== urlLabel) ?? []
+      : [...(selectedValues[id] ?? []), urlLabel];
 
     // 選択された値を更新
     setSelectedValues((prev) => ({ ...prev, [id]: updatedValues }));
