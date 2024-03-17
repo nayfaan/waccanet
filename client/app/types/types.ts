@@ -24,6 +24,7 @@ export interface PropertyRegisterData {
   ownerAddress: string;
   ownerEmail: string;
   ownerPhoneNumber: string;
+  pub_date: Date;
   title: string;
   rent: string;
   roomType: string;
@@ -44,6 +45,7 @@ export interface PropertyRegisterData {
   onlineViewing: boolean;
   moveInDate: Date;
   description: string;
+  reference: string;
 }
 
 export interface PropertyRegisterDataPrevious {

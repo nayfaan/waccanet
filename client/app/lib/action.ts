@@ -1,6 +1,6 @@
 "use server";
 
-import { ContactData, PropertyRegisterDataPrevious } from "../types/types";
+import { ContactData, PropertyRegisterData } from "../types/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getFormattedDate } from "../format/formattedData";
@@ -50,20 +50,41 @@ export async function createContact(contactData: ContactData) {
   redirect("/contact-us/confirmation/");
 }
 
-export async function registerePropertyData(
-  PropertyDataPrevious: PropertyRegisterDataPrevious
-) {
-  const PropertyData = {
-    pub_date: PropertyDataPrevious.pub_date,
-    name: PropertyDataPrevious.title,
-    price: PropertyDataPrevious.rent,
-    description: PropertyDataPrevious.description,
-    reference: PropertyDataPrevious.reference,
-    email: PropertyDataPrevious.ownerEmail,
+export async function registerPropertyData(
+    PropertyData: PropertyRegisterData
+  ) {
+
+    var post_day = new Date();
+
+  const PropertyDataInput = {
+
+    email: PropertyData.ownerEmail,
+
+    pub_date: post_day,
+    name: PropertyData.title,
+    price: PropertyData.rent,
+    roomType:PropertyData.roomType,
+    // houseAddress
+    // center: PropertyData.center,
+    station:PropertyData.station,
+    area:PropertyData.area,
+    wifi:PropertyData.wifi,
+    utilities:PropertyData.utilities,
+    furnished:PropertyData.furnished, 
+    laundry:PropertyData.laundry,
+    gender:PropertyData.gender,
+    minimumStay:PropertyData.minimumStay,
+    payment:PropertyData.payment,
+    roommates:PropertyData.roommates,
+    takeover:PropertyData.takeover,
+    onlineViewing:PropertyData.onlineViewing,
+    moveInDate:PropertyData.moveInDate,
+    description: PropertyData.description,
+    reference: "Waccanet"
   };
 
   console.log("lib from api PropertyData");
-  console.log(PropertyData);
+  console.log(PropertyDataInput);
 
   const api_server_link = process.env.api_server_link;
   const headers: Record<string, string> = {
@@ -82,7 +103,7 @@ export async function registerePropertyData(
     const res = await fetch(apt_query, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(PropertyData),
+      body: JSON.stringify(PropertyDataInput),
     });
 
     if (!res.ok) {
