@@ -19,7 +19,7 @@ import {
   PropertyRegisterData,
   PropertyRegisterDataPrevious,
 } from "@/app/types/types";
-import { registerePropertyData } from "@/app/lib/action";
+import { registerPropertyData } from "@/app/lib/action";
 import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
@@ -46,6 +46,7 @@ const Register = () => {
       ownerAddress: "",
       ownerEmail: "",
       ownerPhoneNumber: "",
+      pub_date: new Date(),
       title: "",
       rent: "",
       roomType: "",
@@ -66,6 +67,7 @@ const Register = () => {
       onlineViewing: false,
       moveInDate: new Date(),
       description: "",
+      reference: "",
     });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -112,17 +114,7 @@ const Register = () => {
       return onNext();
     }
 
-    var today = new Date();
-    const PropertyData: PropertyRegisterDataPrevious = {
-      pub_date: today,
-      title: propertyRegisterData.title,
-      rent: propertyRegisterData.rent,
-      description: propertyRegisterData.description,
-      reference: "Waccanet",
-      ownerEmail: propertyRegisterData.ownerEmail,
-    };
-
-    registerePropertyData(PropertyData);
+    registerPropertyData(propertyRegisterData);
   };
 
   const stepValidation = () => {
