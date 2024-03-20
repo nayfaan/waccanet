@@ -51,75 +51,44 @@ export async function createContact(contactData: ContactData) {
 }
 
 export async function registerPropertyData(
-    PropertyData: PropertyRegisterData
-  ) {
+  PropertyData: FormData
+) {
 
-    var post_day = new Date();
 
-  const PropertyDataInput = {
+const api_server_link = process.env.api_server_link;
+const headers: Record<string, string> = {
+  //  "Content-Type": "multipart/form-data"
+};
+const X_Api_Key = process.env.X_Api_Key;
+if (X_Api_Key) {
+  headers["X-Api-Key"] = X_Api_Key;
+} else {
+  throw new Error("X_Api_Key is missing or undefined.");
+}
 
-    email: PropertyData.ownerEmail,
+const apt_query = `${api_server_link}/property/apis/property_add/`;
 
-    pub_date: post_day,
-    name: PropertyData.title,
-    price: PropertyData.rent,
-    roomType:PropertyData.roomType,
-    // houseAddress
-    // center: PropertyData.center,
-    station:PropertyData.station,
-    area:PropertyData.area,
-    wifi:PropertyData.wifi,
-    utilities:PropertyData.utilities,
-    furnished:PropertyData.furnished, 
-    laundry:PropertyData.laundry,
-    gender:PropertyData.gender,
-    minimumStay:PropertyData.minimumStay,
-    payment:PropertyData.payment,
-    roommates:PropertyData.roommates,
-    takeover:PropertyData.takeover,
-    onlineViewing:PropertyData.onlineViewing,
-    moveInDate:PropertyData.moveInDate,
-    description: PropertyData.description,
-    reference: "Waccanet"
-  };
+try {
+  const res = await fetch(apt_query, {
+    method: "POST",
+    headers: headers,
+    body: PropertyData,
+  });
 
-  console.log("lib from api PropertyData");
-  console.log(PropertyDataInput);
-
-  const api_server_link = process.env.api_server_link;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-  const X_Api_Key = process.env.X_Api_Key;
-  if (X_Api_Key) {
-    headers["X-Api-Key"] = X_Api_Key;
-  } else {
-    throw new Error("X_Api_Key is missing or undefined.");
+  if (!res.ok) {
+    // エラー処理
+    const errorText = await res.text(); // APIからのエラーメッセージを取得
+    // 例外を投げるか、適切なエラー処理を実行
+    throw new Error(errorText);
   }
 
-  const apt_query = `${api_server_link}/property/apis/property_add/`;
-
-  try {
-    const res = await fetch(apt_query, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(PropertyDataInput),
-    });
-
-    if (!res.ok) {
-      // エラー処理
-      const errorText = await res.text(); // APIからのエラーメッセージを取得
-      // 例外を投げるか、適切なエラー処理を実行
-      throw new Error(errorText);
-    }
-
-    // 成功した場合の処理
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  // 成功した場合の処理
+  const data = await res.json();
+  console.log(data);
+  return data;
+} catch (error) {
+  throw error;
+}
 }
 
 export async function deletePropertyData(

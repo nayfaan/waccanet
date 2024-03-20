@@ -35,6 +35,10 @@ export const getFormattedDate = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
+export const convertBoolean2Char= (value: boolean) => {
+  return value ? "1" : "0";
+};
+
 export const getPriceColor = (price: number) => {
   let priceColor;
   switch (price) {

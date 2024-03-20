@@ -7,7 +7,10 @@ import Dropdown from "@/app/components/inputs/Dropdown";
 import ImagesInput from "@/app/components/inputs/ImagesInput";
 import Input from "@/app/components/inputs/Input";
 import Toggle from "@/app/components/inputs/Toggle";
-import { getFormattedDate } from "@/app/format/formattedData";
+import {
+  getFormattedDate,
+  convertBoolean2Char,
+} from "@/app/format/formattedData";
 import {
   areas,
   gender,
@@ -114,7 +117,53 @@ const Register = () => {
       return onNext();
     }
 
-    registerPropertyData(propertyRegisterData);
+    //create Data-Form
+    const formData = new FormData();
+    const post_day = new Date();
+
+    // Add a text field
+    formData.append("email", propertyRegisterData.ownerEmail);
+
+    formData.append("pub_date", getFormattedDate(post_day));
+    formData.append("name", propertyRegisterData.title);
+    formData.append("price", propertyRegisterData.rent);
+    formData.append("roomType", propertyRegisterData.roomType);
+    formData.append("houseAddress", propertyRegisterData.houseAddress);
+    formData.append("station", propertyRegisterData.station);
+    formData.append("area", propertyRegisterData.area);
+    propertyRegisterData.images.forEach((imageFile, index) => {
+      formData.append("images", imageFile);
+    });
+    formData.append("wifi", convertBoolean2Char(propertyRegisterData.wifi));
+    formData.append(
+      "utilities",
+      convertBoolean2Char(propertyRegisterData.utilities)
+    );
+    formData.append(
+      "furnished",
+      convertBoolean2Char(propertyRegisterData.furnished)
+    );
+    formData.append(
+      "laundry",
+      convertBoolean2Char(propertyRegisterData.laundry)
+    );
+    formData.append("gender", propertyRegisterData.gender);
+    formData.append("minimumStay", propertyRegisterData.minimumStay);
+    formData.append("roommates", propertyRegisterData.roommates);
+    formData.append("payment", propertyRegisterData.payment);
+    formData.append("takeover", propertyRegisterData.takeover);
+    formData.append(
+      "onlineViewing",
+      convertBoolean2Char(propertyRegisterData.onlineViewing)
+    );
+    formData.append(
+      "moveInDate",
+      getFormattedDate(propertyRegisterData.moveInDate)
+    );
+    formData.append("description", propertyRegisterData.description);
+    formData.append("reference", "Waccanet");
+
+    registerPropertyData(formData);
   };
 
   const stepValidation = () => {
@@ -189,7 +238,7 @@ const Register = () => {
 
   const handleInputChange = (
     id: string,
-    value: string | string[] | boolean | Date | LatLngTuple
+    value: string | string[] | boolean | Date | LatLngTuple | File[]
   ) => {
     setPropertyRegisterData((prevData) => ({
       ...prevData,
@@ -685,10 +734,10 @@ const Register = () => {
               <div className="text-gray-500">No image provided...</div>
             )}
             <div className="flex flex-wrap gap-1">
-              {propertyRegisterData.images.map((img) => (
+              {propertyRegisterData.images.map((imageUrl, index) => (
                 <img
-                  key={img}
-                  src={img}
+                  key={index}
+                  src={URL.createObjectURL(imageUrl)}
                   alt="register images"
                   className="w-48 object-contain"
                 />
