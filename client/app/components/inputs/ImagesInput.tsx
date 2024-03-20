@@ -3,12 +3,12 @@ import { LuImagePlus } from "react-icons/lu";
 
 interface ImagesInputProps {
   id: string;
-  values: string[];
-  onChange: (id: string, value: string[]) => void;
+  values: File[];
+  onChange: (id: string, value: File[]) => void;
 }
 
 const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
-  const [images, setImages] = useState<string[]>(values);
+  const [images, setImages] = useState<File[]>(values);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -17,7 +17,7 @@ const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
       // 新しい画像を既存の画像と結合してセットする
       setImages((prevImages) => [
         ...prevImages,
-        ...selectedFiles.map((file) => URL.createObjectURL(file)),
+        ...selectedFiles.map((file) => file),
       ]);
     }
   };
@@ -58,7 +58,7 @@ const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
         {images.map((imageUrl, index) => (
           <img
             key={index}
-            src={imageUrl}
+            src={URL.createObjectURL(imageUrl)}
             alt={`Uploaded Image ${index}`}
             className=""
           />

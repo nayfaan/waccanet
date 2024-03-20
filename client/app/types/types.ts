@@ -32,7 +32,7 @@ export interface PropertyRegisterData {
   center: LatLngTuple;
   station: string;
   area: string;
-  images: string[];
+  images: File[];
   wifi: boolean;
   utilities: boolean;
   furnished: boolean;
