@@ -23,6 +23,7 @@ export const roomTypes = {
 export const roommates = {
   japanese: ["", "なし", "1〜3人", "3〜5人", "6人以上"],
   english: ["", "0", "1-3", "3-5", "6 or more"],
+  url: ["", "0", "1-3", "3-5", "over6"],
 };
 
 export const gender = {
@@ -169,6 +170,14 @@ export const minimumStay = {
     "4-6 Month",
     "Over 6 Month",
     "Over 1 Year",
+  ],
+  url: [
+    "under-1-month",
+    "1-month",
+    "2-3-month",
+    "4-6-month",
+    "over-6-month",
+    "over-1-year",
   ],
 };
 

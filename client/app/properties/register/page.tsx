@@ -112,7 +112,7 @@ const Register = () => {
     setErrors({});
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (step !== STEPS.CONFIRMATION) {
       return onNext();
     }
@@ -165,7 +165,10 @@ const Register = () => {
     formData.append("description", propertyRegisterData.description);
     formData.append("reference", "Waccanet");
 
-    registerPropertyData(formData);
+    const res = await registerPropertyData(formData);
+    console.log("property-idの取得! ");
+    console.log(res["property-id"]);
+    console.log(res["message"]);
   };
 
   const stepValidation = () => {

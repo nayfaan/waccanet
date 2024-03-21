@@ -199,7 +199,9 @@ class PropertyViewSet(viewsets.ModelViewSet):
             with transaction.atomic():
 
                 property_instance = property_serializer.save()
-
+                # 登録したデータのIDの取得
+                property_id = property_instance.id
+      
                 # 送信された画像をImageモデルと関連付けて保存
                 for image in images:
                     Image.objects.create(property=property_instance,file_name=str(image.name),image_path=image)
@@ -217,6 +219,14 @@ class PropertyViewSet(viewsets.ModelViewSet):
                     'ownerName': property_data['ownerName'],
                     'ownerEmail': property_data['ownerEmail'],
                     'ownerPhoneNumber': property_data['ownerPhoneNumber'],
+                    }
+
+                    owner_mail_data ={
+                    'user_name': user_name,
+                    'password': password,
+                    'ownerName': property_data['ownerName'],
+                    'ownerEmail': property_data['ownerEmail'],
+                    'propertyID': str(property_id)
                     }
 
                     # プロパティデータをシリアライザーで検証・保存
@@ -242,11 +252,20 @@ class PropertyViewSet(viewsets.ModelViewSet):
                         return Response(owner_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
                     
                     #オーナに登録が完了したことを通知
-                    self.send_mail2owner(owner_data)
+                    self.send_mail2owner(owner_mail_data)
 
-            return Response('Property Registration successfully', status=status.HTTP_201_CREATED)
+            response_message = {
+                'property-id':str(property_id),
+                'message': 'Property Registration successfully'
+            }
+
+            return Response(response_message, status=status.HTTP_201_CREATED)
         else:
-          return Response(property_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            response_message = {
+            'property-id':'error',
+            'message': property_serializer.errors
+            }
+            return Response(response_message,status=status.HTTP_400_BAD_REQUEST)
    
     @action(detail=True)
     def property_exists(self, request,pk=None):
@@ -264,18 +283,41 @@ class PropertyViewSet(viewsets.ModelViewSet):
             password = owner_data['password']
             ownerName = owner_data['ownerName']
             email_address = owner_data['ownerEmail']
-            Phone_number = owner_data['ownerPhoneNumber']
+            property_id = owner_data['propertyID']
             
             """題名"""
-            subject = 'waccanet物件登録の完了のお知らせ'
+            subject = 'waccanet物件登録の完了のお知らせ/Completion of waccanet property registration'
 
             """本文"""
-            message = 'このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n\n'\
+
+            message_jp = 'To {} 様\n\n'\
+                        'このたびは、waccanetに物件情報の登録をしていただき誠にありがとうございます。\n'\
+                        '物件情報の詳細は下記のURLに記載されております。\n'\
+                        'https://www.waccanet.com/properties/{} \n\n'\
                         '物件情報を削除する場合は、下記のURLにアクセス後、パスワードを入力してください。\n'\
                         '物件情報を削除する\n'\
                         'https://www.waccanet.com/properties/delete/{} \n\n'\
-                        'password {}'.format(user_name,password)
+                        'password \n{}\n\n' \
+                        '【重要】本メールアドレスは送信専用のため返信できません。\n'\
+                        ' お問合せは下記のURLまでお願い致します。 \n'\
+                        ' URL https://www.waccanet.com/contact-us \n'\
+                        .format(ownerName,property_id,user_name,password)
             
+            message_eg = 'Dear {} \n\n'\
+                        'Thank you very much for registering your property information with waccanet.\n'\
+                        'The details of the property information can be found at the following URL\n'\
+                        'https://www.waccanet.com/properties/{} \n\n'\
+                        'If you wish to delete your property information, please access the following URL and enter your password.\n'\
+                        'Delete property information\n'\
+                        'https://www.waccanet.com/properties/delete/{} \n\n'\
+                        'password \n{}\n\n' \
+                        '【Important】This e-mail address is for sending only and cannot reply.\n'\
+                        '  Please send inquiries to the following URL. \n'\
+                        ' URL https://www.waccanet.com/contact-us \n'\
+                        .format(ownerName,property_id,user_name,password)
+
+            message = message_jp + '\n\n' + message_eg
+
             """宛先メールアドレス"""
             recipient_list = [
                 email_address
@@ -307,9 +349,9 @@ class PropertyViewSet(viewsets.ModelViewSet):
                     return Response({'error': 'password is incorrect.'}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['post'])
-    def sendMail2ads2owner(self, request):
+    def sendMail2ads2owner(self, owner_data):
 
-        email_address=request.data['email']
+        email_address = owner_data['ownerEmail']
         """題名"""
         subject = 'waccanetに物件登録をしませんか？'
 

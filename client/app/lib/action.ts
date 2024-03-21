@@ -50,45 +50,42 @@ export async function createContact(contactData: ContactData) {
   redirect("/contact-us/confirmation/");
 }
 
-export async function registerPropertyData(
-  PropertyData: FormData
-) {
-
-
-const api_server_link = process.env.api_server_link;
-const headers: Record<string, string> = {
-  //  "Content-Type": "multipart/form-data"
-};
-const X_Api_Key = process.env.X_Api_Key;
-if (X_Api_Key) {
-  headers["X-Api-Key"] = X_Api_Key;
-} else {
-  throw new Error("X_Api_Key is missing or undefined.");
-}
-
-const apt_query = `${api_server_link}/property/apis/property_add/`;
-
-try {
-  const res = await fetch(apt_query, {
-    method: "POST",
-    headers: headers,
-    body: PropertyData,
-  });
-
-  if (!res.ok) {
-    // エラー処理
-    const errorText = await res.text(); // APIからのエラーメッセージを取得
-    // 例外を投げるか、適切なエラー処理を実行
-    throw new Error(errorText);
+export async function registerPropertyData(PropertyData: FormData) {
+  const api_server_link = process.env.api_server_link;
+  const headers: Record<string, string> = {
+    //  "Content-Type": "multipart/form-data"
+  };
+  const X_Api_Key = process.env.X_Api_Key;
+  if (X_Api_Key) {
+    headers["X-Api-Key"] = X_Api_Key;
+  } else {
+    throw new Error("X_Api_Key is missing or undefined.");
   }
 
-  // 成功した場合の処理
-  const data = await res.json();
-  console.log(data);
-  return data;
-} catch (error) {
-  throw error;
-}
+  const apt_query = `${api_server_link}/property/apis/property_add/`;
+
+  try {
+    const res = await fetch(apt_query, {
+      method: "POST",
+      headers: headers,
+      body: PropertyData,
+    });
+
+    if (!res.ok) {
+      // エラー処理
+      const errorText = await res.text(); // APIからのエラーメッセージを取得
+      // 例外を投げるか、適切なエラー処理を実行
+      throw new Error(errorText);
+    }
+
+    // 成功した場合の処理
+    const data = await res.json();
+    console.log("登録時のIDを取得");
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function deletePropertyData(
