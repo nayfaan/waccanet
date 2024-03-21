@@ -138,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={roommates.japanese}
           multipleChoice
           paramsArr={paramsData.roommates}
-          paramsLabels={roommates.english}
+          paramsLabels={roommates.url}
           onChange={handleParamChange}
         />
       ),
@@ -357,7 +357,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           labels={minimumStay.japanese}
           multipleChoice
           paramsArr={paramsData.minimumStay}
-          paramsLabels={minimumStay.english}
+          paramsLabels={minimumStay.url}
           onChange={handleParamChange}
         />
       ),
