@@ -122,13 +122,15 @@ const Register = () => {
     const post_day = new Date();
 
     // Add a text field
-    formData.append("email", propertyRegisterData.ownerEmail);
+    formData.append("ownerName", propertyRegisterData.ownerName);
+    formData.append("ownerEmail", propertyRegisterData.ownerEmail);
+    formData.append("ownerPhoneNumber", propertyRegisterData.ownerPhoneNumber);
 
     formData.append("pub_date", getFormattedDate(post_day));
-    formData.append("name", propertyRegisterData.title);
+    formData.append("title", propertyRegisterData.title);
     formData.append("price", propertyRegisterData.rent);
     formData.append("roomType", propertyRegisterData.roomType);
-    formData.append("houseAddress", propertyRegisterData.houseAddress);
+    //緯度と経度を入力処理
     formData.append("station", propertyRegisterData.station);
     formData.append("area", propertyRegisterData.area);
     propertyRegisterData.images.forEach((imageFile, index) => {
