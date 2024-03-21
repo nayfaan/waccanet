@@ -1,51 +1,25 @@
 from django.db import models
 from django.core.validators import MinValueValidator 
 
-
-
-'''
-物件ID (id):number
-投稿日(pub_date):date
-物件名(タイトル)(Property Name):string
-画像(images):string
-価格(price):number
-住所 (address):string 
-ルームタイプ(roomTypes)string
-roommates
-物件説明 (description)
-参照元(reference)
-'''
-
 class Owner(models.Model):
     user_id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
     user_name = models.CharField(max_length=50,null=True)
     password = models.CharField(max_length=30,null=True)
-    email = models.EmailField(max_length = 254,null=True)
-
+    ownerName = models.CharField(max_length=100,null=True,blank=True)
+    ownerEmail = models.EmailField(max_length = 254,null=True,blank=True)
+    ownerPhoneNumber = models.CharField(max_length=20,null=True,blank=True)
 
     def __str__(self):
         return "ID:{}-{}".format(str(self.user_id),self.user_name)
 
-'''
-物件ID (id):number
-投稿日(pub_date):date
-物件名(タイトル)(Property Name):string
-画像(images):string
-価格(price):number
-住所 (address):string 
-ルームタイプ(roomTypes)string
-roommates
-物件説明 (description)
-参照元(reference)
-'''
 class Property(models.Model):
     id = models.AutoField(primary_key=True,validators=[MinValueValidator(1)])
     pub_date = models.DateTimeField("date published")
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     roomType = models.CharField(max_length=20,null=True,blank=True)
-    houseAddress = models.CharField(max_length=100,null=True,blank=True)
-    #   center: LatLngTuple;
+    latitude = models.DecimalField(max_digits=8,decimal_places=6,blank=True,null=True) 
+    longitude = models.DecimalField(max_digits=9,decimal_places=6,blank=True,null=True) 
     station = models.CharField(max_length=30,null=True,blank=True)
     area = models.CharField(max_length=20,null=True,blank=True)
     wifi = models.BooleanField(default=False)
@@ -53,7 +27,7 @@ class Property(models.Model):
     furnished = models.BooleanField(default=False)
     laundry = models.BooleanField(default=False)
     gender = models.CharField(max_length=10,null=True,blank=True)
-    minimumStay = models.CharField(max_length=50,null=True,blank=True)
+    minimumStay = models.FloatField(default=0,null=True,blank=True)
     payment = models.CharField(max_length=10,null=True,blank=True)
     roommates =  models.IntegerField(default=0,blank=True)
     takeover =  models.IntegerField(default=0,blank=True)
@@ -64,7 +38,7 @@ class Property(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Image(models.Model):
     property = models.ForeignKey(Property,  on_delete=models.CASCADE,related_name='images')

@@ -214,7 +214,9 @@ class PropertyViewSet(viewsets.ModelViewSet):
                     owner_data = {
                     'user_name': user_name,
                     'password': password,
-                    'email': property_data['email']
+                    'ownerName': property_data['ownerName'],
+                    'ownerEmail': property_data['ownerEmail'],
+                    'ownerPhoneNumber': property_data['ownerPhoneNumber'],
                     }
 
                     # プロパティデータをシリアライザーで検証・保存
@@ -260,7 +262,10 @@ class PropertyViewSet(viewsets.ModelViewSet):
             
             user_name = owner_data['user_name']
             password = owner_data['password']
-            email_address=owner_data['email']
+            ownerName = owner_data['ownerName']
+            email_address = owner_data['ownerEmail']
+            Phone_number = owner_data['ownerPhoneNumber']
+            
             """題名"""
             subject = 'waccanet物件登録の完了のお知らせ'
 
