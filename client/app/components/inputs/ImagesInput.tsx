@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { LuImagePlus } from "react-icons/lu";
+import { MdCancel } from "react-icons/md";
 
 interface ImagesInputProps {
   id: string;
@@ -13,18 +14,20 @@ const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
+      console.log("onchange called");
 
       // 新しい画像を既存の画像と結合してセットする
-      setImages((prevImages) => [
-        ...prevImages,
-        ...selectedFiles.map((file) => file),
-      ]);
+      setImages((prevImages) => [...prevImages, ...selectedFiles]);
     }
+  };
+
+  const handleImageRemove = (imageToRemove: File) => {
+    setImages(images.filter((image) => image.name !== imageToRemove.name));
   };
 
   useEffect(() => {
     onChange(id, images);
-  }, [images]);
+  }, [images, setImages]);
 
   return (
     <>
@@ -51,18 +54,27 @@ const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
             onChange={handleImageChange}
             accept="image/*"
             multiple
+            key={images.length}
           />
         </label>
       </div>
-      <div>
-        {/* <ImageSlider images={images} name="Selected Image" /> */}
-        {images.map((imageUrl, index) => (
-          <img
-            key={index}
-            src={URL.createObjectURL(imageUrl)}
-            alt={`Uploaded Image ${index}`}
-            className=""
-          />
+      <div className="flex flex-wrap ">
+        {images.map((imageFile, index) => (
+          <div className="relative m-2" key={index}>
+            <button
+              className="absolute top-2 right-2"
+              onClick={() => handleImageRemove(imageFile)}
+            >
+              <MdCancel
+                size={28}
+                className="text-gray-600 hover:text-gray-500"
+              />
+            </button>
+            <img
+              src={URL.createObjectURL(imageFile)}
+              alt={`Uploaded Image ${index}`}
+            />
+          </div>
         ))}
       </div>
     </>
