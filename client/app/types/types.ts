@@ -3,7 +3,15 @@ import { IconType } from "react-icons";
 
 export interface Property {
   id: number;
-  pub_date: string;
+  owner: {
+    user_id: number;
+    user_name: string;
+    password: string;
+    ownerName: string;
+    ownerEmail: string;
+    ownerPhoneNumber: string;
+  };
+  pub_date: Date;
   title: string;
   price: number;
   images: {
@@ -11,6 +19,22 @@ export interface Property {
     image_path: string;
   }[];
   address: string;
+  roomType: string;
+  latitude: null;
+  longitude: null;
+  station: string;
+  area: string;
+  wifi: boolean;
+  utilities: boolean;
+  furnished: boolean;
+  laundry: boolean;
+  gender: string;
+  minimumStay: string | number;
+  payment: string;
+  roommates: number;
+  takeover: number;
+  onlineViewing: boolean;
+  moveInDate: Date;
   description: string;
   reference: string;
 }
@@ -46,16 +70,6 @@ export interface PropertyRegisterData {
   moveInDate: Date;
   description: string;
   reference: string;
-}
-
-export interface PropertyRegisterDataPrevious {
-  pub_date: Date;
-  title: string;
-  // images: string[];
-  rent: string;
-  description: string;
-  reference: String;
-  ownerEmail: string;
 }
 
 export interface PaginationProperties {
