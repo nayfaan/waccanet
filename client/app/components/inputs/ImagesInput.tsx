@@ -49,6 +49,7 @@ const ImagesInput: React.FC<ImagesInputProps> = ({ id, values, onChange }) => {
             type="file"
             className="hidden"
             onChange={handleImageChange}
+            accept="image/*"
             multiple
           />
         </label>

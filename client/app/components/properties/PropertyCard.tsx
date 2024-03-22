@@ -1,6 +1,5 @@
 import React from "react";
 import { Property } from "@/app/types/types";
-import { CiAlarmOn } from "react-icons/ci";
 import { SlLocationPin } from "react-icons/sl";
 import Image from "next/image";
 import DefaultImage from "../../../public/images/defaultImg.png";
@@ -9,16 +8,18 @@ import {
   getFormattedDateAndTime,
   getFormattedImages,
   getPriceColor,
+  getTimeAgo,
   getTruncatedText,
 } from "@/app/format/formattedData";
 import ImageSlider from "../image/ImageSlider";
+import { IoTimeOutline } from "react-icons/io5";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const formattedDate = getFormattedDateAndTime(property.pub_date);
+  const timeAgo = getTimeAgo(property.pub_date);
   const priceColor = getPriceColor(property.price);
   const formattedImgs = property.images;
   const truncatedDescription = getTruncatedText(property.description, 100);
@@ -48,9 +49,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         )}
       </div>
       <div className="p-2 w-full h-full flex flex-col gap-1 justify-between">
-        <div className="flex items-center gap-1">
-          <CiAlarmOn className="text-blue-600" />
-          <span className="text-xs font-light">{formattedDate}</span>
+        <div className="flex items-center text-gray-500">
+          <IoTimeOutline size={16} />
+          <span className="text-xs">{timeAgo}</span>
         </div>
 
         <h5 className="text-md font-semibold text-gray-900">
