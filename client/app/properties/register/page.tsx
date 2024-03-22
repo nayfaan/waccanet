@@ -24,6 +24,7 @@ import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
 import validator from "validator";
+import { useRouter } from "next/navigation";
 
 enum STEPS {
   PROFILE = 0,
@@ -72,6 +73,7 @@ const Register = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const formatDate = getFormattedDate(propertyRegisterData.moveInDate);
+  const router = useRouter();
 
   const Map = dynamic(() => import("../../components/inputs/Map"), {
     ssr: false,
@@ -163,9 +165,8 @@ const Register = () => {
     formData.append("reference", "Waccanet");
 
     const res = await registerPropertyData(formData);
-    console.log("property-idの取得! ");
-    console.log(res["property-id"]);
-    console.log(res["message"]);
+
+    router.push(`/properties/${res["property-id"]}`);
   };
 
   const stepValidation = () => {
