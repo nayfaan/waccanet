@@ -18,10 +18,7 @@ import {
   roomTypes,
   stations,
 } from "@/app/selectLists";
-import {
-  PropertyRegisterData,
-  PropertyRegisterDataPrevious,
-} from "@/app/types/types";
+import { PropertyRegisterData } from "@/app/types/types";
 import { registerPropertyData } from "@/app/lib/action";
 import { LatLngTuple } from "leaflet";
 import dynamic from "next/dynamic";
@@ -212,7 +209,7 @@ const Register = () => {
           return true;
         } else if (!validator.isNumeric(propertyRegisterData.rent)) {
           setErrors({
-            rent: "Rent has to be a number.",
+            rent: "Rent must be a number.",
           });
           return true;
         }
@@ -223,7 +220,15 @@ const Register = () => {
           !validator.isNumeric(propertyRegisterData.roommates)
         ) {
           setErrors({
-            roommates: "Number of roommates has to be a number.",
+            roommates: "Number of roommates must be a number.",
+          });
+          return true;
+        } else if (
+          !validator.isEmpty(propertyRegisterData.roommates) &&
+          !validator.isInt(propertyRegisterData.roommates)
+        ) {
+          setErrors({
+            roommates: "Number of roommates must be an integer.",
           });
           return true;
         } else if (
@@ -231,7 +236,23 @@ const Register = () => {
           !validator.isNumeric(propertyRegisterData.minimumStay)
         ) {
           setErrors({
-            minimumStay: "Minimum stay has to be a number.",
+            minimumStay: "Minimum stay must be a number.",
+          });
+          return true;
+        } else if (
+          !validator.isEmpty(propertyRegisterData.takeover) &&
+          !validator.isNumeric(propertyRegisterData.takeover)
+        ) {
+          setErrors({
+            takeover: "Takeover must be a number.",
+          });
+          return true;
+        } else if (
+          !validator.isEmpty(propertyRegisterData.takeover) &&
+          !validator.isInt(propertyRegisterData.takeover)
+        ) {
+          setErrors({
+            takeover: "Takeover must be an integer.",
           });
           return true;
         }
@@ -245,6 +266,7 @@ const Register = () => {
     id: string,
     value: string | string[] | boolean | Date | LatLngTuple | File[]
   ) => {
+    console.log(id, value);
     setPropertyRegisterData((prevData) => ({
       ...prevData,
       [id]: value,
@@ -519,6 +541,7 @@ const Register = () => {
             label="Price of takeover"
             value={propertyRegisterData.takeover}
             onChange={handleInputChange}
+            errorMessage={errors.takeover}
             formatPrice
           />
           <div className="flex items-center justify-start w-full gap-2">

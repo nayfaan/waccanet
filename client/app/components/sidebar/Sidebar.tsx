@@ -32,7 +32,6 @@ import {
   areas,
   gender,
   minimumStay,
-  onlineViewing,
   paymentMethod,
   references,
   roomTypes,

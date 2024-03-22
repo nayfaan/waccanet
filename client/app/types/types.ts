@@ -4,7 +4,7 @@ import { IconType } from "react-icons";
 export interface Property {
   id: number;
   pub_date: string;
-  name: string;
+  title: string;
   price: number;
   images: {
     file_name: string;

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa6";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 interface DropdownProps {
   id: string;
@@ -21,6 +22,23 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleCheck = (item: string) => {
     // 500ms 後にドロップダウンを閉じる
@@ -44,7 +62,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           {items.map((item) => (
             <div
               key={item}
-              className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200"
+              className={`flex items-center gap-1 py-1 pl-2 pr-4 rounded hover:bg-gray-200 ${
+                item === value ? "bg-gray-200" : ""
+              }`}
               onClick={() => handleCheck(item)}
             >
               {item === value ? (
@@ -52,7 +72,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               ) : (
                 <FaCheck className="text-gray-50" />
               )}
-              <li>{item}</li>
+              <li className="p-1">{item}</li>
             </div>
           ))}
         </ul>
@@ -62,7 +82,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <ul className="text-sm text-gray-700">
           {Object.entries(items).map(([category, subItems]) => (
             <li key={category}>
-              <div className="flex items-center gap-1 px-2 py-1">
+              <div className="flex items-center gap-1 pl-4 py-1">
                 <strong>{convertCategory(category)}</strong>
               </div>
               {renderItems(subItems)}
@@ -74,7 +94,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="w-full relative z-50" ref={dropdownRef}>
+    <div className="w-full relative" ref={dropdownRef}>
       <input
         placeholder=""
         readOnly
@@ -82,6 +102,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={`peer w-full p-1 pl-4 pt-6 font-light bg-white border-2 border-gray-300 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed`}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       />
+      <button onClick={() => onChange(id, "")}>
+        <IoMdCloseCircleOutline
+          className="absolute inset-y-0 end-0 flex items-center pr-3 h-full text-gray-300 hover:text-gray-400"
+          size={32}
+        />
+      </button>
       <label
         className={`absolute flex justify-between left-4 text-sm duration-150 transform -translate-y-3 top-5 origin-[0]
                     peer-placeholder-shown:scale-100
@@ -96,14 +122,13 @@ const Dropdown: React.FC<DropdownProps> = ({
       {/* Dropdown menu */}
       {isDropdownOpen && (
         <div
-          className={`absolute bg-gray-50 rounded-lg shadow z-10 w-full ${
+          className={`absolute bg-gray-100 rounded-lg shadow-lg z-50 max-h-48 md:max-h-64 ${
             isDropdownOpen ? "block" : "hidden"
           }`}
           style={{
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            maxHeight: "350px",
+            top: "calc(100% + 1px)", // inputの下に配置
+            left: "0",
+            transform: "translateX(0)",
             overflowY: "auto", // 高さを超えた場合にスクロール可能にする
           }}
         >
