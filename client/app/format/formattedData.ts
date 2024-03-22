@@ -1,4 +1,4 @@
-export const getFormattedDateAndTime = (pub_date: string) => {
+export const getFormattedDateAndTime = (pub_date: Date) => {
   const dateObject = new Date(pub_date);
 
   const options = {
@@ -35,7 +35,27 @@ export const getFormattedDate = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-export const convertBoolean2Char= (value: boolean) => {
+export const getTimeAgo = (dateTime: Date) => {
+  const now = new Date();
+  const pubDate = new Date(dateTime);
+  const diffInMilliseconds = now.getTime() - pubDate.getTime();
+  const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}分前`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours}時間前`;
+  } else if (diffInDays < 30) {
+    return `${diffInDays}日前`;
+  } else {
+    return "30日以上前";
+  }
+};
+
+export const convertBoolean2Char = (value: boolean) => {
   return value ? "1" : "0";
 };
 
