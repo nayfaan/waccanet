@@ -1,4 +1,5 @@
 import { BiDollar } from "react-icons/bi";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 interface InputProps {
   id: string;
@@ -72,7 +73,12 @@ const Input: React.FC<InputProps> = ({
         {label}
         {required ? "*" : ""}
       </label>
-      {errorMessage && <p className="text-red-400 text-xs">{errorMessage}</p>}
+      {errorMessage && (
+        <div className="text-red-400 text-xs flex items-center gap-1">
+          <RiErrorWarningLine />
+          <p>{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 };

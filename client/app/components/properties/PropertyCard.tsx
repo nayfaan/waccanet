@@ -2,7 +2,6 @@ import React from "react";
 import { Property } from "@/app/types/types";
 import { CiAlarmOn } from "react-icons/ci";
 import { SlLocationPin } from "react-icons/sl";
-import { TfiAgenda } from "react-icons/tfi";
 import Image from "next/image";
 import DefaultImage from "../../../public/images/defaultImg.png";
 import Button from "../Button";
@@ -37,7 +36,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           ${property.price}
         </div>
         {property.images.length > 0 ? (
-          <ImageSlider images={formattedImgs} name={property.name} small />
+          <ImageSlider images={formattedImgs} alt={property.title} small />
         ) : (
           <Image
             src={DefaultImage}
@@ -54,7 +53,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <span className="text-xs font-light">{formattedDate}</span>
         </div>
 
-        <h5 className="text-md font-semibold text-gray-900">{property.name}</h5>
+        <h5 className="text-md font-semibold text-gray-900">
+          {property.title}
+        </h5>
 
         {property.address && (
           <div className="flex items-center gap-1 font-light">

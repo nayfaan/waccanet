@@ -4,11 +4,11 @@ import SlideImage from "./SlideImage";
 
 interface ImageSliderProps {
   images: { file_name: string; image_path: string }[];
-  name: string;
+  alt: string;
   small?: boolean;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt, small }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -61,7 +61,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, name, small }) => {
           <SlideImage
             key={index}
             src={image}
-            alt={name}
+            alt={alt}
             active={index === currentIndex}
             small={small ? true : false}
           />

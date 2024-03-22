@@ -25,7 +25,7 @@ export default async function PropertyDetail({
     <main className="bg-white min-h-screen flex flex-col justify-between ">
       <div className="mt-14 h-full flex flex-col items-center p-3 md:p-5 px-1 md:py-3">
         <h2 className="text-2xl font-bold md:text-3xl text-center">
-          {property.name}
+          {property.title}
         </h2>
 
         <div className="w-full flex items-center justify-center gap-1 p-2">
@@ -35,7 +35,7 @@ export default async function PropertyDetail({
 
         {property.images.length > 0 ? (
           <div className="relative w-full h-[350px]  sm:w-[640px] sm:h-[400px] ">
-            <ImageSlider images={formattedImgs} name={property.name} />
+            <ImageSlider images={formattedImgs} alt={property.title} />
           </div>
         ) : (
           <Image
